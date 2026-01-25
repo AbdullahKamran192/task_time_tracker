@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home page</title>
+
+    <link rel="stylesheet" href="/Stylesheets/tasks.css">
+</head>
+<body>
+    <h1>Hello, world</h1>
+
+    <button id="startTimerButton" onclick="startTimer()">Start timer</button>
+
+    <button id="stopTimerButton" onclick="stopTimer()">Stop timer</button>
+
+    <p id="showTime"></p>
+
+    <form id="saveTaskForm" action="/saveTask" method="post">
+        <p id="timeStartP"></p>
+        <br>
+        <p id="timeStopP"></p>
+
+        <input id="taskStartTimeInput" type="datetime-local" name="taskStartTime">
+
+        <input id="taskStopTimeInput" type="datetime-local" name="taskStopTime">
+
+        <input id="taskNameInput" placeholder="task name" type="text" name="taskName">
+        <br>
+        <input id="taskDescriptionInput" placeholder="task description" type="text" name="taskDescription">
+        <br>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <script src="/Javascripts/tasks.js"></script>
+</body>
+</html>

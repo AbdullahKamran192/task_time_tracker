@@ -1,0 +1,17 @@
+CREATE DATABASE tasks_tracker;
+USE tasks_tracker;
+
+CREATE TABLE tasks (
+	task_id INT PRIMARY KEY AUTO_INCREMENT,
+	task_name VARCHAR(50) NOT NULL,
+    task_description TEXT
+);
+
+CREATE TABLE time_session (
+	time_session_id INT PRIMARY KEY AUTO_INCREMENT,
+	start_time DATETIME NOT NULL,
+    stop_time DATETIME NOT NULL,
+    task_id INT NOT NULL UNIQUE,
+    CONSTRAINT chk_stop_time CHECK (stop_time > start_time),
+    FOREIGN KEY(task_id) REFERENCES tasks(task_id) ON DELETE CASCADE
+);
