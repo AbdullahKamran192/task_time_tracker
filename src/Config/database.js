@@ -12,12 +12,18 @@ const pool = mysql.createPool({
 
 export async function getTasks() {
     const [rows] = await pool.query("SELECT * FROM tasks")
+    return rows
 }
 
 export async function postTask(task_name, task_description) {
     const [query_response] = await pool.query("INSERT INTO tasks (task_name, task_description) VALUES (?,?)", [task_name, task_description])
     console.log(query_response.insertId)
     return query_response
+}
+
+export async function getTimeSessionByTaskID(task_id) {
+    const [result] = await pool.query("SELECT * FROM time_session WHERE task_id = ?", [task_id])
+    return result[0]
 }
 
 export async function postTimeSession(start_time, stop_time, task_id) {

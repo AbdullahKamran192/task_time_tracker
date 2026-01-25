@@ -1,11 +1,26 @@
 import { Router } from "express";
-import { postTask, postTimeSession } from "../Config/database.js";
+import { getTasks, getTimeSessionByTaskID, postTask, postTimeSession } from "../Config/database.js";
 
 export const tasksRouter = Router()
 
 tasksRouter.get("/", (req, res) => {
-    res.render('tasks')
+    res.render('home')
 })
+
+tasksRouter.get("/tasks", async (req, res) => {
+    const query_tasks = await getTasks();
+    const tasks = [];
+
+    for (const task of query_tasks) {
+        const time_session = await getTimeSessionByTaskID(task.task_id);
+        if (time_session) {
+            tasks.push({"task" : task, "time_session" : time_session})
+        }
+    }
+
+    res.render("tasks", { tasks });
+});
+
 
 tasksRouter.post("/saveTask", async (req, res) => {
     const taskName = req.body.taskName;

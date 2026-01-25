@@ -5,34 +5,32 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home page</title>
 
-    <link rel="stylesheet" href="/Stylesheets/tasks.css">
+    <link rel="stylesheet" href="">
 </head>
 <body>
-    <h1>Hello, world</h1>
+    <ul>
+    <li><a href="/">Home</a></li>
+    <li><a href="/tasks">Tasks</a></li>
+    </ul>
 
-    <button id="startTimerButton" onclick="startTimer()">Start timer</button>
+    <h1>Tasks page</h1>
 
-    <button id="stopTimerButton" onclick="stopTimer()">Stop timer</button>
+    <% tasks.forEach( task => { %>
+        
+        <p>task name: <%= task["task"].task_name %></p>
+        <p>task description: <%= task["task"].task_description %></p>
 
-    <p id="showTime"></p>
+        <% if (task["time_session"]) { %>
+            <p>start time: <%= task["time_session"].start_time %></p>
+            <p>stop time: <%= task["time_session"].stop_time %></p>
+        <% } else { %>
+            <p>start time: None</p>
+            <p>stop time: None</p>
+        <% } %>
+        <hr>
+    
+    <% }) %>
 
-    <form id="saveTaskForm" action="/saveTask" method="post">
-        <p id="timeStartP"></p>
-        <br>
-        <p id="timeStopP"></p>
-
-        <input id="taskStartTimeInput" type="datetime-local" name="taskStartTime">
-
-        <input id="taskStopTimeInput" type="datetime-local" name="taskStopTime">
-
-        <input id="taskNameInput" placeholder="task name" type="text" name="taskName">
-        <br>
-        <input id="taskDescriptionInput" placeholder="task description" type="text" name="taskDescription">
-        <br>
-
-        <button type="submit">Save</button>
-    </form>
-
-    <script src="/Javascripts/tasks.js"></script>
+    <script src=""></script>
 </body>
 </html>
