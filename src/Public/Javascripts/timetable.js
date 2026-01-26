@@ -24,13 +24,43 @@ for (let h = 0; h < 24; h++){
     line.className = "hourLine";
     dayCol.appendChild(line);
 }
+//             0123456789
+//from example 26/01/2026 to 26-01-2026
+function formatDate(date){
+    const formatted_date = date.substring(0,2)
+    const month = date.substring(3,5)
+    const fullYear = date.substring(6,10)
+
+    console.log("THE FORMATTED DATE")
+    console.log(`${formatted_date}-${month}-${fullYear}`)
+
+    return `${fullYear}-${month}-${formatted_date}`
+}
+
+const params = new URLSearchParams(window.location.search);
+let date = params.get("date") ? new Date(formatDate(params.get("date"))) : new Date();
+console.log("the date is lolol")
+console.log(date)
 
 document.getElementById("todayBtn").addEventListener("click", () => {
-    console.log("today button clicked")
+    date = new Date()
+    console.log(date)
+    window.location.href = `/tasks?date=${date.toLocaleDateString()}`;
 });
 document.getElementById("prevBtn").addEventListener("click", () => {
+    console.log(date)
+    if (date) {
+        console.log("This was executed prevBtn")
+        date.setDate(date.getDate() - 1)
+        window.location.href = `/tasks?date=${date.toLocaleDateString()}`;
+    }
     console.log("prevBtn button clicked")
 });
 document.getElementById("nextBtn").addEventListener("click", () => {
+    console.log(date)
+    if (date) {
+        date.setDate(date.getDate() + 1)
+        window.location.href = `/tasks?date=${date.toLocaleDateString()}`;
+    }
     console.log("nextBtn button clicked")
 });

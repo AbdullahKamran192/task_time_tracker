@@ -17,6 +17,11 @@ tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
         const stop_time = new Date(time_session["stop_time"])
 
         const start_time_date = `${start_time.getDate()}-${start_time.getMonth()}-${start_time.getFullYear()}`
+        
+        console.log("++++++++++++++++ /tasks +++++++++++++++")
+        console.log(start_time.toDateString())
+        console.log(start_time.toLocaleString())
+
 
         console.log(start_time.toLocaleDateString(), stop_time)
         if (time_session && start_time.toLocaleDateString() == date) {
