@@ -1,14 +1,11 @@
 import { Router } from "express";
-import { getTasks, getTimeSessionByTaskID, postTask, postTimeSession } from "../Config/database.js";
+import { getTasks, getTasksByUserId, getTimeSessionByTaskID, postTask, postTimeSession } from "../Config/database.js";
+import { isLoggedIn } from "../Middlewares/user.js";
 
 export const tasksRouter = Router()
 
-tasksRouter.get("/", (req, res) => {
-    res.render('home')
-})
-
-tasksRouter.get("/tasks", async (req, res) => {
-    const query_tasks = await getTasks();
+tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
+    const query_tasks = await getTasksByUserId(req.user.user_id);
     const tasks = [];
 
     for (const task of query_tasks) {
@@ -22,14 +19,15 @@ tasksRouter.get("/tasks", async (req, res) => {
 });
 
 
-tasksRouter.post("/saveTask", async (req, res) => {
+tasksRouter.post("/saveTask", isLoggedIn, async (req, res) => {
     const taskName = req.body.taskName;
-    const taskDescription = req.body.taskDescription
+    const taskDescription = req.body.taskDescription;
+    const user_id = req.user.user_id;
 
     const taskStartTime = req.body.taskStartTime
     const taskStopTime = req.body.taskStopTime
 
-    const query_response = await postTask(taskName, taskDescription)
+    const query_response = await postTask(taskName, taskDescription, user_id)
 
     await postTimeSession(taskStartTime, taskStopTime, query_response.insertId)
 
