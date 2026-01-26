@@ -39,8 +39,6 @@ function formatDate(date){
 
 const params = new URLSearchParams(window.location.search);
 let date = params.get("date") ? new Date(formatDate(params.get("date"))) : new Date();
-console.log("the date is lolol")
-console.log(date)
 
 document.getElementById("todayBtn").addEventListener("click", () => {
     date = new Date()
@@ -50,7 +48,6 @@ document.getElementById("todayBtn").addEventListener("click", () => {
 document.getElementById("prevBtn").addEventListener("click", () => {
     console.log(date)
     if (date) {
-        console.log("This was executed prevBtn")
         date.setDate(date.getDate() - 1)
         window.location.href = `/tasks?date=${date.toLocaleDateString()}`;
     }
@@ -64,3 +61,11 @@ document.getElementById("nextBtn").addEventListener("click", () => {
     }
     console.log("nextBtn button clicked")
 });
+
+
+function divById(task_id) {
+    console.log(`You clicked on ${task_id}`)
+}
+
+const divItem = document.getElementById('11');
+divItem.style.background = "red"
