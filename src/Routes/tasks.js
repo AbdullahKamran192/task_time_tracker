@@ -5,17 +5,37 @@ import { isLoggedIn } from "../Middlewares/user.js";
 export const tasksRouter = Router()
 
 tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
+    const date = req.query.date;
     const query_tasks = await getTasksByUserId(req.user.user_id);
     const tasks = [];
 
     for (const task of query_tasks) {
+
         const time_session = await getTimeSessionByTaskID(task.task_id);
-        if (time_session) {
-            tasks.push({"task" : task, "time_session" : time_session})
+        console.log("==============================")
+        const start_time = new Date(time_session["start_time"])
+        const stop_time = new Date(time_session["stop_time"])
+
+        const start_time_date = `${start_time.getDate()}-${start_time.getMonth()}-${start_time.getFullYear()}`
+
+        console.log(start_time.toLocaleDateString(), stop_time)
+        if (time_session && start_time.toLocaleDateString() == date) {
+            tasks.push({"task" : task,
+                "time_session" : time_session,
+                "start_hour": start_time.getHours(),
+                "stop_hour": stop_time.getHours(),
+                "start_minute": start_time.getMinutes(),
+                "stop_minute": stop_time.getMinutes(),})
         }
     }
 
-    res.render("tasks", { tasks });
+    console.log("the date is")
+    console.log(date)
+
+    res.render("timetable", {
+        tasks,
+        "date" : date
+    });
 });
 
 

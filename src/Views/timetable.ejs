@@ -1,0 +1,49 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Day View</title>
+  <link rel="stylesheet" href="/Stylesheets/timetable.css">
+</head>
+
+<body>
+  <header class="toolbar">
+    <div class="left">
+      <button class="btn" id="todayBtn">Today</button>
+      <button class="btn iconbtn" id="prevBtn" aria-label="Previous">&lt;</button>
+      <button class="btn iconbtn" id="nextBtn" aria-label="Next">&gt;</button>
+      <div class="title" id="monthTitle"><%= date %></div>
+    </div>
+
+    <div class="right">
+      <select id="viewSelect">
+        <option>Day</option>
+        <option>Week</option>
+        <option>Month</option>
+      </select>
+    </div>
+  </header>
+
+  <main class="calendar">
+    <div class="dayHeader" id="dayHeaderText"><%= date %></div>
+
+    <div class="gridWrap">
+      <div class="grid">
+        <div class="timeCol" id="timeCol"></div>
+        <div class="dayCol" id="dayCol">
+            <% tasks.forEach(task => { %>
+            <div class="event" style="overflow: visible; top: calc((72px * <%= task.start_hour %>) + (72px * (<%= task.start_minute %> / 60))); height: calc(((((<%= task.stop_hour %> * 60) + <%= task.stop_minute %>) - ((<%= task.start_hour %> * 60) + <%= task.start_minute %>)) * (72px / 60))); width: 100%;">
+                <strong style="display: contents;"><%= task["task"].task_name %></strong>
+                <p><%= task["task"].task_description %></p>
+                <%= task["start_hour"] %>:<%= task["start_minute"] %> - <%= task["stop_hour"] %>:<%= task["stop_minute"] %>
+            </div>
+            <% }) %>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script src="/Javascripts/timetable.js"></script>
+</body>
+</html>

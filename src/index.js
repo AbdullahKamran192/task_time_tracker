@@ -30,6 +30,11 @@ app.get("/", (req, res) => {
     res.render('home')
 })
 
+
+app.get("/timetable", (req, res) => {
+    res.render('timetable')
+})
+
 app.get("/auth/google", 
     passport.authenticate('google', {scope: ['email', 'profile']}),
 );

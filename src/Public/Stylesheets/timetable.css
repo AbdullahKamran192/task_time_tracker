@@ -1,0 +1,97 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Top bar */
+.toolbar {
+  height: 56px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+}
+
+.left, .right {
+  display: flex;
+  gap: 10px;
+}
+
+button, select {
+  height: 32px;
+}
+
+/* Page layout */
+.calendar {
+  height: calc(100vh - 56px);
+  display: flex;
+  flex-direction: column;
+}
+
+.dayHeader {
+  height: 40px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Grid */
+.gridWrap {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+}
+
+/* Time column */
+.timeCol {
+  border-right: 1px solid #ccc;
+}
+
+.timeRow {
+  height: 72px;
+  border-bottom: 1px solid #eee;
+  position: relative;
+}
+
+.timeLabel {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font-size: 12px;
+}
+
+/* Day column */
+.dayCol {
+  position: relative;
+}
+
+.hourLine {
+  height: 72px;
+  border-bottom: 1px solid #eee;
+}
+
+.p {
+    display: contents;
+}
+
+
+/* Event */
+.event {
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  background: #ddd;
+  border: 1px solid #333;
+  padding: 6px;
+  font-size: 13px;
+}

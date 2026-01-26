@@ -20,6 +20,10 @@ export async function getTasksByUserId(user_id) {
     return rows
 }
 
+export async function getTasksByUserIdAndDate(date) {
+    const [rows] = await pool.query("SELECT * FROM tasks WHERE user_id = ? AND ", [user_id])
+}
+
 export async function postTask(task_name, task_description, user_id) {
     const [query_response] = await pool.query("INSERT INTO tasks (task_name, task_description, user_id) VALUES (?,?,?)", [task_name, task_description, user_id])
     console.log(query_response.insertId)
