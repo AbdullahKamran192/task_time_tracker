@@ -30,6 +30,11 @@ export async function postTask(task_name, task_description, user_id) {
     return query_response
 }
 
+export async function updateTask(task_id, task_name, task_description, user_id) {
+    const [query_response] = await pool.query("UPDATE tasks SET task_name = ?, task_description = ? WHERE task_id = ? AND user_id = ?", [task_name, task_description, task_id, user_id])
+    return query_response
+}
+
 export async function getTimeSessionByTaskID(task_id) {
     const [result] = await pool.query("SELECT * FROM time_session WHERE task_id = ?", [task_id])
     return result[0]
@@ -38,6 +43,10 @@ export async function getTimeSessionByTaskID(task_id) {
 export async function postTimeSession(start_time, stop_time, task_id) {
     const query_response = await pool.query("INSERT INTO time_session (start_time, stop_time, task_id) VALUES (?, ?, ?)", [start_time, stop_time, task_id])
     return query_response
+}
+
+export async function updateTimeSession(start_time, stop_time, task_id) {
+    const query_response = await pool.query("UPDATE time_session SET start_time = ?, stop_time = ? WHERE task_id = ?", [start_time, stop_time, task_id])
 }
 
 export async function getUser(displayName, email) {

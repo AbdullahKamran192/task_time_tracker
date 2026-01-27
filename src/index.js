@@ -25,8 +25,6 @@ app.use(express.static('./src/Public'))
 app.use(tasksRouter)
 
 app.get("/", (req, res) => {
-    console.log("========================== LOADED HOME PAGE ==========================");
-    console.log(req)
     res.render('home')
 })
 

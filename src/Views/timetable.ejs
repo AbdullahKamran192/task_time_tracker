@@ -33,18 +33,33 @@
         <div class="timeCol" id="timeCol"></div>
         <div class="dayCol" id="dayCol">
             <% tasks.forEach(task => { %>
-            <div id="<%= task['task'].task_id %>" onclick="divById('<%= task.task.task_id %>')" class="event" style="overflow: visible; top: calc((72px * <%= task.start_hour %>) + (72px * (<%= task.start_minute %> / 60))); height: calc(((((<%= task.stop_hour %> * 60) + <%= task.stop_minute %>) - ((<%= task.start_hour %> * 60) + <%= task.start_minute %>)) * (72px / 60))); width: 100%;">
-                <strong style="display: contents;"><%= task["task"].task_name %></strong>
-                <p><%= task["task"].task_description %></p>
-                <%= task["start_hour"] %>:<%= task["start_minute"] %> - <%= task["stop_hour"] %>:<%= task["stop_minute"] %>
+            <div data-open-modal id="<%= task['task'].task_id %>" onclick="divById('<%= task.task.task_id %>')" class="event" style="overflow: visible; top: calc((72px * <%= task.start_hour %>) + (72px * (<%= task.start_minute %> / 60))); height: calc(((((<%= task.stop_hour %> * 60) + <%= task.stop_minute %>) - ((<%= task.start_hour %> * 60) + <%= task.start_minute %>)) * (72px / 60))); width: 100%;">
+                <strong class="task_name" style="display: contents;"><%= task["task"].task_name %></strong>
+                <p class="taskId"><%= task.task.task_id %></p>
+                <p class="task_description"><%= task["task"].task_description %></p>
+                <p class="start_hour_minute"><%= task["start_hour"] %>:<%= task["start_minute"] %></p>
+                <p class="stop_hour_minute"><%= task["stop_hour"] %>:<%= task["stop_minute"] %></p>
             </div>
             <% }) %>
         </div>
       </div>
     </div>
 
-    <dialog>
-
+    <dialog data-modal>
+      <form action="/updateTask" method="post">
+        <p id="timeStartPModal"></p>
+        <br>
+        <p id="timeStopPModal"></p>
+        <input id="taskIdModel" type="text" name="task_id" readonly>
+        <input id="taskStartTimeInputModal" type="datetime-local" name="taskStartTime">
+        <input id="taskStopTimeInputModal" type="datetime-local" name="taskStopTime">
+        <input id="taskNameInputModal" placeholder="task name" type="text" name="taskName">
+        <br>
+        <input id="taskDescriptionInputModal" placeholder="task description" type="text" name="taskDescription">
+        <br>
+        <button type="submit">Save</button>
+      </form>
+      <button data-close-modal>Close</button>
     </dialog>
 
 

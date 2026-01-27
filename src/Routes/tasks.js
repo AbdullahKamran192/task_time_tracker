@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getTasks, getTasksByUserId, getTimeSessionByTaskID, postTask, postTimeSession } from "../Config/database.js";
+import { getTasks, getTasksByUserId, getTimeSessionByTaskID, postTask, postTimeSession, updateTask, updateTimeSession } from "../Config/database.js";
 import { isLoggedIn } from "../Middlewares/user.js";
 
 export const tasksRouter = Router()
@@ -9,18 +9,28 @@ tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
     const query_tasks = await getTasksByUserId(req.user.user_id);
     const tasks = [];
 
+    
+    console.log("================USER==============")
+    console.log(req.user.user_id)
+
+    console.log("================QUERY TASKS==============")
+    console.log(query_tasks)
+
     for (const task of query_tasks) {
 
         const time_session = await getTimeSessionByTaskID(task.task_id);
-        console.log("==============================")
+        console.log("================TIME SESSION==============")
+        console.log(time_session)
+
+        if (time_session == null) {
+            continue
+        }
+
         const start_time = new Date(time_session["start_time"])
         const stop_time = new Date(time_session["stop_time"])
 
         const start_time_date = `${start_time.getDate()}-${start_time.getMonth()}-${start_time.getFullYear()}`
         
-        console.log("++++++++++++++++ /tasks +++++++++++++++")
-        console.log(start_time.toDateString())
-        console.log(start_time.toLocaleString())
 
 
         console.log(start_time.toLocaleDateString(), stop_time)
@@ -29,8 +39,8 @@ tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
                 "time_session" : time_session,
                 "start_hour": start_time.getHours(),
                 "stop_hour": stop_time.getHours(),
-                "start_minute": start_time.getMinutes(),
-                "stop_minute": stop_time.getMinutes(),})
+                "start_minute": start_time.getMinutes().toString().padStart(2, "0"),
+                "stop_minute": stop_time.getMinutes().toString().padStart(2, "0")})
         }
     }
 
@@ -57,4 +67,19 @@ tasksRouter.post("/saveTask", isLoggedIn, async (req, res) => {
     await postTimeSession(taskStartTime, taskStopTime, query_response.insertId)
 
     res.send("saved the Task")
+})
+
+tasksRouter.post("/updateTask", isLoggedIn, async (req, res) => {
+    const task_id = req.body.task_id;
+    const taskName = req.body.taskName;
+    const taskDescription = req.body.taskDescription;
+    const user_id = req.user.user_id;
+    const taskStartTime = req.body.taskStartTime
+    const taskStopTime = req.body.taskStopTime
+
+    const query_response = await updateTask(task_id, taskName, taskDescription, user_id);
+
+    const query_response_time_session = await updateTimeSession(taskStartTime, taskStopTime, task_id)
+
+    res.send("Updated the task")
 })
