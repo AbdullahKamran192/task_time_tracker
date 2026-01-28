@@ -24,13 +24,11 @@ app.use(express.static('./src/Public'))
 
 app.use(tasksRouter)
 
-app.get("/", (req, res) => {
-    res.render('home')
-})
-
-
-app.get("/timetable", (req, res) => {
-    res.render('timetable')
+app.get("/", isLoggedIn, (req, res) => {
+    res.render('home', {
+        "username": req.user.username,
+        "userProfilePicture": req.user.profile_picture
+    })
 })
 
 app.get("/auth/google", 

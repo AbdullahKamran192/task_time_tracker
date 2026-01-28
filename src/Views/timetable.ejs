@@ -9,9 +9,9 @@
 
 <body>
   <%- include('common/header') %>
+
   <header class="toolbar">
     <div class="left">
-      <button><a href="/">Home</a></button>
       <button class="btn" id="todayBtn">Today</button>
       <button class="btn iconbtn" id="prevBtn" aria-label="Previous">&lt;</button>
       <button class="btn iconbtn" id="nextBtn" aria-label="Next">&gt;</button>
@@ -31,9 +31,6 @@
     <div class="dayHeader" id="dayHeaderText"><%= date %></div>
 
     <div class="gridWrap">
-      <div class="grid">
-        <h1>calender</h1>
-      </div>
       <div class="grid">
         <div class="timeCol" id="timeCol"></div>
         <div class="dayCol" id="dayCol">

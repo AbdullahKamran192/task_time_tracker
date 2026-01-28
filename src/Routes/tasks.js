@@ -12,8 +12,6 @@ tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
     for (const task of query_tasks) {
 
         const time_session = await getTimeSessionByTaskID(task.task_id);
-        console.log("================TIME SESSION==============")
-        console.log(time_session)
 
         if (time_session == null) {
             continue
@@ -25,9 +23,6 @@ tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
 
         const start_time_date = `${start_time.getDate()}-${start_time.getMonth()}-${start_time.getFullYear()}`
         
-
-
-        console.log(start_time.toLocaleDateString(), stop_time)
         if (time_session && start_time.toLocaleDateString() == date) {
             tasks.push({"task" : task,
                 "time_session" : time_session,
@@ -39,12 +34,15 @@ tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
         }
     }
 
-    console.log("the date is")
-    console.log(date)
+    console.log("=========== USERNAME AND PICTURE =================")
+    console.log(req.user.username)
+    console.log(req.user.profile_picture)
 
     res.render("timetable", {
         tasks,
-        "date" : date
+        "date" : date,
+        "username": req.user.username,
+        "userProfilePicture": req.user.profile_picture
     });
 });
 

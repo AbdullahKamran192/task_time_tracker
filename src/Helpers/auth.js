@@ -14,12 +14,20 @@ passport.use(new GoogleStrategy({
     //   return cb(err, user);
     // });
 
+    console.log("================ THE PROFILE ==================")
+    console.log(profile)
+
     var user = await getUser(profile["displayName"], profile["email"]);
 
     if (user.length === 0) {
         const query_response = await postUser(profile["displayName"], profile["email"]);
         user = await getUser(profile["displayName"], profile["email"]);
     }
+
+    user[0].profile_picture = profile["picture"]
+
+    console.log("================ THE USER ==================")
+    console.log(user[0])
 
     return done(null, user[0]);
   }
