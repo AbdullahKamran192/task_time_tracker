@@ -10,7 +10,10 @@
 
 //import { getTasks } from "../../Config/database";
 
-var now;
+var startTime;
+var timeWasted;
+var timeElapsed;
+var timerActive = false
 
 function toDateTimeLocal(date) {
     const pad = n => String(n).padStart(2, "0");
@@ -19,50 +22,47 @@ function toDateTimeLocal(date) {
 }
 
 function startTimer() {
-    now = new Date()
-    now.getMonth()
+    document.getElementById("saveTaskForm").style.visibility = "hidden";
+    startTime = new Date()
+    startTime.getMonth()
     document.getElementById("startTimerButton").style.color = "red";
+    document.getElementById("wasteTimeIncrementButton").style.visibility = "visible";
+    timeWasted = 0
+    timeElapsed = 0
+    timerActive = true
+    incrementTimeElapsed()
+}
+
+function incrementTimeElapsed() {
+    while (timerActive) {
+        setTimeout(() => {
+            const now = new Date()
+            document.getElementById("showTimeElapsed").innerHTML = now - timeElapsed
+        }, 1000)
+    }
+}
+
+function incrementTimeWasted() {
+    timeWasted = timeWasted + 1;
+    console.log(`the new timeWasted ${timeWasted}`)
 }
 
 function stopTimer(){
+    timerActive = false
     const later = new Date()
-    const timeSpent = (later - now)
+    const timeSpent = (later - startTime)
 
-    document.getElementById("showTime").innerHTML = timeSpent;
+    document.getElementById("wasteTimeIncrementButton").style.visibility = "hidden";
+
+    document.getElementById("showTimeElapsed").innerHTML = timeSpent;
 
     document.getElementById("stopTimerButton").style.color = "green";
 
     document.getElementById("saveTaskForm").style.visibility = "visible";
 
-    document.getElementById("taskStartTimeInput").value = toDateTimeLocal(now)
+    document.getElementById("timeWastedInput").value = timeWasted;
+    timeWasted = 0
+
+    document.getElementById("taskStartTimeInput").value = toDateTimeLocal(startTime)
     document.getElementById("taskStopTimeInput").value = toDateTimeLocal(later)
-
-
-
-    
-    // const timeStartLabel = document.createElement("label")
-    // timeStartLabel.textContent = `start time: ${now}`
-    // timeStartLabel.id = "timeStartLabel"
-
-    // const timeStopLabel = document.createElement("label")
-    // timeStopLabel.textContent = `stop time: ${later}`
-    // timeStopLabel.id = "timeStopLabel"
-
-    // document.getElementById("saveTaskForm").append(timeStartLabel)
-    // document.getElementById("saveTaskForm").append(document.createElement("br"))
-    // document.getElementById("saveTaskForm").append(timeStopLabel)
-
-    // task_name = document.createElement("input")
-    // task_name.id = "taskNameInput"
-    // document.getElementById("saveTaskForm").append(task_name)
-
-    // task_description = document.createElement("input")
-    // task_description.id = "taskDescriptionInput"
-    // document.getElementById("saveTaskForm").append(task_description)
-
-    // submitButton = document.createElement("button")
-    // submitButton.textContent = "Save"
-    // document.getElementById("saveTaskForm").append(submitButton)
-
-    //window.location.href = "/saveTask"
 }

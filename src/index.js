@@ -39,7 +39,7 @@ app.get("/auth/google",
 
 app.get('/google/callback',
     passport.authenticate('google', {
-        successRedirect: '/protected',
+        successRedirect: '/tasks',
         failureRedirect: '/auth/failure',
     })
 )

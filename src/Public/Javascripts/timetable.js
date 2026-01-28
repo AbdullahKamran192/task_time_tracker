@@ -66,7 +66,6 @@ document.getElementById("nextBtn").addEventListener("click", () => {
 function divById(task_id) {
     console.log(`You clicked on ${task_id}`)
     const divItem = document.getElementById(task_id);
-    divItem.style.background = "red"
 
     const openButton = document.querySelector("[data-open-modal]")
     const closeButton = document.querySelector("[data-close-modal]")
@@ -75,7 +74,6 @@ function divById(task_id) {
     modal.showModal()
 
     closeButton.addEventListener("click", () => {
-        divItem.style.background = "gray"
         modal.close()
     })
 
@@ -83,13 +81,11 @@ function divById(task_id) {
     console.log(divItem.querySelector(".start_hour_minute").textContent)
 
     document.getElementById("taskIdModel").value = task_id
-
-    document.getElementById("timeStartPModal").value = `${formatDate(params.get("date"))}T${divItem.querySelector(".start_hour_minute").textContent}`;
-    document.getElementById("timeStopPModal").value = `${formatDate(params.get("date"))}T${divItem.querySelector(".stop_hour_minute").textContent}`;
     document.getElementById("taskStartTimeInputModal").value = `${formatDate(params.get("date"))}T${divItem.querySelector(".start_hour_minute").textContent}`;
     document.getElementById("taskStopTimeInputModal").value = `${formatDate(params.get("date"))}T${divItem.querySelector(".stop_hour_minute").textContent}`;
     document.getElementById("taskNameInputModal").value = divItem.querySelector(".task_name").textContent;
     document.getElementById("taskDescriptionInputModal").value = divItem.querySelector(".task_description").textContent;
+    document.getElementById("timeWastedModal").value = divItem.querySelector(".time_wasted").textContent;
 
 
 

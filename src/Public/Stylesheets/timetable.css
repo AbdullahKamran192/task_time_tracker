@@ -95,3 +95,40 @@ button, select {
   padding: 6px;
   font-size: 13px;
 }
+
+
+/* Task colour selector */
+
+.color-picker {
+  display: flex;
+  gap: 10px;
+}
+
+.color-picker label {
+  cursor: pointer;
+}
+
+.color-picker input {
+  display: none;
+}
+
+/* circle */
+.color {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 2px solid transparent;
+}
+
+/* selected ring */
+input:checked + .color {
+  border-color: #4a90e2;
+}
+
+/* colors */
+.blue   { background: #2f6df6; }
+.orange { background: #ff7a00; }
+.green  { background: #22c55e; }
+.purple { background: #8b5cf6; }
+.red    { background: #ef4444; }

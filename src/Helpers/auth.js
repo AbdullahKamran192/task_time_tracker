@@ -14,7 +14,7 @@ passport.use(new GoogleStrategy({
     //   return cb(err, user);
     // });
 
-    const user = await getUser(profile["displayName"], profile["email"]);
+    var user = await getUser(profile["displayName"], profile["email"]);
 
     if (user.length === 0) {
         const query_response = await postUser(profile["displayName"], profile["email"]);

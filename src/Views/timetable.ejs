@@ -8,8 +8,10 @@
 </head>
 
 <body>
+  <%- include('common/header') %>
   <header class="toolbar">
     <div class="left">
+      <button><a href="/">Home</a></button>
       <button class="btn" id="todayBtn">Today</button>
       <button class="btn iconbtn" id="prevBtn" aria-label="Previous">&lt;</button>
       <button class="btn iconbtn" id="nextBtn" aria-label="Next">&gt;</button>
@@ -30,15 +32,18 @@
 
     <div class="gridWrap">
       <div class="grid">
+        <h1>calender</h1>
+      </div>
+      <div class="grid">
         <div class="timeCol" id="timeCol"></div>
         <div class="dayCol" id="dayCol">
             <% tasks.forEach(task => { %>
-            <div data-open-modal id="<%= task['task'].task_id %>" onclick="divById('<%= task.task.task_id %>')" class="event" style="overflow: visible; top: calc((72px * <%= task.start_hour %>) + (72px * (<%= task.start_minute %> / 60))); height: calc(((((<%= task.stop_hour %> * 60) + <%= task.stop_minute %>) - ((<%= task.start_hour %> * 60) + <%= task.start_minute %>)) * (72px / 60))); width: 100%;">
-                <strong class="task_name" style="display: contents;"><%= task["task"].task_name %></strong>
-                <p class="taskId"><%= task.task.task_id %></p>
-                <p class="task_description"><%= task["task"].task_description %></p>
-                <p class="start_hour_minute"><%= task["start_hour"] %>:<%= task["start_minute"] %></p>
-                <p class="stop_hour_minute"><%= task["stop_hour"] %>:<%= task["stop_minute"] %></p>
+            <div data-open-modal id="<%= task['task'].task_id %>" onclick="divById('<%= task.task.task_id %>')" class="event" style="overflow: visible; background-color: <%= task.task.task_colour %> ; top: calc((72px * <%= task.start_hour %>) + (72px * (<%= task.start_minute %> / 60))); height: calc(((((<%= task.stop_hour %> * 60) + <%= task.stop_minute %>) - ((<%= task.start_hour %> * 60) + <%= task.start_minute %>)) * (72px / 60))); width: 100%;">
+                <strong class="task_name" style="display: contents; color: white;"><%= task["task"].task_name %></strong>
+                <p class="task_description" style="color: white;"><%= task["task"].task_description %></p>
+                <p class="start_hour_minute" style="color: black;"><%= task["start_hour"] %>:<%= task["start_minute"] %></p>
+                <p class="stop_hour_minute" style="color: black;"><%= task["stop_hour"] %>:<%= task["stop_minute"] %></p>
+                <p class="time_wasted" style="color: black;"><%= task["time_wasted"] %></p>
             </div>
             <% }) %>
         </div>
@@ -47,16 +52,49 @@
 
     <dialog data-modal>
       <form action="/updateTask" method="post">
-        <p id="timeStartPModal"></p>
-        <br>
-        <p id="timeStopPModal"></p>
+        <h4>Edit the task</h4>
+        <label>task id</label>
         <input id="taskIdModel" type="text" name="task_id" readonly>
+        <br>
         <input id="taskStartTimeInputModal" type="datetime-local" name="taskStartTime">
         <input id="taskStopTimeInputModal" type="datetime-local" name="taskStopTime">
+        <br>
+        <label>task name</label>
         <input id="taskNameInputModal" placeholder="task name" type="text" name="taskName">
         <br>
+        <label>task description</label>
         <input id="taskDescriptionInputModal" placeholder="task description" type="text" name="taskDescription">
+        <label>time wasted</label>
+        <input id="timeWastedModal" type="text" name="timeWasted">
         <br>
+
+        <div class="color-picker">
+          <label>
+            <input type="radio" name="color" value="blue" checked>
+            <span class="color blue"></span>
+          </label>
+
+          <label>
+            <input type="radio" name="color" value="orange">
+            <span class="color orange"></span>
+          </label>
+
+          <label>
+            <input type="radio" name="color" value="green">
+            <span class="color green"></span>
+          </label>
+
+          <label>
+            <input type="radio" name="color" value="purple">
+            <span class="color purple"></span>
+          </label>
+
+          <label>
+            <input type="radio" name="color" value="red">
+            <span class="color red"></span>
+          </label>
+        </div>
+
         <button type="submit">Save</button>
       </form>
       <button data-close-modal>Close</button>

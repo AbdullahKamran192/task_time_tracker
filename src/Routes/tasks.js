@@ -9,13 +9,6 @@ tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
     const query_tasks = await getTasksByUserId(req.user.user_id);
     const tasks = [];
 
-    
-    console.log("================USER==============")
-    console.log(req.user.user_id)
-
-    console.log("================QUERY TASKS==============")
-    console.log(query_tasks)
-
     for (const task of query_tasks) {
 
         const time_session = await getTimeSessionByTaskID(task.task_id);
@@ -28,6 +21,7 @@ tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
 
         const start_time = new Date(time_session["start_time"])
         const stop_time = new Date(time_session["stop_time"])
+        const time_wasted = time_session["time_wasted"]
 
         const start_time_date = `${start_time.getDate()}-${start_time.getMonth()}-${start_time.getFullYear()}`
         
@@ -37,6 +31,7 @@ tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
         if (time_session && start_time.toLocaleDateString() == date) {
             tasks.push({"task" : task,
                 "time_session" : time_session,
+                "time_wasted" : time_wasted,
                 "start_hour": start_time.getHours(),
                 "stop_hour": stop_time.getHours(),
                 "start_minute": start_time.getMinutes().toString().padStart(2, "0"),
@@ -61,10 +56,11 @@ tasksRouter.post("/saveTask", isLoggedIn, async (req, res) => {
 
     const taskStartTime = req.body.taskStartTime
     const taskStopTime = req.body.taskStopTime
+    const time_wasted = req.body.timeWasted;
 
     const query_response = await postTask(taskName, taskDescription, user_id)
 
-    await postTimeSession(taskStartTime, taskStopTime, query_response.insertId)
+    await postTimeSession(taskStartTime, taskStopTime, query_response.insertId, time_wasted)
 
     res.send("saved the Task")
 })
@@ -76,10 +72,12 @@ tasksRouter.post("/updateTask", isLoggedIn, async (req, res) => {
     const user_id = req.user.user_id;
     const taskStartTime = req.body.taskStartTime
     const taskStopTime = req.body.taskStopTime
+    const task_colour = req.body.color;
+    const time_wasted = req.body.timeWasted;
 
-    const query_response = await updateTask(task_id, taskName, taskDescription, user_id);
+    const query_response = await updateTask(task_id, taskName, taskDescription, user_id, task_colour);
 
-    const query_response_time_session = await updateTimeSession(taskStartTime, taskStopTime, task_id)
+    const query_response_time_session = await updateTimeSession(taskStartTime, taskStopTime, task_id, time_wasted)
 
-    res.send("Updated the task")
+    res.send("Updated the task <button><a href='/tasks'>Tasks</a></button>")
 })
