@@ -1,15 +1,3 @@
-// const now = new Date()
-
-// setTimeout(() => {
-//     const later = new Date()
-//     console.log("Time difference")
-//     console.log(later - now)
-// }, 3000)
-
-//console.log(now.getHours())
-
-//import { getTasks } from "../../Config/database";
-
 var startTime;
 var timeWasted;
 
@@ -33,7 +21,8 @@ async function startTimer() {
         const hours = Math.floor(elapsed / (3600000))
         const minutes = Math.floor((elapsed % (3600000)) / (60000))
         const seconds = Math.floor(((elapsed % (3600000)) % (60000)) / 1000)
-        document.getElementById("showTimeElapsed").innerHTML = `${String(hours).padStart(2,"0")}:${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
+        document.getElementById("showTimeElapsed").innerHTML = `stopwatch: ${String(hours).padStart(2,"0")}:${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
+        document.getElementById("showTimeWasted").innerHTML = `time wasted: ${timeWasted} minutes`
     }, 1000);
 }
 

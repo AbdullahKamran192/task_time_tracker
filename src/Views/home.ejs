@@ -4,19 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home page</title>
-    <link rel="stylesheet" href="/Stylesheets/tasks.css">
+    <link rel="stylesheet" href="/Stylesheets/home.css">
 </head>
 <body>
     <%- include('common/header') %>
 
     <h1>Home page</h1>
-    <a href="/auth/google">Authenticate with Google</a>
 
     <button id="startTimerButton" onclick="startTimer()">Start timer</button>
 
     <button id="stopTimerButton" onclick="stopTimer()">Stop timer</button>
 
     <p id="showTimeElapsed"></p>
+    
+    <p id="showTimeWasted"></p>
 
     <button id="wasteTimeIncrementButton" onclick="incrementTimeWasted()" style="visibility: hidden;">wasted time +1 min</button>
 

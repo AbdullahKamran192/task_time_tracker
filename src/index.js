@@ -6,6 +6,7 @@ import "./Helpers/auth.js"
 import passport from "passport"
 import session from "express-session"
 import { isLoggedIn } from "./Middlewares/user.js"
+import "./Config/rds_database.js"
 dotenv.config()
 
 const app = express()

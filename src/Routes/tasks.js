@@ -38,7 +38,7 @@ tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
     console.log(req.user.username)
     console.log(req.user.profile_picture)
 
-    res.render("timetable", {
+    res.render("tasks/timetable", {
         tasks,
         "date" : date,
         "username": req.user.username,
@@ -60,7 +60,11 @@ tasksRouter.post("/saveTask", isLoggedIn, async (req, res) => {
 
     await postTimeSession(taskStartTime, taskStopTime, query_response.insertId, time_wasted)
 
-    res.send("saved the Task")
+    res.render('tasks/taskStatus', {
+        "taskStatusMessage": "Task saved successfully",
+        "username" : req.user.username,
+        "userProfilePicture": req.user.profile_picture
+    })
 })
 
 tasksRouter.post("/updateTask", isLoggedIn, async (req, res) => {
@@ -77,5 +81,9 @@ tasksRouter.post("/updateTask", isLoggedIn, async (req, res) => {
 
     const query_response_time_session = await updateTimeSession(taskStartTime, taskStopTime, task_id, time_wasted)
 
-    res.send("Updated the task <button><a href='/tasks'>Tasks</a></button>")
+    res.render('tasks/taskStatus', {
+        "taskStatusMessage": "Task updated successfully",
+        "username" : req.user.username,
+        "userProfilePicture": req.user.profile_picture
+    })
 })
