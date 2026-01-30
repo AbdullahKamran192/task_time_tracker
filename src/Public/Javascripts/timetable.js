@@ -9,6 +9,13 @@ function formatTime(hour){
     return `${h12}:00 ${suffix}`;
 }
 
+// exmaple take time 1:13 and convert it to 01:13
+function formatTimeTo24Hours(time) {
+    const hours = time.substring(0,1).padStart(2, "0")
+    const minutes = time.substring(2,4).padStart(2, "")
+    return `${hours}:${minutes}`
+}
+
 for (let h = 0; h < 24; h++){
     const tRow = document.createElement("div");
     tRow.className = "timeRow";
@@ -79,8 +86,8 @@ function divById(task_id) {
     console.log(divItem.querySelector(".start_hour_minute").textContent)
 
     document.getElementById("taskIdModel").value = task_id
-    document.getElementById("taskStartTimeInputModal").value = `${formatDate(params.get("date"))}T${divItem.querySelector(".start_hour_minute").textContent}`;
-    document.getElementById("taskStopTimeInputModal").value = `${formatDate(params.get("date"))}T${divItem.querySelector(".stop_hour_minute").textContent}`;
+    document.getElementById("taskStartTimeInputModal").value = `${formatDate(params.get("date"))}T${formatTimeTo24Hours(divItem.querySelector(".start_hour_minute").textContent)}`;
+    document.getElementById("taskStopTimeInputModal").value = `${formatDate(params.get("date"))}T${formatTimeTo24Hours(divItem.querySelector(".stop_hour_minute").textContent)}`;
     document.getElementById("taskNameInputModal").value = divItem.querySelector(".task_name").textContent;
     document.getElementById("taskDescriptionInputModal").value = divItem.querySelector(".task_description").textContent;
     document.getElementById("timeWastedModal").value = divItem.querySelector(".time_wasted").textContent;
@@ -92,25 +99,27 @@ function divById(task_id) {
 async function deleteTaskButtonClick(task_id) {
     console.log(`PERFORM THE DELETE FOR ${task_id}`)
 
-    try {
-        delete_response = await fetch("/deleteTask", {
-            method: "POST",
-            body: JSON.stringify({
-                "task_id": task_id,
-            }),
-            headers: {
-                "Content-type": "application/json",
-            },
-        })
+    if (confirm("Are you sure you want to delete the task!") == true) {
+        try {
+            delete_response = await fetch("/deleteTask", {
+                method: "POST",
+                body: JSON.stringify({
+                    "task_id": task_id,
+                }),
+                headers: {
+                    "Content-type": "application/json",
+                },
+            })
 
-        if (!delete_response.ok) {
-            throw new Error(`Response status: ${delete_response.status}`)
+            if (!delete_response.ok) {
+                throw new Error(`Response status: ${delete_response.status}`)
+            }
+
+            if (delete_response.redirected) {
+                window.location.href = delete_response.url
+            }
+        } catch (error) {
+            console.error(error.message);
         }
-
-        const result = await delete_response.json();
-
-        console.log(result)
-    } catch (error) {
-        console.error(error.message);
     }
 }

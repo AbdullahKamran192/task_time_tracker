@@ -199,3 +199,9 @@ input:checked + .color {
 .green  { background: #22c55e; }
 .purple { background: #8b5cf6; }
 .red    { background: #ef4444; }
+
+#deleteTaskButton {
+  background-color: red;
+  color: white;
+  font-size: large;
+}
