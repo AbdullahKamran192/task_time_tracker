@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getTasks, getTasksByUserId, getTimeSessionByTaskID, postTask, postTimeSession, updateTask, updateTimeSession } from "../Config/database.js";
+import { deleteTask, getTasks, getTasksByUserId, getTimeSessionByTaskID, postTask, postTimeSession, updateTask, updateTimeSession } from "../Config/database.js";
 import { isLoggedIn } from "../Middlewares/user.js";
 
 export const tasksRouter = Router()
@@ -34,9 +34,9 @@ tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
         }
     }
 
-    console.log("=========== USERNAME AND PICTURE =================")
-    console.log(req.user.username)
-    console.log(req.user.profile_picture)
+    // console.log("=========== USERNAME AND PICTURE =================")
+    // console.log(req.user.username)
+    // console.log(req.user.profile_picture)
 
     res.render("tasks/timetable", {
         tasks,
@@ -86,4 +86,26 @@ tasksRouter.post("/updateTask", isLoggedIn, async (req, res) => {
         "username" : req.user.username,
         "userProfilePicture": req.user.profile_picture
     })
+})
+
+tasksRouter.post("/deleteTask", isLoggedIn, async (req, res) => {
+    const task_id = req.body.task_id
+    const user_id = req.user.user_id;
+
+    console.log("=========== TASK ID ===============")
+
+    console.log(task_id)
+    console.log(user_id)
+
+    console.log("======================================")
+
+    await deleteTask(task_id, user_id);
+
+    res.redirect("/tasks")
+
+    // res.render('tasks/taskStatus', {
+    //     "taskStatusMessage": "Task deleted successfully",
+    //     "username" : req.user.username,
+    //     "userProfilePicture": req.user.profile_picture
+    // })
 })

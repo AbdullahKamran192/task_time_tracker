@@ -36,6 +36,11 @@ export async function updateTask(task_id, task_name, task_description, user_id, 
     return query_response
 }
 
+export async function deleteTask(task_id, user_id) {
+    const [query_response] = await pool.query("DELETE FROM tasks WHERE task_id = ? AND user_id = ?", [task_id, user_id])
+    return query_response
+}
+
 export async function getTimeSessionByTaskID(task_id) {
     const [result] = await pool.query("SELECT * FROM time_session WHERE task_id = ?", [task_id])
     return result[0]
@@ -55,7 +60,12 @@ export async function getUser(displayName, email) {
     return user;
 }
 
-export async function postUser(displayName, email) {
-    const query_response = await pool.query("INSERT INTO users (username, email) VALUES (?, ?)", [displayName, email]);
+export async function getUserByGoogleId(google_id) {
+    const [user] = await pool.query("SELECT * FROM users WHERE google_id = ?", [google_id]);
+    return user;
+}
+
+export async function postUser(displayName, email, google_id) {
+    const query_response = await pool.query("INSERT INTO users (username, email, google_id) VALUES (?, ?, ?)", [displayName, email, google_id]);
     return query_response
 }

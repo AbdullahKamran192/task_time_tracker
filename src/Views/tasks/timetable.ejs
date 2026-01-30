@@ -35,7 +35,7 @@
         <div class="timeCol" id="timeCol"></div>
         <div class="dayCol" id="dayCol">
             <% tasks.forEach(task => { %>
-            <div data-open-modal id="<%= task['task'].task_id %>" onclick="divById('<%= task.task.task_id %>')" class="event" style="overflow: visible; background-color: <%= task.task.task_colour %> ; top: calc((72px * <%= task.start_hour %>) + (72px * (<%= task.start_minute %> / 60))); height: calc(((((<%= task.stop_hour %> * 60) + <%= task.stop_minute %>) - ((<%= task.start_hour %> * 60) + <%= task.start_minute %>)) * (72px / 60))); width: 100%;">
+            <div data-open-modal id="<%= task['task'].task_id %>" onclick="divById('<%= task.task.task_id %>')" class="event" style=" background-color: <%= task.task.task_colour %> ; top: calc((72px * <%= task.start_hour %>) + (72px * (<%= task.start_minute %> / 60))); height: calc(((((<%= task.stop_hour %> * 60) + <%= task.stop_minute %>) - ((<%= task.start_hour %> * 60) + <%= task.start_minute %>)) * (72px / 60))); width: 100%;">
                 <strong class="task_name" style="display: contents; color: white;"><%= task["task"].task_name %></strong>
                 <p class="task_description" style="color: white;"><%= task["task"].task_description %></p>
                 <p class="start_hour_minute" style="color: black;"><%= task["start_hour"] %>:<%= task["start_minute"] %></p>
@@ -48,23 +48,28 @@
     </div>
 
     <dialog data-modal>
-      <form action="/updateTask" method="post">
+      <button class="closeButton" data-close-modal>X</button>
+      <form class="box" action="/updateTask" method="post">
         <h4>Edit the task</h4>
-        <label>task id</label>
+        <label>task id (readonly)</label>
         <input id="taskIdModel" type="text" name="task_id" readonly>
         <br>
-        <input id="taskStartTimeInputModal" type="datetime-local" name="taskStartTime">
-        <input id="taskStopTimeInputModal" type="datetime-local" name="taskStopTime">
+        <label for="taskStartTimeInputModal">Task Start Time</label> <br>
+        <input id="taskStartTimeInputModal" type="datetime-local" name="taskStartTime"> <br>
         <br>
-        <label>task name</label>
+        <label for="taskStopTimeInputModal">Task Stop Time</label> <br>
+        <input id="taskStopTimeInputModal" type="datetime-local" name="taskStopTime"> <br>
+        <br>
+        <label>Task Name</label>
         <input id="taskNameInputModal" placeholder="task name" type="text" name="taskName">
         <br>
-        <label>task description</label>
-        <input id="taskDescriptionInputModal" placeholder="task description" type="text" name="taskDescription">
-        <label>time wasted</label>
+        <label>Task Description</label>
+        <textarea id="taskDescriptionInputModal" placeholder="task description" name="taskDescription"></textarea>
+        <label>Minutes Wasted</label>
         <input id="timeWastedModal" type="text" name="timeWasted">
         <br>
 
+        <label>Task Colour</label>
         <div class="color-picker">
           <label>
             <input type="radio" name="color" value="blue" checked>
@@ -92,9 +97,9 @@
           </label>
         </div>
 
-        <button type="submit">Save</button>
+        <button class="submitButton" type="submit">Save</button>
       </form>
-      <button data-close-modal>Close</button>
+      <button id="deleteTaskButton" onclick="deleteTaskButtonClick()"></button>
     </dialog>
 
 

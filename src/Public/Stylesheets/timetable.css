@@ -87,6 +87,7 @@ button, select {
 
 /* Event */
 .event {
+  overflow: hidden;
   position: absolute;
   left: 10px;
   right: 10px;
@@ -96,6 +97,72 @@ button, select {
   font-size: 13px;
 }
 
+/* Dialog box */
+
+.box {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  width: 400px;
+  padding: 20px;
+  border: 1px solid black;
+}
+
+input[type=text], select {
+  width: 100%;
+  height: fit-content;
+  padding: 12px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#taskDescriptionInputModal {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+input[type="datetime-local"] {
+    background-color: rgb(34, 80, 179);
+    padding: 5px;
+    color: white;
+    font-size: large;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+label {
+    display: block;
+    font-size: large;
+}
+
+.submitButton {
+    background-color: green;
+    color: white;
+    font-size: large;
+    width: 100px;
+}
+
+.closeButton {
+    position: relative;
+    right: 10px;
+    cursor: pointer;
+    width: 40px;
+    background-color: rgb(255, 0, 0);
+    color: rgb(255, 255, 255);
+    font-size: large;
+    font-weight: bold;
+}
 
 /* Task colour selector */
 

@@ -73,9 +73,7 @@ function divById(task_id) {
 
     modal.showModal()
 
-    closeButton.addEventListener("click", () => {
-        modal.close()
-    })
+    closeButton.onclick = () => modal.close();
 
     console.log("THE START HOUR MINUTE IS ")
     console.log(divItem.querySelector(".start_hour_minute").textContent)
@@ -86,10 +84,33 @@ function divById(task_id) {
     document.getElementById("taskNameInputModal").value = divItem.querySelector(".task_name").textContent;
     document.getElementById("taskDescriptionInputModal").value = divItem.querySelector(".task_description").textContent;
     document.getElementById("timeWastedModal").value = divItem.querySelector(".time_wasted").textContent;
+    document.getElementById("deleteTaskButton").onclick = function () {
+        deleteTaskButtonClick(task_id); // LEARN
+    }
+}
 
+async function deleteTaskButtonClick(task_id) {
+    console.log(`PERFORM THE DELETE FOR ${task_id}`)
 
+    try {
+        delete_response = await fetch("/deleteTask", {
+            method: "POST",
+            body: JSON.stringify({
+                "task_id": task_id,
+            }),
+            headers: {
+                "Content-type": "application/json",
+            },
+        })
 
-    // openButton.addEventListener("click", () => {
-    //     modal.showModal()
-    // })
+        if (!delete_response.ok) {
+            throw new Error(`Response status: ${delete_response.status}`)
+        }
+
+        const result = await delete_response.json();
+
+        console.log(result)
+    } catch (error) {
+        console.error(error.message);
+    }
 }

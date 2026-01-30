@@ -1,7 +1,7 @@
 import passport from 'passport';
 
 import { Strategy as GoogleStrategy } from "passport-google-oauth2";
-import { getUser, postUser } from '../Config/database.js';
+import { getUser, getUserByGoogleId, postUser } from '../Config/database.js';
 
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
@@ -17,11 +17,13 @@ passport.use(new GoogleStrategy({
     console.log("================ THE PROFILE ==================")
     console.log(profile)
 
-    var user = await getUser(profile["displayName"], profile["email"]);
+    //var user = await getUser(profile["displayName"], profile["email"]);
+
+    var user = await getUserByGoogleId(profile["id"]);
 
     if (user.length === 0) {
-        const query_response = await postUser(profile["displayName"], profile["email"]);
-        user = await getUser(profile["displayName"], profile["email"]);
+        const query_response = await postUser(profile["displayName"], profile["email"], profile["id"]);
+        user = await getUser(profile["displayName"], profile["email"], profile["id"]);
     }
 
     user[0].profile_picture = profile["picture"]
