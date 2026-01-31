@@ -50,3 +50,11 @@ function stopTimer(){
     document.getElementById("taskStartTimeInput").value = toDateTimeLocal(startTime)
     document.getElementById("taskStopTimeInput").value = toDateTimeLocal(later)
 }
+
+
+document.addEventListener('keydown', (event) => {
+    if (event.ctrlKey && event.altKey && event.key === '/') {
+        console.log("Ctrl + Alt + / pressed. Timer STARTED")
+        startTimer()
+    }
+})
