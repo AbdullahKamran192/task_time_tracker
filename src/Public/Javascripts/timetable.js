@@ -11,8 +11,12 @@ function formatTime(hour){
 
 // exmaple take time 1:13 and convert it to 01:13
 function formatTimeTo24Hours(time) {
-    const hours = time.substring(0,1).padStart(2, "0")
-    const minutes = time.substring(2,4).padStart(2, "")
+
+    const hours = time.substring(0, time.indexOf(":"))
+    const minutes = time.substring(time.indexOf(":") + 1, time.length)
+
+    // const hours = time.substring(0,1).padStart(2, "0")
+    // const minutes = time.substring(2,4).padStart(2, "")
     return `${hours}:${minutes}`
 }
 
