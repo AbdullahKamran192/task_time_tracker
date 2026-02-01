@@ -2,57 +2,100 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home page</title>
-    <link rel="stylesheet" href="/Stylesheets/home.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Home page</title>
+  <link rel="stylesheet" href="/Stylesheets/home.css" />
 </head>
 
 <body>
-    <%- include('common/header') %>
+  <%- include('common/header') %>
 
-        <h1>Home page</h1>
+  <main class="page">
+    <header class="pageHeader">
+      <h1 class="title">Home</h1>
+      <p class="subtitle">Track time, log tasks, and keep an eye on wasted time.</p>
+    </header>
 
-        <button id="startTimerButton" onclick="startTimer()">Start timer</button>
+    <!-- Timer + stats -->
+    <section class="card">
+      <div class="cardHeader">
+        <h2 class="cardTitle">Timer</h2>
+        <span class="badge" id="timerStatusBadge">Ready</span>
+      </div>
 
-        <button id="stopTimerButton" onclick="stopTimer()">Stop timer</button>
+      <div class="actions">
+        <button class="btn btnPrimary" id="startTimerButton" onclick="startTimer()">Start timer</button>
+        <button class="btn btnDanger" id="stopTimerButton" onclick="stopTimer()">Stop timer</button>
+        <button class="btn btnGhost" id="wasteTimerOnButton" onclick="togglePauseWasteTime()"></button>
 
-        <button id="wasteTimerOnButton" onclick="togglePauseWasteTime()"></button>
+        <button class="btn btnSecondary" id="wasteTimeIncrementButton" onclick="incrementTimeWasted()"
+          style="visibility: hidden;">
+          Wasted time +1 min
+        </button>
+      </div>
 
-        <p id="showTimeElapsed"></p>
-
-        <p id="showTimeWasted"></p>
-
-        <button id="wasteTimeIncrementButton" onclick="incrementTimeWasted()" style="visibility: hidden;">wasted time +1
-            min</button>
-
-        <div class="container">
-            <form class="box" id="saveTaskForm" action="/saveTask" method="post">
-                <h2>Save Task</h2>
-                <p id="timeStartP"></p>
-                <br>
-                <p id="timeStopP"></p>
-                <label for="taskStartTimeInput">Task Start Time</label> <br>
-                <input id="taskStartTimeInput" type="datetime-local" name="taskStartTime"> <br>
-                <br>
-                <label for="taskStopTimeInput">Task Stop Time</label> <br>
-                <input id="taskStopTimeInput" type="datetime-local" name="taskStopTime"> <br>
-                <br>
-                <label for="taskDescriptionInput">Task Name</label>
-                <input id="taskDescriptionInput" placeholder="task name" type="text" name="taskName">
-                <br>
-                <label for="taskDescriptionInput">Task Description</label>
-                <input id="taskDescriptionInput" placeholder="task description" type="text" name="taskDescription">
-                <br>
-                <label for="timeWastedInput">Time Wasted (minutes)</label>
-                <input id="timeWastedInput" placeholder="time wasted" type="text" name="timeWasted">
-                <br>
-                <button class="submitButton" type="submit">Save</button>
-            </form>
+      <div class="stats">
+        <div class="stat">
+          <p class="statLabel">Time elapsed</p>
+          <p class="statValue" id="showTimeElapsed">—</p>
         </div>
-        
 
-        <script src="/Javascripts/tasks.js"></script>
+        <div class="stat">
+          <p class="statLabel">Time wasted</p>
+          <p class="statValue" id="showTimeWasted">—</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- Save task form -->
+    <section class="card">
+      <div class="cardHeader">
+        <h2 class="cardTitle">Save Task</h2>
+        <p class="cardHint">Fill in the details and save it when you’re done.</p>
+      </div>
+
+      <form class="form" id="saveTaskForm" action="/saveTask" method="post">
+        <div class="helperRow">
+          <p class="helperText" id="timeStartP"></p>
+          <p class="helperText" id="timeStopP"></p>
+        </div>
+
+        <div class="grid">
+          <div class="field">
+            <label for="taskStartTimeInput">Task Start Time</label>
+            <input id="taskStartTimeInput" type="datetime-local" name="taskStartTime" />
+          </div>
+
+          <div class="field">
+            <label for="taskStopTimeInput">Task Stop Time</label>
+            <input id="taskStopTimeInput" type="datetime-local" name="taskStopTime" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="taskDescriptionInput">Task Name</label>
+          <input id="taskDescriptionInput" placeholder="task name" type="text" name="taskName" />
+        </div>
+
+        <div class="field">
+          <label for="taskDescriptionInput">Task Description</label>
+          <input id="taskDescriptionInput" placeholder="task description" type="text" name="taskDescription" />
+        </div>
+
+        <div class="field">
+          <label for="timeWastedInput">Time Wasted (minutes)</label>
+          <input id="timeWastedInput" placeholder="time wasted" type="text" name="timeWasted" />
+        </div>
+
+        <div class="formFooter">
+          <button class="btn btnPrimary submitButton" type="submit">Save</button>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <script src="/Javascripts/tasks.js"></script>
 </body>
 
 </html>
