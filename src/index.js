@@ -15,6 +15,7 @@ app.use(session({ secret: process.env.SESSION_SECRET }));
 app.use(passport.initialize());
 app.use(passport.session())
 
+app.use(express.json())
 app.use(express.urlencoded({ extended: true }));
 
 app.set('view engine', 'ejs');
@@ -24,10 +25,11 @@ app.use(express.static('./src/Public'))
 
 app.use(tasksRouter)
 
-app.get("/", (req, res) => {
-    console.log("========================== LOADED HOME PAGE ==========================");
-    console.log(req)
-    res.render('home')
+app.get("/", isLoggedIn, (req, res) => {
+    res.render('home', {
+        "username": req.user.username,
+        "userProfilePicture": req.user.profile_picture
+    })
 })
 
 app.get("/auth/google", 
@@ -36,7 +38,7 @@ app.get("/auth/google",
 
 app.get('/google/callback',
     passport.authenticate('google', {
-        successRedirect: '/protected',
+        successRedirect: '/tasks',
         failureRedirect: '/auth/failure',
     })
 )

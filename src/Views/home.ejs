@@ -1,45 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Home page</title>
-
-    <link rel="stylesheet" href="/Stylesheets/tasks.css">
+    <link rel="stylesheet" href="/Stylesheets/home.css">
 </head>
+
 <body>
-    <ul>
-    <li><a href="/">Home</a></li>
-    <li><a href="/tasks">Tasks</a></li>
-    <li><a href="/logout">Logout</a></li>
-    </ul>
+    <%- include('common/header') %>
 
-    <h1>Home page</h1>
-    <a href="/auth/google">Authenticate with Google</a>
+        <h1>Home page</h1>
 
-    <button id="startTimerButton" onclick="startTimer()">Start timer</button>
+        <button id="startTimerButton" onclick="startTimer()">Start timer</button>
 
-    <button id="stopTimerButton" onclick="stopTimer()">Stop timer</button>
+        <button id="stopTimerButton" onclick="stopTimer()">Stop timer</button>
 
-    <p id="showTime"></p>
+        <p id="showTimeElapsed"></p>
 
-    <form id="saveTaskForm" action="/saveTask" method="post">
-        <p id="timeStartP"></p>
-        <br>
-        <p id="timeStopP"></p>
+        <p id="showTimeWasted"></p>
 
-        <input id="taskStartTimeInput" type="datetime-local" name="taskStartTime">
+        <button id="wasteTimeIncrementButton" onclick="incrementTimeWasted()" style="visibility: hidden;">wasted time +1
+            min</button>
 
-        <input id="taskStopTimeInput" type="datetime-local" name="taskStopTime">
+        <div class="container">
+            <form class="box" id="saveTaskForm" action="/saveTask" method="post">
+                <h2>Save Task</h2>
+                <p id="timeStartP"></p>
+                <br>
+                <p id="timeStopP"></p>
+                <label for="taskStartTimeInput">Task Start Time</label> <br>
+                <input id="taskStartTimeInput" type="datetime-local" name="taskStartTime"> <br>
+                <br>
+                <label for="taskStopTimeInput">Task Stop Time</label> <br>
+                <input id="taskStopTimeInput" type="datetime-local" name="taskStopTime"> <br>
+                <br>
+                <label for="taskDescriptionInput">Task Name</label>
+                <input id="taskDescriptionInput" placeholder="task name" type="text" name="taskName">
+                <br>
+                <label for="taskDescriptionInput">Task Description</label>
+                <input id="taskDescriptionInput" placeholder="task description" type="text" name="taskDescription">
+                <br>
+                <label for="timeWastedInput">Time Wasted (minutes)</label>
+                <input id="timeWastedInput" placeholder="time wasted" type="text" name="timeWasted">
+                <br>
+                <button class="submitButton" type="submit">Save</button>
+            </form>
+        </div>
+        
 
-        <input id="taskNameInput" placeholder="task name" type="text" name="taskName">
-        <br>
-        <input id="taskDescriptionInput" placeholder="task description" type="text" name="taskDescription">
-        <br>
-
-        <button type="submit">Save</button>
-    </form>
-
-    <script src="/Javascripts/tasks.js"></script>
+        <script src="/Javascripts/tasks.js"></script>
 </body>
+
 </html>

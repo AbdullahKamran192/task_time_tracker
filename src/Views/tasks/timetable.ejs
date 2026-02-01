@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Day View</title>
+  <link rel="stylesheet" href="/Stylesheets/timetable.css">
+</head>
+
+<body>
+  <%- include('../common/header') %>
+
+  <header class="toolbar">
+    <div class="left">
+      <button class="btn" id="todayBtn">Today</button>
+      <button class="btn iconbtn" id="prevBtn" aria-label="Previous">&lt;</button>
+      <button class="btn iconbtn" id="nextBtn" aria-label="Next">&gt;</button>
+      <div class="title" id="monthTitle"><%= date %></div>
+    </div>
+
+    <div class="right">
+      <select id="viewSelect">
+        <option>Day</option>
+        <option>Week</option>
+        <option>Month</option>
+      </select>
+    </div>
+  </header>
+
+  <main class="calendar">
+    <div class="dayHeader" id="dayHeaderText"><%= date %></div>
+
+    <div class="gridWrap">
+      <div class="grid">
+        <div class="timeCol" id="timeCol"></div>
+        <div class="dayCol" id="dayCol">
+            <% tasks.forEach(task => { %>
+            <div data-open-modal id="<%= task['task'].task_id %>" onclick="divById('<%= task.task.task_id %>')" class="event" style=" background-color: <%= task.task.task_colour %> ; top: calc((72px * <%= task.start_hour %>) + (72px * (<%= task.start_minute %> / 60))); height: calc(((((<%= task.stop_hour %> * 60) + <%= task.stop_minute %>) - ((<%= task.start_hour %> * 60) + <%= task.start_minute %>)) * (72px / 60))); width: 100%;">
+                <strong class="task_name" style="display: contents; color: white;"><%= task["task"].task_name %></strong>
+                <p class="task_description" style="color: white;"><%= task["task"].task_description %></p>
+                <p class="start_hour_minute" style="color: black;"><%= task["start_hour"] %>:<%= task["start_minute"] %></p>
+                <p class="stop_hour_minute" style="color: black;"><%= task["stop_hour"] %>:<%= task["stop_minute"] %></p>
+                <p class="time_wasted" style="color: black;"><%= task["time_wasted"] %></p>
+            </div>
+            <% }) %>
+        </div>
+      </div>
+    </div>
+
+    <dialog data-modal>
+      <button class="closeButton" data-close-modal>X</button>
+      <form class="box" action="/updateTask" method="post">
+        <h4>Edit the task</h4>
+        <label>task id (readonly)</label>
+        <input id="taskIdModel" type="text" name="task_id" readonly>
+        <br>
+        <label for="taskStartTimeInputModal">Task Start Time</label> <br>
+        <input id="taskStartTimeInputModal" type="datetime-local" name="taskStartTime"> <br>
+        <br>
+        <label for="taskStopTimeInputModal">Task Stop Time</label> <br>
+        <input id="taskStopTimeInputModal" type="datetime-local" name="taskStopTime"> <br>
+        <br>
+        <label>Task Name</label>
+        <input id="taskNameInputModal" placeholder="task name" type="text" name="taskName">
+        <br>
+        <label>Task Description</label>
+        <textarea id="taskDescriptionInputModal" placeholder="task description" name="taskDescription"></textarea>
+        <label>Minutes Wasted</label>
+        <input id="timeWastedModal" type="text" name="timeWasted">
+        <br>
+
+        <label>Task Colour</label>
+        <div class="color-picker">
+          <label>
+            <input type="radio" name="color" value="blue" checked>
+            <span class="color blue"></span>
+          </label>
+
+          <label>
+            <input type="radio" name="color" value="orange">
+            <span class="color orange"></span>
+          </label>
+
+          <label>
+            <input type="radio" name="color" value="green">
+            <span class="color green"></span>
+          </label>
+
+          <label>
+            <input type="radio" name="color" value="purple">
+            <span class="color purple"></span>
+          </label>
+
+          <label>
+            <input type="radio" name="color" value="red">
+            <span class="color red"></span>
+          </label>
+        </div>
+
+        <button class="submitButton" type="submit">Save</button>
+      </form>
+      <button id="deleteTaskButton" onclick="deleteTaskButtonClick()">Delete Task</button>
+    </dialog>
+
+
+  </main>
+
+  <script src="/Javascripts/timetable.js"></script>
+</body>
+</html>

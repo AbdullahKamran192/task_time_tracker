@@ -1,3 +1,3 @@
 export function isLoggedIn(req, res, next) {
-    req.user ? next() : res.sendStatus(401);
+    req.isAuthenticated() ? next() : res.render("login")
 }

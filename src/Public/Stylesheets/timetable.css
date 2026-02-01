@@ -1,0 +1,206 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+/* Top bar */
+.toolbar {
+  height: 56px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+}
+
+.left, .right {
+  display: flex;
+  gap: 10px;
+}
+
+button, select {
+  height: 32px;
+}
+
+/* Page layout */
+.calendar {
+  height: calc(100vh - 56px);
+  display: flex;
+  flex-direction: column;
+}
+
+.dayHeader {
+  height: 40px;
+  border-bottom: 1px solid #ccc;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Grid */
+.gridWrap {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 80px 1fr;
+}
+
+/* Time column */
+.timeCol {
+  border-right: 1px solid #ccc;
+}
+
+.timeRow {
+  height: 72px;
+  border-bottom: 1px solid #eee;
+  position: relative;
+}
+
+.timeLabel {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  font-size: 12px;
+}
+
+/* Day column */
+.dayCol {
+  position: relative;
+}
+
+.hourLine {
+  height: 72px;
+  border-bottom: 1px solid #eee;
+}
+
+.p {
+    display: contents;
+}
+
+/* Event */
+.event {
+  overflow: hidden;
+  position: absolute;
+  left: 10px;
+  right: 10px;
+  background: #ddd;
+  border: 1px solid #333;
+  padding: 6px;
+  font-size: 13px;
+}
+
+/* Dialog box */
+
+.box {
+  border-radius: 5px;
+  background-color: #f2f2f2;
+  width: 400px;
+  padding: 20px;
+  border: 1px solid black;
+}
+
+input[type=text], select {
+  width: 100%;
+  height: fit-content;
+  padding: 12px;
+  margin: 8px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+#taskDescriptionInputModal {
+  width: 100%;
+  min-height: 100px;
+  padding: 12px;
+  margin: 8px 0;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  resize: vertical;
+}
+
+input[type="datetime-local"] {
+    background-color: rgb(34, 80, 179);
+    padding: 5px;
+    color: white;
+    font-size: large;
+}
+
+input[type="datetime-local"]::-webkit-calendar-picker-indicator {
+    filter: invert(1);
+    cursor: pointer;
+}
+
+label {
+    display: block;
+    font-size: large;
+}
+
+.submitButton {
+    background-color: green;
+    color: white;
+    font-size: large;
+    width: 100px;
+}
+
+.closeButton {
+    position: relative;
+    right: 10px;
+    cursor: pointer;
+    width: 40px;
+    background-color: rgb(255, 0, 0);
+    color: rgb(255, 255, 255);
+    font-size: large;
+    font-weight: bold;
+}
+
+/* Task colour selector */
+
+.color-picker {
+  display: flex;
+  gap: 10px;
+}
+
+.color-picker label {
+  cursor: pointer;
+}
+
+.color-picker input {
+  display: none;
+}
+
+/* circle */
+.color {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: inline-block;
+  border: 2px solid transparent;
+}
+
+/* selected ring */
+input:checked + .color {
+  border-color: #4a90e2;
+}
+
+/* colors */
+.blue   { background: #2f6df6; }
+.orange { background: #ff7a00; }
+.green  { background: #22c55e; }
+.purple { background: #8b5cf6; }
+.red    { background: #ef4444; }
+
+#deleteTaskButton {
+  background-color: red;
+  color: white;
+  font-size: large;
+}
