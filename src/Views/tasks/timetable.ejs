@@ -38,9 +38,9 @@
             <div data-open-modal id="<%= task['task'].task_id %>" onclick="divById('<%= task.task.task_id %>')" class="event" style=" background-color: <%= task.task.task_colour %> ; top: calc((72px * <%= task.start_hour %>) + (72px * (<%= task.start_minute %> / 60))); height: calc(((((<%= task.stop_hour %> * 60) + <%= task.stop_minute %>) - ((<%= task.start_hour %> * 60) + <%= task.start_minute %>)) * (72px / 60))); width: 100%;">
                 <strong class="task_name" style="display: contents; color: white;"><%= task["task"].task_name %></strong>
                 <p class="task_description" style="color: white;"><%= task["task"].task_description %></p>
-                <p class="start_hour_minute" style="color: black;"><%= task["start_hour"] %>:<%= task["start_minute"] %></p>
-                <p class="stop_hour_minute" style="color: black;"><%= task["stop_hour"] %>:<%= task["stop_minute"] %></p>
-                <p class="time_wasted" style="color: black;"><%= task["time_wasted"] %></p>
+                <p class="start_hour_minute" style="color: white;"><%= task["start_hour"] %>:<%= task["start_minute"] %></p>
+                <p class="stop_hour_minute" style="color: white;"><%= task["stop_hour"] %>:<%= task["stop_minute"] %></p>
+                <p class="time_wasted" style="color: white;"><%= task["time_wasted"] %></p>
             </div>
             <% }) %>
         </div>
