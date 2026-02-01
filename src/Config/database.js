@@ -32,7 +32,7 @@ export async function postTask(task_name, task_description, user_id) {
 }
 
 export async function updateTask(task_id, task_name, task_description, user_id, task_colour) {
-    const [query_response] = await pool.query("UPDATE tasks SET task_name = ?, task_description = ?, task_colour = ? WHERE task_id = ? AND user_id = ?", [task_name, task_description, task_colour, task_id, user_id])
+    const [query_response] = await pool.query("UPDATE tasks SET task_name = ?, task_description = ?, task_colour = COALESCE(?, task_colour) WHERE task_id = ? AND user_id = ?", [task_name, task_description, task_colour, task_id, user_id])
     return query_response
 }
 

@@ -1,62 +1,275 @@
-#saveTaskForm {
-    visibility: hidden;
+/* ----- Base ----- */
+:root {
+  --bg: #0b1220;
+  --card: #111a2e;
+  --text: #e7ecff;
+  --muted: #a9b4d0;
+  --border: rgba(255, 255, 255, 0.08);
+
+  --primary: #4f7cff;
+  --primaryHover: #3b68f0;
+
+  --danger: #ff5c6a;
+  --dangerHover: #e64a57;
+
+  --secondary: #2a3656;
+  --secondaryHover: #34446d;
+
+  --focus: rgba(79, 124, 255, 0.35);
 }
 
-body {
-    margin: 0;
-}
-
-dialog {
-    padding: 20px;
-    border: 2px solid #ccc;
-    border-radius: 10px;
-}
-
-.container {
-    height: 80vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-.box {
-  border-radius: 5px;
-  background-color: #f2f2f2;
-  width: 400px;
-  padding: 20px;
-  border: 1px solid black;
-}
-
-label {
-    display: block;
-    font-size: large;
-}
-
-input[type=text], select {
-  width: 100%;
-  padding: 12px;
-  margin: 8px 0;
-  display: inline-block;
-  border: 1px solid #ccc;
-  border-radius: 4px;
+* {
   box-sizing: border-box;
 }
 
+body {
+  margin: 0;
+  background: radial-gradient(1200px 600px at 20% 0%, rgba(79, 124, 255, 0.18), transparent 55%),
+              radial-gradient(900px 500px at 90% 10%, rgba(255, 92, 106, 0.12), transparent 60%),
+              var(--bg);
+  color: var(--text);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+}
+
+/* ----- Page layout ----- */
+.page {
+  width: min(980px, 92vw);
+  margin: 24px auto 60px auto;
+  display: grid;
+  gap: 18px;
+}
+
+.pageHeader {
+  padding: 8px 4px;
+}
+
+.title {
+  margin: 0;
+  font-size: 28px;
+  letter-spacing: 0.2px;
+}
+
+.subtitle {
+  margin: 8px 0 0 0;
+  color: var(--muted);
+  line-height: 1.4;
+}
+
+/* ----- Card ----- */
+.card {
+  background: rgba(17, 26, 46, 0.78);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
+  backdrop-filter: blur(8px);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 18px;
+}
+
+.cardHint {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+}
+
+/* ----- Badge ----- */
+.badge {
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+  color: var(--muted);
+  font-size: 12px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+/* ----- Buttons ----- */
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 16px;
+}
+
+.btn {
+  border: 1px solid var(--border);
+  background: rgba(0, 0, 0, 0.15);
+  color: var(--text);
+  padding: 10px 14px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: transform 0.06s ease, background 0.15s ease, border 0.15s ease;
+}
+
+.btn:active {
+  transform: translateY(1px);
+}
+
+.btnPrimary {
+  background: var(--primary);
+  border-color: rgba(79, 124, 255, 0.35);
+}
+
+.btnPrimary:hover {
+  background: var(--primaryHover);
+}
+
+.btnDanger {
+  background: rgba(255, 92, 106, 0.12);
+  border-color: rgba(255, 92, 106, 0.35);
+  color: #ffd6da;
+}
+
+.btnDanger:hover {
+  background: rgba(255, 92, 106, 0.18);
+}
+
+.btnSecondary {
+  background: var(--secondary);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.btnSecondary:hover {
+  background: var(--secondaryHover);
+}
+
+.btnGhost {
+  background: transparent;
+  border-color: rgba(255, 255, 255, 0.16);
+  color: var(--muted);
+}
+
+.btnGhost:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: var(--text);
+}
+
+/* keep your submitButton class working */
+.submitButton {
+  width: 120px;
+}
+
+/* ----- Stats ----- */
+.stats {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.stat {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 12px;
+  background: rgba(0, 0, 0, 0.18);
+}
+
+.statLabel {
+  margin: 0 0 6px 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.statValue {
+  margin: 0;
+  font-size: 18px;
+  font-weight: 700;
+}
+
+/* ----- Form ----- */
+#saveTaskForm {
+  /* keep your original behavior: hidden by default */
+  visibility: hidden;
+}
+
+.form {
+  display: grid;
+  gap: 12px;
+  margin-top: 10px;
+}
+
+.helperRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.helperText {
+  margin: 0;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.field label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 14px;
+  color: var(--muted);
+}
+
+input[type="text"],
 input[type="datetime-local"] {
-    background-color: rgb(34, 80, 179);
-    padding: 5px;
-    color: white;
-    font-size: large;
+  width: 100%;
+  padding: 12px;
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(0, 0, 0, 0.18);
+  color: var(--text);
+  outline: none;
 }
 
 input[type="datetime-local"]::-webkit-calendar-picker-indicator {
-    filter: invert(1);
-    cursor: pointer;
+  filter: invert(1);
+  cursor: pointer;
 }
 
-.submitButton {
-    background-color: green;
-    color: white;
-    font-size: large;
-    width: 100px;
+input:focus {
+  border-color: rgba(79, 124, 255, 0.6);
+  box-shadow: 0 0 0 4px var(--focus);
+}
+
+.formFooter {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 6px;
+}
+
+/* ----- Responsive ----- */
+@media (max-width: 720px) {
+  .stats {
+    grid-template-columns: 1fr;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .btn {
+    width: 100%;
+  }
+
+  .formFooter {
+    justify-content: stretch;
+  }
+
+  .submitButton {
+    width: 100%;
+  }
 }

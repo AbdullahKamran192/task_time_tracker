@@ -1,8 +1,10 @@
 var startTime;
+var timerStarted = false;
 var timeWastedSeconds;
 var timerInterval;
 var wasteTimerOn = false;
 var wasteTimerInterval;
+var wasteTimerStart;
 
 function toDateTimeLocal(date) {
     const pad = n => String(n).padStart(2, "0");
@@ -11,25 +13,29 @@ function toDateTimeLocal(date) {
 }
 
 async function startTimer() {
-    document.removeEventListener('keydown', handleKeyDownStart);
-    document.addEventListener('keydown', handleKeyDownPause);
-    document.addEventListener('keydown', handleKeyDownStop);
-    document.getElementById("saveTaskForm").style.visibility = "hidden";
-    startTime = new Date()
-    startTime.getMonth()
-    document.getElementById("startTimerButton").style.color = "red";
-    document.getElementById("wasteTimeIncrementButton").style.visibility = "visible";
-    timeWastedSeconds = 0
-    timerInterval = setInterval(() => {
-        const now = new Date();
-        const elapsed = now - startTime; // in milliseconds
+    if (timerStarted == false) {
+        timerStarted = true;
+        document.removeEventListener('keydown', handleKeyDownStart);
+        document.addEventListener('keydown', handleKeyDownPause);
+        document.addEventListener('keydown', handleKeyDownStop);
+        document.getElementById("saveTaskForm").style.visibility = "hidden";
+        startTime = new Date()
+        startTime.getMonth()
+        document.getElementById("wasteTimerOnButton").innerHTML = "turn waste timer on"
+        document.getElementById("startTimerButton").style.color = "red";
+        document.getElementById("wasteTimeIncrementButton").style.visibility = "visible";
+        timeWastedSeconds = 0
+        document.getElementById("showTimeWasted").innerHTML = `time wasted: 00:00:00`
+        timerInterval = setInterval(() => {
+            const now = new Date();
+            const elapsed = now - startTime; // in milliseconds
 
-        const hours = Math.floor(elapsed / (3600000))
-        const minutes = Math.floor((elapsed % (3600000)) / (60000))
-        const seconds = Math.floor(((elapsed % (3600000)) % (60000)) / 1000)
-        document.getElementById("showTimeElapsed").innerHTML = `stopwatch: ${String(hours).padStart(2,"0")}:${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
-        document.getElementById("showTimeWasted").innerHTML = timeWastedSeconds < 60 ? `time wasted: ${timeWastedSeconds} seconds` : `time wasted: ${Math.floor(timeWastedSeconds / 60)} minutes`
-    }, 1000);
+            const hours = Math.floor(elapsed / (3600000))
+            const minutes = Math.floor((elapsed % (3600000)) / (60000))
+            const seconds = Math.floor(((elapsed % (3600000)) % (60000)) / 1000)
+            document.getElementById("showTimeElapsed").innerHTML = `stopwatch: ${String(hours).padStart(2,"0")}:${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`;
+        }, 1000);
+    }
 }
 
 function incrementTimeWasted() {
@@ -38,12 +44,23 @@ function incrementTimeWasted() {
 }
 
 function stopTimer(){
+    timerStarted = false;
     document.removeEventListener('keydown', handleKeyDownStop);
     document.removeEventListener('keydown', handleKeyDownPause)
     document.addEventListener('keydown', handleKeyDownStart);
+    clearInterval(wasteTimerInterval)
     clearInterval(timerInterval)
     const later = new Date()
     const timeSpent = (later - startTime)
+
+    // if the waste timer was on and the user stopped the task timer.
+    if (wasteTimerOn == true) {
+        clearInterval(wasteTimerInterval)
+        const wasteTimeElapsed = (new Date()) - wasteTimerStart; // in milliseconds
+        console.log(`WASTE TIME ${wasteTimeElapsed}`)
+        timeWastedSeconds = timeWastedSeconds + Math.floor(wasteTimeElapsed / 1000)
+        wasteTimerOn = false
+    }
 
     document.getElementById("wasteTimeIncrementButton").style.visibility = "hidden";
 
@@ -78,18 +95,36 @@ function handleKeyDownStop(event) {
     }
 }
 
+function togglePauseWasteTime() {
+    document.getElementById("wasteTimerOnButton").innerHTML = "turn waste timer off"
+    if (wasteTimerOn == false) {
+        wasteTimerStart = new Date()
+        wasteTimerInterval = setInterval(() => {
+            const wasteTimeNow = new Date()
+            const wasteTimeElapsed = (wasteTimeNow - wasteTimerStart) + Math.floor((timeWastedSeconds * 1000)) // in milliseconds
+
+            const wasteTimehours = Math.floor(wasteTimeElapsed / (3600000))
+            const wasteTimeminutes = Math.floor((wasteTimeElapsed % (3600000)) / (60000))
+            const wasteTimeseconds = Math.floor(((wasteTimeElapsed % (3600000)) % (60000)) / 1000)
+
+            document.getElementById("showTimeWasted").innerHTML = `time wasted: ${String(wasteTimehours).padStart(2, "0")}:${String(wasteTimeminutes).padStart(2, "0")}:${String(wasteTimeseconds).padStart(2, "0")}`
+
+            // timeWastedSeconds = timeWastedSeconds + Math.round(wasteTimeElapsed / 60)
+        }, 1000)
+        wasteTimerOn = true
+    } else {
+        document.getElementById("wasteTimerOnButton").innerHTML = "turn waste timer on"
+        clearInterval(wasteTimerInterval)
+        const wasteTimeElapsed = (new Date()) - wasteTimerStart; // in milliseconds
+        console.log(`WASTE TIME ${wasteTimeElapsed}`)
+        timeWastedSeconds = timeWastedSeconds + Math.floor(wasteTimeElapsed / 1000)
+        wasteTimerOn = false
+    }
+}
+
 function handleKeyDownPause(event) {
     if (event.ctrlKey && event.altKey && event.key === 'k'){
-        console.log("Ctrl + Alt + k pressed. Timer PAUSED")
-        if (wasteTimerOn == false) {
-            wasteTimerInterval = setInterval(() => {
-                timeWastedSeconds = timeWastedSeconds + 1
-            }, 1000)
-            wasteTimerOn = true
-        } else {
-            clearInterval(wasteTimerInterval)
-            wasteTimerOn = false
-        }
+        togglePauseWasteTime()
     }
 }
 

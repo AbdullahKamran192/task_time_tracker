@@ -4,14 +4,22 @@ import path from "path"
 import { tasksRouter } from "./Routes/tasks.js"
 import "./Helpers/auth.js"
 import passport from "passport"
-import session from "express-session"
+import session, { MemoryStore } from "express-session"
 import { isLoggedIn } from "./Middlewares/user.js"
 dotenv.config()
 
 const app = express()
 const PORT = 8080
 
-app.use(session({ secret: process.env.SESSION_SECRET }));
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    cookie: {
+        httpOnly: true,
+        secure: false,
+    }
+}));
 app.use(passport.initialize());
 app.use(passport.session())
 
