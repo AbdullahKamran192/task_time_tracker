@@ -17,7 +17,7 @@ function formatTimeTo24Hours(time) {
 
     // const hours = time.substring(0,1).padStart(2, "0")
     // const minutes = time.substring(2,4).padStart(2, "")
-    return `${hours}:${minutes}`
+    return `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`
 }
 
 for (let h = 0; h < 24; h++){
