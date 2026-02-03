@@ -6,7 +6,7 @@ import { getUser, getUserByGoogleId, postUser } from '../Config/database.js';
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "http://localhost:8080/google/callback",
+    callbackURL: "http://www.tasks-tracker.com:8080/google/callback",
     passReqToCallback: true
   },
   async function(request, accessToken, refreshToken, profile, done) {
@@ -16,8 +16,6 @@ passport.use(new GoogleStrategy({
 
     console.log("================ THE PROFILE ==================")
     console.log(profile)
-
-    //var user = await getUser(profile["displayName"], profile["email"]);
 
     var user = await getUserByGoogleId(profile["id"]);
 
