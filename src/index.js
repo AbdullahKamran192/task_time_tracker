@@ -1,12 +1,12 @@
 import express from "express"
-import dotenv  from "dotenv"
+import "dotenv/config"
 import path from "path"
 import { tasksRouter } from "./Routes/tasks.js"
 import "./Helpers/auth.js"
 import passport from "passport"
 import session, { MemoryStore } from "express-session"
 import { isLoggedIn } from "./Middlewares/user.js"
-dotenv.config()
+
 
 const app = express()
 const PORT = 8080

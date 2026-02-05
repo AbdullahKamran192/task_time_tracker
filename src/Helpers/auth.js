@@ -6,7 +6,7 @@ import { getUser, getUserByGoogleId, postUser } from '../Config/database.js';
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "http://www.tasks-tracker.com:8080/google/callback",
+    callbackURL: "http://www.tasks-tracker.com/google/callback",
     passReqToCallback: true
   },
   async function(request, accessToken, refreshToken, profile, done) {

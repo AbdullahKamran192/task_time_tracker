@@ -4,8 +4,17 @@ import { isLoggedIn } from "../Middlewares/user.js";
 
 export const tasksRouter = Router()
 
+const dateKey = (d) => {
+  const yyyy = d.getFullYear();
+  const mm = String(d.getMonth() + 1).padStart(2, "0");
+  const dd = String(d.getDate()).padStart(2, "0");
+  return `${dd}/${mm}/${yyyy}`;
+};
+
 tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
-    const date = req.query.date;
+    const date = req.query.date
+    console.log("################# DATE #################");
+    console.log(date)
     const query_tasks = await getTasksByUserId(req.user.user_id);
     const tasks = [];
 
@@ -22,8 +31,14 @@ tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
         const time_wasted = time_session["time_wasted"]
 
         const start_time_date = `${start_time.getDate()}-${start_time.getMonth()}-${start_time.getFullYear()}`
-        
-        if (time_session && start_time.toLocaleDateString() == date) {
+
+	console.log("@@@@@@@@@@@@@@@@ START TIME @@@@@@@@@@@@")
+	console.log(start_time.toLocaleDateString())
+
+	console.log("]]]]]]]]]]]]]]]]]]]]]] START TIME DATE [[[[[[[[[[[[[[[")
+        console.log(start_time_date)
+
+        if (time_session && dateKey(start_time) == date) {
             tasks.push({"task" : task,
                 "time_session" : time_session,
                 "time_wasted" : time_wasted,
