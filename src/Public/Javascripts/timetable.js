@@ -30,9 +30,14 @@ for (let h = 0; h < 24; h++){
 
     tRow.appendChild(label);
     timeCol.appendChild(tRow);
-
+    
     const line = document.createElement("div");
     line.className = "hourLine";
+
+    if (h == 7) {
+	line.id = "loadTimetablePageTo"
+    }
+
     dayCol.appendChild(line);
 }
 //             0123456789
@@ -54,13 +59,13 @@ let date = params.get("date") ? new Date(formatDate(params.get("date"))) : new D
 document.getElementById("todayBtn").addEventListener("click", () => {
     date = new Date()
     console.log(date)
-    window.location.href = `/tasks?date=${date.toLocaleDateString()}`;
+    window.location.href = `/tasks?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
 });
 document.getElementById("prevBtn").addEventListener("click", () => {
     console.log(date)
     if (date) {
         date.setDate(date.getDate() - 1)
-        window.location.href = `/tasks?date=${date.toLocaleDateString()}`;
+        window.location.href = `/tasks?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
     }
     console.log("prevBtn button clicked")
 });
@@ -68,7 +73,7 @@ document.getElementById("nextBtn").addEventListener("click", () => {
     console.log(date)
     if (date) {
         date.setDate(date.getDate() + 1)
-        window.location.href = `/tasks?date=${date.toLocaleDateString()}`;
+        window.location.href = `/tasks?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
     }
     console.log("nextBtn button clicked")
 });
