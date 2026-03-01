@@ -1,52 +1,109 @@
-.btn-165 {
-    padding: 10px 25px;
-    font-size: 14px;
-    font-weight: 700;
-    text-align: center;
-    vertical-align: middle;
-    border-radius: 0.5rem;
-    border: 1px solid #bebebe;
-    gap: 10px;
-    color: #414141;
-    background: #fff;
-    font-family: Arial, Helvetica, sans-serif;
-    cursor: pointer;
-    text-decoration: none;
-    user-select: none;
-    display: inline-flex;
+body {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif; 
+    background: #f3f4f6;
+
+    height: 100vh;  
+    display: flex; 
     justify-content: center;
     align-items: center;
-    /*** full width block ***/
-    /* width: 100%; */
+}
+
+.login-wrapper {
+    display: flex;
+    gap: 40px;
+
+    width: 900px;
+    max-width: 95%;
+    align-items: center;
+}
+
+.info {
+    flex: 1;
+}
+
+
+.info h1 {
+    margin-top: 0;
+    font-size: 32px;
+    color: #111;
+}
+
+.info p {
+    color: #444;
+    line-height: 1.5;
+} 
+
+.info ul {
+    padding-left: 20px;
+    color: #333;
+    line-height: 1.8;
+}
+
+/* LOGIN CARD */
+.center {
+    width: 320px;
+    padding: 30px 20px;
+
+    background: white;
+    border-radius: 12px;
+
+    box-shadow: 0 6px 20px rgba(0,0,0,0.12);
+    text-align: center; 
+}
+
+.center h2 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+
+/* BUTTON */
+.btn-165 {
+    width: 100%;
+    padding: 10px 20px; 
+    font-size: 14px;
+    font-weight: 700;
+
+    border-radius: 8px;
+    border: 1px solid #bebebe;
+
+    background: #fff;
+    cursor: pointer;
+    display: inline-flex;
+
+    
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
 }
 
 .btn-165 svg {
-    height: 24px;
+    height: 22px;
 }
 
 .btn-165:hover {
-    border: solid 1px #464545;
+    border: 1px solid #464545;
 }
 
 .btn-165:active {
-    margin-top: 1px;
+    transform: translateY(1px);
 }
 
-/*** disabled style ***/
-.btn-165:disabled {
-    pointer-events: none;
-    opacity: .65;
-    color: #7e7e7e;
-    background: #dcdcdc;
-    box-shadow: none;
-    text-shadow: none;
+.small-text {
+    margin-top: 15px;
+    font-size: 13px;
+    color: #666; 
 }
 
-.center {
-  position: relative;
-  margin: auto;
-  width: 300px;
-  max-width: 90%;
-  border: 2px solid rgb(0, 0, 0);
-  padding: 10px;
+@media (max-width: 800px) {
+    .login-wrapper {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .info ul {
+        list-style: none;
+        padding: 0;
+    }
 }
