@@ -1,0 +1,88 @@
+body {
+    font-family: Arial, sans-serif;
+    background: #f5f6fa;
+    margin: 0;
+}
+
+/* center layout */
+#monthsContainer {
+    max-width: 1000px;
+    margin: 120px auto;
+}
+
+/* year display */
+.yearDisplay {
+    position: fixed;
+    top: 80px;
+    right: 40px;
+    font-size: 36px;
+    font-weight: bold;
+}
+
+/* month block */
+.month {
+    margin-bottom: 60px;
+}
+
+.month h2 {
+    margin-bottom: 15px;
+    font-size: 24px;
+}
+
+/* grid */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(7, 90px);
+    gap: 12px;
+}
+
+.day {
+    position: relative;
+    width: 90px;
+    height: 90px;
+    border-radius: 10px;
+    padding: 6px;
+    cursor: pointer;
+    font-weight: bold;
+    color: white;
+}
+
+.day-number {
+    position: absolute;
+    top: 6px;
+    left: 6px;
+    font-size: 12px;
+}
+
+.hours-worked {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.task-name {
+    position: absolute;
+    bottom: 6px;
+    left: 6px;
+    right: 6px;
+    font-size: 10px;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.gray { background: #bdc3c7; }
+.red { background: #e74c3c; }
+.orange { background: #f39c12; }
+.yellow { background: #f1c40f; color: black; }
+.green { background: #2ecc71; }
+.darkgreen { background: #145a32; }
+
+/* hover */
+.day:hover {
+    transform: scale(1.05);
+}

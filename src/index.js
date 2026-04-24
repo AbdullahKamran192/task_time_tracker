@@ -2,6 +2,7 @@ import express from "express"
 import "dotenv/config"
 import path from "path"
 import { tasksRouter } from "./Routes/tasks.js"
+import { monthProgressRouter } from "./Routes/monthProgress.js"
 import "./Helpers/auth.js"
 import passport from "passport"
 import session, { MemoryStore } from "express-session"
@@ -32,6 +33,7 @@ app.set('views', path.resolve("./src/Views"))
 app.use(express.static('./src/Public'))
 
 app.use(tasksRouter)
+app.use(monthProgressRouter)
 
 app.get("/", isLoggedIn, (req, res) => {
     res.render('home', {

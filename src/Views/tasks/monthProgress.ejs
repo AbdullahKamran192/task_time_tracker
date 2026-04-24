@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Month Progress</title>
+    <link rel="stylesheet" href="/Stylesheets/monthProgress.css">
+</head>
+
+<body>
+
+<%- include('../common/header') %>
+
+<div class="yearDisplay" id="yearDisplay">2026</div>
+
+<div id="monthsContainer"></div>
+
+<!-- ✅ SAFE DATA PASSING -->
+<script id="data" type="application/json">
+{
+    "dailyTotals": <%- JSON.stringify(dailyTotals) %>,
+    "dailyFirstTask": <%- JSON.stringify(dailyFirstTask) %>
+}
+</script>
+
+<script src="/Javascripts/monthProgress.js"></script>
+
+</body>
+</html>

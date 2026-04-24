@@ -69,3 +69,22 @@ export async function postUser(displayName, email, google_id) {
     const query_response = await pool.query("INSERT INTO users (username, email, google_id) VALUES (?, ?, ?)", [displayName, email, google_id]);
     return query_response
 }
+
+export const getTasksWithSessions = async (user_id) => {
+    const [rows] = await pool.query(`
+        SELECT 
+            t.task_id,
+            t.task_name,
+            t.task_description,
+            t.task_colour,
+            ts.start_time,
+            ts.stop_time,
+            ts.time_wasted
+        FROM tasks t
+        JOIN time_session ts 
+            ON t.task_id = ts.task_id
+        WHERE t.user_id = ?
+    `, [user_id]);
+
+    return rows;
+};
