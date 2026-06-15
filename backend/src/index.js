@@ -7,10 +7,16 @@ import "./Helpers/auth.js"
 import passport from "passport"
 import session, { MemoryStore } from "express-session"
 import { isLoggedIn } from "./Middlewares/user.js"
+import cors from "cors" 
 
 
 const app = express()
 const PORT = 8080
+
+const corsOptions = {
+    origin: ["http://localhost:5173"]
+}
+app.use(cors(corsOptions))
 
 app.use(session({
     secret: process.env.SESSION_SECRET,
@@ -34,6 +40,12 @@ app.use(express.static('./src/Public'))
 
 app.use(tasksRouter)
 app.use(monthProgressRouter)
+
+app.get("/testroute", (req, res) => {
+    res.json({
+        myData: "Hello there, this is from the backend.",
+    })
+})
 
 app.get("/", isLoggedIn, (req, res) => {
     res.render('home', {
