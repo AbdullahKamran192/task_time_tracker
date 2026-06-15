@@ -48,7 +48,11 @@ app.get("/testroute", (req, res) => {
 })
 
 app.get("/", isLoggedIn, (req, res) => {
-    res.render('home', {
+    // res.render('home', {
+    //     "username": req.user.username,
+    //     "userProfilePicture": req.user.profile_picture
+    // })
+    res.json({
         "username": req.user.username,
         "userProfilePicture": req.user.profile_picture
     })
