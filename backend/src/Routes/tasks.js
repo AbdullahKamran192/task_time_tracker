@@ -21,7 +21,6 @@ const dateKey = (d) => {
 tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
     const date = req.query.date;
 
-    // 🚀 ONE query instead of many
     const rows = await getTasksWithSessions(req.user.user_id);
 
     const tasks = [];
@@ -51,12 +50,19 @@ tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
         }
     }
 
-    res.render("tasks/timetable", {
-        tasks,
-        date,
-        username: req.user.username,
-        userProfilePicture: req.user.profile_picture
-    });
+    // res.render("tasks/timetable", {
+    //     tasks,
+    //     date,
+    //     username: req.user.username,
+    //     userProfilePicture: req.user.profile_picture
+    // });
+
+    res.json({
+        "tasks": tasks,
+        "date": date,
+        "username": req.user.username,
+        "userProfilePicture": req.user.profile_picture
+    })
 });
 
 tasksRouter.post("/saveTask", isLoggedIn, async (req, res) => {

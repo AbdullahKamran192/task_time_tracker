@@ -1,15 +1,18 @@
 import React, { useState } from "react";
 import "./Home.css";
+import { useRef } from "react";
+import { useEffect } from "react";
 
 const Home = () => {
 
-    const [startTime, setStartTime] = useState();
-    const [timerStarted, setTimerStarted] = useState(false);
-    const [timeWastedSeconds, setTimeWastedSeconds] = useState();
-    const [timerInterval, setTimerInterval] = useState();
-    const [wasteTimerOn, setWasteTimerOn] = useState(false);
-    const [wasteTimerInterval, setWasteTimerInterval] = useState();
-    const [wasteTimerStart, setWasteTimerStart] = useState();
+    const startTime = useRef();
+    const timerStarted = useRef(false);
+    const timeWastedSeconds = useRef()
+    const timerInterval = useRef()
+    const wasteTimerOn = useRef(false)
+    const wasteTimerInterval = useRef(null)
+    const wasteTimerStart = useRef(null)
+    const [showWasteButton, setShowWasteButton] = useState(false);
 
     function toDateTimeLocal(date) {
         const pad = n => String(n).padStart(2, "0");
@@ -18,66 +21,70 @@ const Home = () => {
     }
 
     async function startTimer() {
-        if (timerStarted == false) {
-            setTimerStarted(true)
+        console.log("Execute start.")
+
+        if (timerStarted.current == false) {
+            timerStarted.current = true
             document.getElementById("saveTaskForm").style.visibility = "hidden";
-            setStartTime(new Date())
-            //startTime.getMonth() // i think this is not needed.
+            startTime.current = new Date()
             document.getElementById("wasteTimerOnButton").innerHTML = "turn waste timer on"
             document.getElementById("startTimerButton").style.color = "red";
             document.getElementById("wasteTimeIncrementButton").style.visibility = "visible";
-            setTimeWastedSeconds(0)
+            timeWastedSeconds.current = 0
             document.getElementById("showTimeWasted").innerHTML = `time wasted: 00:00:00`
-            setTimerInterval(setInterval(() => {
+            timerInterval.current = setInterval(() => {
                 const now = new Date();
-                const elapsed = now - startTime; // in milliseconds
+                const elapsed = now - startTime.current; // in milliseconds
 
                 const hours = Math.floor(elapsed / (3600000))
                 const minutes = Math.floor((elapsed % (3600000)) / (60000))
                 const seconds = Math.floor(((elapsed % (3600000)) % (60000)) / 1000)
                 document.getElementById("showTimeElapsed").innerHTML = `stopwatch: ${String(hours).padStart(2,"0")}:${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`; 
-            }, 1000))
+            }, 1000)
         }
     }
 
     function incrementTimeWasted() {
-        setTimeWastedSeconds(timeWastedSeconds + 60)
-        console.log(`the new timeWasted ${timeWastedSeconds}`)
+        console.log("Execute increment.")
+        timeWastedSeconds.current += 60
+        console.log(`the new timeWasted ${timeWastedSeconds.current}`)
     }
 
     function stopTimer(){
-        setTimerStarted(false);
-        setWasteTimerInterval(clearInterval(wasteTimerInterval))
-        setTimerInterval(clearInterval(timerInterval))
+        console.log("Execute stop.")
+        timerStarted.current = false;
+        clearInterval(wasteTimerInterval.current)
+        clearInterval(timerInterval.current)
         const later = new Date()
-        const timeSpent = (later - startTime)
+        const timeSpent = (later - startTime.current)
 
         // if the waste timer was on and the user stopped the task timer.
-        if (wasteTimerOn == true) {
-            clearInterval(wasteTimerInterval)
-            const wasteTimeElapsed = (new Date()) - wasteTimerStart; // in milliseconds
+        if (wasteTimerOn.current == true) {
+            clearInterval(wasteTimerInterval.current)
+            const wasteTimeElapsed = (new Date()) - wasteTimerStart.current; // in milliseconds
             console.log(`WASTE TIME ${wasteTimeElapsed}`)
-            setTimeWastedSeconds(timeWastedSeconds + Math.floor(wasteTimeElapsed / 1000))
-            setWasteTimerOn(false)
+            timeWastedSeconds.current += 60  
+            wasteTimerOn.current = false
         }
 
         document.getElementById("wasteTimeIncrementButton").style.visibility = "hidden";
         //document.getElementById("showTimeElapsed").innerHTML = timeSpent;
         document.getElementById("stopTimerButton").style.color = "green";
         document.getElementById("saveTaskForm").style.visibility = "visible";
-        document.getElementById("timeWastedInput").value = Math.floor(timeWastedSeconds / 60);
-        setTimeWastedSeconds(0)
-        document.getElementById("taskStartTimeInput").value = toDateTimeLocal(startTime)
+        document.getElementById("timeWastedInput").value = Math.floor(timeWastedSeconds.current / 60);
+        timeWastedSeconds.current = 0
+        document.getElementById("taskStartTimeInput").value = toDateTimeLocal(startTime.current)
         document.getElementById("taskStopTimeInput").value = toDateTimeLocal(later)
     }
 
     function togglePauseWasteTime() {
+        console.log("Execute toggle.")
         document.getElementById("wasteTimerOnButton").innerHTML = "turn waste timer off"
-        if (wasteTimerOn == false) {
-            setWasteTimerStart(new Date())
-            setWasteTimerInterval(setInterval(() => {
+        if (wasteTimerOn.current == false) {
+            wasteTimerStart.current = new Date()
+            wasteTimerInterval.current = setInterval(() => {
                 const wasteTimeNow = new Date()
-                const wasteTimeElapsed = (wasteTimeNow - wasteTimerStart) + Math.floor((timeWastedSeconds * 1000)) // in milliseconds
+                const wasteTimeElapsed = (wasteTimeNow - wasteTimerStart.current) + Math.floor((timeWastedSeconds.current * 1000)) // in milliseconds
 
                 const wasteTimehours = Math.floor(wasteTimeElapsed / (3600000))
                 const wasteTimeminutes = Math.floor((wasteTimeElapsed % (3600000)) / (60000))
@@ -86,15 +93,15 @@ const Home = () => {
                 document.getElementById("showTimeWasted").innerHTML = `time wasted: ${String(wasteTimehours).padStart(2, "0")}:${String(wasteTimeminutes).padStart(2, "0")}:${String(wasteTimeseconds).padStart(2, "0")}`
 
                 // timeWastedSeconds = timeWastedSeconds + Math.round(wasteTimeElapsed / 60)   
-            }, 1000))
-            setWasteTimerOn(true)
+            }, 1000)
+            wasteTimerOn.current = true//setWasteTimerOn(true)
         } else {
             document.getElementById("wasteTimerOnButton").innerHTML = "turn waste timer on"
-            clearInterval(wasteTimerInterval)
-            const wasteTimeElapsed = (new Date()) - wasteTimerStart; // in milliseconds
+            clearInterval(wasteTimerInterval.current)
+            const wasteTimeElapsed = (new Date()) - wasteTimerStart.current; // in milliseconds
             console.log(`WASTE TIME ${wasteTimeElapsed}`)
-            setTimeWastedSeconds(timeWastedSeconds + Math.floor(wasteTimeElapsed / 1000))
-            setWasteTimerOn(false)
+            timeWastedSeconds.current += Math.floor(wasteTimeElapsed / 1000)//setTimeWastedSeconds(timeWastedSeconds.current + Math.floor(wasteTimeElapsed / 1000))
+            wasteTimerOn.current = false//setWasteTimerOn(false)
         }
     }
 
@@ -117,7 +124,7 @@ const Home = () => {
                 <button className="btn btnGhost" id="wasteTimerOnButton" onClick={togglePauseWasteTime}></button>
 
                 <button className="btn btnSecondary" id="wasteTimeIncrementButton" onClick={incrementTimeWasted}
-                style={{visibility: "hidden"}}>
+                style={{visibility: showWasteButton ? "visible" : "hidden"}}>
                 Wasted time +1 min
                 </button>
             </div>
@@ -183,4 +190,4 @@ const Home = () => {
     )
 }
 
-export default Home
+export default React.memo(Home)

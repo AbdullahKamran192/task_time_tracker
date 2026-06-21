@@ -2,24 +2,19 @@ import React from "react"
 import { useState, useEffect } from "react"
 import {Routes, Route, createBrowserRouter, createRoutesFromElements, RouterProvider } from "react-router-dom";
 import RouteLayout from "./layout/RouteLayout";
-import Navbar from "./components/navbar"
+import Navbar from "./components/Navbar"
 import Home from "./pages/Home";
 import ContactLayout from "./layout/ContactLayout";
 import ContactInfo from "./components/Contactinfo";
 import ContactForm from "./components/ContactForm";
+import Login from "./components/Login";
+import Timetable from "./pages/Timetable";
 
 function App() {
-  const [myData, setMyData] = useState('');
 
-  const fetchData = async () => {
-    const response = await fetch("http://localhost:8080/testroute");
-    const data = await response.json();
-    setMyData(data.myData);
-  }
-
-  useEffect(() => {
-    fetchData();
-  }, [])
+  // useEffect(() => {
+  //     window.location.href = "http://localhost:8080/auth/google";
+  // }, []);
 
 
   const router = createBrowserRouter(
@@ -30,6 +25,8 @@ function App() {
           <Route path="info" element={<ContactInfo />} />
           <Route path="form" element={<ContactForm />} />
         </Route>
+        <Route path="login" element={<Login/>}></Route>
+        <Route path="tasks" element={<Timetable/>}></Route>
       </Route>
     )
   )
