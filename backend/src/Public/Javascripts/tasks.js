@@ -20,7 +20,7 @@ async function startTimer() {
         document.addEventListener('keydown', handleKeyDownStop);
         document.getElementById("saveTaskForm").style.visibility = "hidden";
         startTime = new Date()
-        startTime.getMonth()
+        startTime.getMonth() // i think this is not needed.
         document.getElementById("wasteTimerOnButton").innerHTML = "turn waste timer on"
         document.getElementById("startTimerButton").style.color = "red";
         document.getElementById("wasteTimeIncrementButton").style.visibility = "visible";

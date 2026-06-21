@@ -1,10 +1,102 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Home.css";
 
 const Home = () => {
 
-    
+    const [startTime, setStartTime] = useState();
+    const [timerStarted, setTimerStarted] = useState(false);
+    const [timeWastedSeconds, setTimeWastedSeconds] = useState();
+    const [timerInterval, setTimerInterval] = useState();
+    const [wasteTimerOn, setWasteTimerOn] = useState(false);
+    const [wasteTimerInterval, setWasteTimerInterval] = useState();
+    const [wasteTimerStart, setWasteTimerStart] = useState();
 
+    function toDateTimeLocal(date) {
+        const pad = n => String(n).padStart(2, "0");
+
+        return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
+    }
+
+    async function startTimer() {
+        if (timerStarted == false) {
+            setTimerStarted(true)
+            document.getElementById("saveTaskForm").style.visibility = "hidden";
+            setStartTime(new Date())
+            //startTime.getMonth() // i think this is not needed.
+            document.getElementById("wasteTimerOnButton").innerHTML = "turn waste timer on"
+            document.getElementById("startTimerButton").style.color = "red";
+            document.getElementById("wasteTimeIncrementButton").style.visibility = "visible";
+            setTimeWastedSeconds(0)
+            document.getElementById("showTimeWasted").innerHTML = `time wasted: 00:00:00`
+            setTimerInterval(setInterval(() => {
+                const now = new Date();
+                const elapsed = now - startTime; // in milliseconds
+
+                const hours = Math.floor(elapsed / (3600000))
+                const minutes = Math.floor((elapsed % (3600000)) / (60000))
+                const seconds = Math.floor(((elapsed % (3600000)) % (60000)) / 1000)
+                document.getElementById("showTimeElapsed").innerHTML = `stopwatch: ${String(hours).padStart(2,"0")}:${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`; 
+            }, 1000))
+        }
+    }
+
+    function incrementTimeWasted() {
+        setTimeWastedSeconds(timeWastedSeconds + 60)
+        console.log(`the new timeWasted ${timeWastedSeconds}`)
+    }
+
+    function stopTimer(){
+        setTimerStarted(false);
+        setWasteTimerInterval(clearInterval(wasteTimerInterval))
+        setTimerInterval(clearInterval(timerInterval))
+        const later = new Date()
+        const timeSpent = (later - startTime)
+
+        // if the waste timer was on and the user stopped the task timer.
+        if (wasteTimerOn == true) {
+            clearInterval(wasteTimerInterval)
+            const wasteTimeElapsed = (new Date()) - wasteTimerStart; // in milliseconds
+            console.log(`WASTE TIME ${wasteTimeElapsed}`)
+            setTimeWastedSeconds(timeWastedSeconds + Math.floor(wasteTimeElapsed / 1000))
+            setWasteTimerOn(false)
+        }
+
+        document.getElementById("wasteTimeIncrementButton").style.visibility = "hidden";
+        //document.getElementById("showTimeElapsed").innerHTML = timeSpent;
+        document.getElementById("stopTimerButton").style.color = "green";
+        document.getElementById("saveTaskForm").style.visibility = "visible";
+        document.getElementById("timeWastedInput").value = Math.floor(timeWastedSeconds / 60);
+        setTimeWastedSeconds(0)
+        document.getElementById("taskStartTimeInput").value = toDateTimeLocal(startTime)
+        document.getElementById("taskStopTimeInput").value = toDateTimeLocal(later)
+    }
+
+    function togglePauseWasteTime() {
+        document.getElementById("wasteTimerOnButton").innerHTML = "turn waste timer off"
+        if (wasteTimerOn == false) {
+            setWasteTimerStart(new Date())
+            setWasteTimerInterval(setInterval(() => {
+                const wasteTimeNow = new Date()
+                const wasteTimeElapsed = (wasteTimeNow - wasteTimerStart) + Math.floor((timeWastedSeconds * 1000)) // in milliseconds
+
+                const wasteTimehours = Math.floor(wasteTimeElapsed / (3600000))
+                const wasteTimeminutes = Math.floor((wasteTimeElapsed % (3600000)) / (60000))
+                const wasteTimeseconds = Math.floor(((wasteTimeElapsed % (3600000)) % (60000)) / 1000)
+
+                document.getElementById("showTimeWasted").innerHTML = `time wasted: ${String(wasteTimehours).padStart(2, "0")}:${String(wasteTimeminutes).padStart(2, "0")}:${String(wasteTimeseconds).padStart(2, "0")}`
+
+                // timeWastedSeconds = timeWastedSeconds + Math.round(wasteTimeElapsed / 60)   
+            }, 1000))
+            setWasteTimerOn(true)
+        } else {
+            document.getElementById("wasteTimerOnButton").innerHTML = "turn waste timer on"
+            clearInterval(wasteTimerInterval)
+            const wasteTimeElapsed = (new Date()) - wasteTimerStart; // in milliseconds
+            console.log(`WASTE TIME ${wasteTimeElapsed}`)
+            setTimeWastedSeconds(timeWastedSeconds + Math.floor(wasteTimeElapsed / 1000))
+            setWasteTimerOn(false)
+        }
+    }
 
     return (
         <main className="page">
@@ -20,11 +112,11 @@ const Home = () => {
             </div>
 
             <div className="actions">
-                <button className="btn btnPrimary" id="startTimerButton" onclick="startTimer()">Start timer</button>
-                <button className="btn btnDanger" id="stopTimerButton" onclick="stopTimer()">Stop timer</button>
-                <button className="btn btnGhost" id="wasteTimerOnButton" onclick="togglePauseWasteTime()"></button>
+                <button className="btn btnPrimary" id="startTimerButton" onClick={startTimer}>Start timer</button>
+                <button className="btn btnDanger" id="stopTimerButton" onClick={stopTimer}>Stop timer</button>
+                <button className="btn btnGhost" id="wasteTimerOnButton" onClick={togglePauseWasteTime}></button>
 
-                <button className="btn btnSecondary" id="wasteTimeIncrementButton" onclick="incrementTimeWasted()"
+                <button className="btn btnSecondary" id="wasteTimeIncrementButton" onClick={incrementTimeWasted}
                 style={{visibility: "hidden"}}>
                 Wasted time +1 min
                 </button>
@@ -46,7 +138,7 @@ const Home = () => {
             <section className="card">
             <div className="cardHeader">
                 <h2 className="cardTitle">Save Task</h2>
-                <p className="cardHint">Fill in the details and save it when you’re done.</p>
+                <p className="cardHint">Fill in the details and save it when you are done.</p>
             </div>
 
             <form className="form" id="saveTaskForm" action="/saveTask" method="post">
@@ -57,28 +149,28 @@ const Home = () => {
 
                 <div className="grid">
                 <div className="field">
-                    <label for="taskStartTimeInput">Task Start Time</label>
+                    <label htmlFor="taskStartTimeInput">Task Start Time</label>
                     <input id="taskStartTimeInput" type="datetime-local" name="taskStartTime" />
                 </div>
 
                 <div className="field">
-                    <label for="taskStopTimeInput">Task Stop Time</label>
+                    <label htmlFor="taskStopTimeInput">Task Stop Time</label>
                     <input id="taskStopTimeInput" type="datetime-local" name="taskStopTime" />
                 </div>
                 </div>
 
                 <div className="field">
-                <label for="taskDescriptionInput">Task Name</label>
+                <label htmlFor="taskDescriptionInput">Task Name</label>
                 <input id="taskDescriptionInput" placeholder="task name" type="text" name="taskName" />
                 </div>
 
                 <div className="field">
-                <label for="taskDescriptionInput">Task Description</label>
+                <label htmlFor="taskDescriptionInput">Task Description</label>
                 <input id="taskDescriptionInput" placeholder="task description" type="text" name="taskDescription" />
                 </div>
 
                 <div className="field">
-                <label for="timeWastedInput">Time Wasted (minutes)</label>
+                <label htmlFor="timeWastedInput">Time Wasted (minutes)</label>
                 <input id="timeWastedInput" placeholder="time wasted" type="text" name="timeWasted" />
                 </div>
 
