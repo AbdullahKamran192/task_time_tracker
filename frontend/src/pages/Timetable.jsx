@@ -99,19 +99,37 @@ const Timetable = () => {
 
     const listTasks = tasks.map((task, index) => {
 
-        console.log("-=----------------")
+        const PIXELS_PER_MINUTE = 72 / 60;
 
-        let timeSpent = (new Date(task.time_session.stop_time) - new Date(task.time_session.start_time)) / (1000 * 60) // converted from millseconds to minutes.
+        const startTime = new Date(task.time_session.start_time);
 
-        console.log(timeSpent)
+        const startMinutes =
+            startTime.getHours() * 60 +
+            startTime.getMinutes();
 
-        return (<div className="taskBox" key={index} style={{
-            top: `${task.time_session.stop_time - task.time_session.start_time}px`,
-            height: ``
-        }}>
-            <p>{task.task.task_name}</p>
-            <p>{task.task.task_description}</p>
-        </div>)
+        const top = startMinutes * PIXELS_PER_MINUTE;
+
+        const durationMinutes =
+            (new Date(task.time_session.stop_time) -
+            new Date(task.time_session.start_time))
+            / (1000 * 60);
+
+        const height = durationMinutes * PIXELS_PER_MINUTE;
+
+
+        return (
+            <div
+                className="taskBox"
+                key={index}
+                style={{
+                    top: `${top}px`,
+                    height: `${height}px`
+                }}
+            >
+                <p>{task.task.task_name}</p>
+                <p>{task.task.task_description}</p>
+            </div>
+        );
     });
 
 
