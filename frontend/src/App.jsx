@@ -9,6 +9,7 @@ import ContactInfo from "./components/Contactinfo";
 import ContactForm from "./components/ContactForm";
 import Login from "./components/Login";
 import Timetable from "./pages/Timetable";
+import EditTaskForm from "./components/EditTaskForm";
 
 function App() {
 
@@ -21,11 +22,14 @@ function App() {
     createRoutesFromElements(
       <Route path='/' element={<RouteLayout />}>
         <Route index element={<Home />}></Route>
+
         <Route path="contact" element={<ContactLayout />}>
           <Route path="info" element={<ContactInfo />} />
           <Route path="form" element={<ContactForm />} />
         </Route>
+
         <Route path="login" element={<Login/>}></Route>
+
         <Route path="tasks" element={<Timetable/>}></Route>
       </Route>
     )

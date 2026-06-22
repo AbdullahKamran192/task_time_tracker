@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import "./Timetable.css"
+import { Outlet } from "react-router-dom";
+import EditTaskForm from "../components/EditTaskForm";
 
     function formatTime(hour){
         const isPM = hour >= 12;
@@ -68,35 +70,28 @@ import "./Timetable.css"
 const Timetable = () => {
 
     const [tasks, setTasks] = useState([]);
-    //const [date, setDate] = useState("");
     const location = useLocation();
+    const [selectedTask, setSelectedTask] = useState(null);
 
     const queryParams = new URLSearchParams(location.search);
     const urlDate = queryParams.get("date");
 
     const fetchData = async () => {
-        const response = await fetch(`http://localhost:8080/tasks?date=${urlDate}#loadTimetablePageTo`, {
-            credentials: 'include'
-        });
-        const data = await response.json();
-        console.log(data)
-        setTasks(data.tasks)
+        if (urlDate) {
+            const response = await fetch(`http://localhost:8080/tasks?date=${urlDate}#loadTimetablePageTo`, {
+                credentials: 'include'
+            });
+            const data = await response.json();
+            console.log(data)
+            setTasks(data.tasks)
+        }
     }
 
     useEffect(() => {
         fetchData();
     }, [])
 
-    // const listTasks = tasks.map((task, index) => (
-    //     <div className="taskBox" key={index} style={{
-    //         top: `${task.time_session.stop_time - task.time_session.start_time}px`,
-    //         height: ``
-    //     }}>
-    //         <p>{task.task.task_name}</p>
-    //         <p>{task.task.task_description}</p>
-    //     </div>
-    // ));
-
+    // map all the tasks received (for this date) onto the timetable, correctly with the timestamp.
     const listTasks = tasks.map((task, index) => {
 
         const PIXELS_PER_MINUTE = 72 / 60;
@@ -124,6 +119,13 @@ const Timetable = () => {
                 style={{
                     top: `${top}px`,
                     height: `${height}px`
+                }}
+                onClick={() => {
+                    if(!selectedTask) {
+                        setSelectedTask(task);
+                    } else {
+                        setSelectedTask(null)
+                    }
                 }}
             >
                 <p>{task.task.task_name}</p>
@@ -227,167 +229,14 @@ const Timetable = () => {
                                 <div key={h} className="hourLine"></div>
                             ))}
 
+                            {selectedTask && (
+                                <EditTaskForm task={selectedTask} />
+                            )}
+
                             {listTasks}
                         </div>
                     </div>
                 </div>
-
-                <dialog data-modal>
-                    <button
-                        className="closeButton"
-                        data-close-modal
-                    >
-                        X
-                    </button>
-
-                    <form
-                        className="box"
-                        action="/updateTask"
-                        method="post"
-                    >
-                        <h4>Edit the task</h4>
-
-                        <label>Task ID (readonly)</label>
-                        <input
-                            id="taskIdModel"
-                            type="text"
-                            name="task_id"
-                            readOnly
-                        />
-
-                        <br />
-
-                        <label htmlFor="taskStartTimeInputModal">
-                            Task Start Time
-                        </label>
-
-                        <br />
-
-                        <input
-                            id="taskStartTimeInputModal"
-                            type="datetime-local"
-                            name="taskStartTime"
-                        />
-
-                        <br />
-                        <br />
-
-                        <label htmlFor="taskStopTimeInputModal">
-                            Task Stop Time
-                        </label>
-
-                        <br />
-
-                        <input
-                            id="taskStopTimeInputModal"
-                            type="datetime-local"
-                            name="taskStopTime"
-                        />
-
-                        <br />
-                        <br />
-
-                        <label htmlFor="taskNameInputModal">
-                            Task Name
-                        </label>
-
-                        <input
-                            id="taskNameInputModal"
-                            placeholder="task name"
-                            type="text"
-                            name="taskName"
-                        />
-
-                        <br />
-
-                        <label htmlFor="taskDescriptionInputModal">
-                            Task Description
-                        </label>
-
-                        <textarea
-                            id="taskDescriptionInputModal"
-                            placeholder="task description"
-                            name="taskDescription"
-                        ></textarea>
-
-                        <label htmlFor="timeWastedModal">
-                            Minutes Wasted
-                        </label>
-
-                        <input
-                            id="timeWastedModal"
-                            type="text"
-                            name="timeWasted"
-                        />
-
-                        <br />
-
-                        <label>Task Colour</label>
-
-                        <div className="color-picker">
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="color"
-                                    value="blue"
-                                />
-                                <span className="color blue"></span>
-                            </label>
-
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="color"
-                                    value="orange"
-                                />
-                                <span className="color orange"></span>
-                            </label>
-
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="color"
-                                    value="green"
-                                />
-                                <span className="color green"></span>
-                            </label>
-
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="color"
-                                    value="purple"
-                                />
-                                <span className="color purple"></span>
-                            </label>
-
-                            <label>
-                                <input
-                                    type="radio"
-                                    name="color"
-                                    value="red"
-                                />
-                                <span className="color red"></span>
-                            </label>
-                        </div>
-
-                        <button
-                            className="submitButton"
-                            type="submit"
-                        >
-                            Save
-                        </button>
-                    </form>
-
-                    <button
-                        id="deleteTaskButton"
-                        onClick={() => {
-                            console.log("Delete task clicked");
-                        }}
-                    >
-                        Delete Task
-                    </button>
-                </dialog>
             </main>
         </>
     );
