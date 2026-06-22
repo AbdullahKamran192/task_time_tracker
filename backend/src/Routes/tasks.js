@@ -23,6 +23,12 @@ tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
 
     const rows = await getTasksWithSessions(req.user.user_id);
 
+    // console.log("===========================================================")
+    // console.log(req.query.date)
+    // console.log(req.user.user_id)
+    // console.log("===========================================================")
+
+
     const tasks = [];
 
     for (const row of rows) {

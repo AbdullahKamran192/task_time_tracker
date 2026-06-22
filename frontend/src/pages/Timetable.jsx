@@ -1,18 +1,6 @@
-import React, { useState } from "react";
-
-const Timetable = () => {
-
-    const [tasks, setTasks] = useState([]);
-    //const [date, setDate] = useState("");
-
-    const listTasks = tasks.map((task, index) => (
-        <li key={index}>{task}</li>
-    ));
-
-
-    //24h clock (00:00 -> 23:00)
-    const timeCol = document.getElementById("timeCol");
-    const dayCol  = document.getElementById("dayCol");
+import React, { useState, useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import "./Timetable.css"
 
     function formatTime(hour){
         const isPM = hour >= 12;
@@ -32,26 +20,6 @@ const Timetable = () => {
         return `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`
     }
 
-    for (let h = 0; h < 24; h++){
-        const tRow = document.createElement("div");
-        tRow.className = "timeRow";
-
-        const label = document.createElement("div");
-        label.className = "timeLabel";
-        label.textContent = formatTime(h);
-
-        tRow.appendChild(label);
-        timeCol.appendChild(tRow);
-        
-        const line = document.createElement("div");
-        line.className = "hourLine";
-
-        if (h == 7) {
-        line.id = "loadTimetablePageTo"
-        }
-
-        dayCol.appendChild(line);
-    }
     //             0123456789
     //from example 26/01/2026 to 26-01-2026
     function formatDate(date){
@@ -68,27 +36,84 @@ const Timetable = () => {
     const params = new URLSearchParams(window.location.search);
     let date = params.get("date") ? new Date(formatDate(params.get("date"))) : new Date();
 
-    document.getElementById("todayBtn").addEventListener("click", () => {
+    
+    function handleToday() {
         date = new Date()
         console.log(date)
         window.location.href = `/tasks?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
-    });
-    document.getElementById("prevBtn").addEventListener("click", () => {
+    }
+
+    function handlePrev() {
         console.log(date)
         if (date) {
             date.setDate(date.getDate() - 1)
             window.location.href = `/tasks?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
         }
         console.log("prevBtn button clicked")
-    });
-    document.getElementById("nextBtn").addEventListener("click", () => {
+    }
+
+    function handleNext() {
         console.log(date)
         if (date) {
             date.setDate(date.getDate() + 1)
             window.location.href = `/tasks?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
         }
         console.log("nextBtn button clicked")
+    }
+
+
+
+
+
+const Timetable = () => {
+
+    const [tasks, setTasks] = useState([]);
+    //const [date, setDate] = useState("");
+    const location = useLocation();
+
+    const queryParams = new URLSearchParams(location.search);
+    const urlDate = queryParams.get("date");
+
+    const fetchData = async () => {
+        const response = await fetch(`http://localhost:8080/tasks?date=${urlDate}#loadTimetablePageTo`, {
+            credentials: 'include'
+        });
+        const data = await response.json();
+        console.log(data)
+        setTasks(data.tasks)
+    }
+
+    useEffect(() => {
+        fetchData();
+    }, [])
+
+    // const listTasks = tasks.map((task, index) => (
+    //     <div className="taskBox" key={index} style={{
+    //         top: `${task.time_session.stop_time - task.time_session.start_time}px`,
+    //         height: ``
+    //     }}>
+    //         <p>{task.task.task_name}</p>
+    //         <p>{task.task.task_description}</p>
+    //     </div>
+    // ));
+
+    const listTasks = tasks.map((task, index) => {
+
+        console.log("-=----------------")
+
+        let timeSpent = (new Date(task.time_session.stop_time) - new Date(task.time_session.start_time)) / (1000 * 60) // converted from millseconds to minutes.
+
+        console.log(timeSpent)
+
+        return (<div className="taskBox" key={index} style={{
+            top: `${task.time_session.stop_time - task.time_session.start_time}px`,
+            height: ``
+        }}>
+            <p>{task.task.task_name}</p>
+            <p>{task.task.task_description}</p>
+        </div>)
     });
+
 
     function divById(task_id) {
         console.log(`You clicked on ${task_id}`)
@@ -148,38 +173,42 @@ const Timetable = () => {
         <>
             <header className="toolbar">
                 <div className="left">
-                    <button className="btn" id="todayBtn">Today</button>
-                    <button className="btn iconbtn" id="prevBtn" aria-label="Previous">
+                    <button className="btn" id="todayBtn" onClick={handleToday}>Today</button>
+                    <button className="btn iconbtn" id="prevBtn" onClick={handlePrev} aria-label="Previous">
                         &lt;
                     </button>
-                    <button className="btn iconbtn" id="nextBtn" aria-label="Next">
+                    <button className="btn iconbtn" id="nextBtn" onClick={handleNext} aria-label="Next">
                         &gt;
                     </button>
 
                     <div className="title" id="monthTitle">
-                        {date}
+                        {date.toLocaleDateString()}
                     </div>
-                </div>
-
-                <div className="right">
-                    <select id="viewSelect">
-                        <option>Day</option>
-                        <option>Week</option>
-                        <option>Month</option>
-                    </select>
                 </div>
             </header>
 
             <main className="calendar">
                 <div className="dayHeader" id="dayHeaderText">
-                    {date}
+                    {date.toLocaleDateString()}
                 </div>
 
                 <div className="gridWrap">
                     <div className="grid">
-                        <div className="timeCol" id="timeCol"></div>
+                        <div className="timeCol">
+                            {Array.from({ length: 24 }, (_, h) => (
+                                <div key={h} className="timeRow">
+                                    <div className="timeLabel">
+                                        {formatTime(h)}
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
 
                         <div className="dayCol" id="dayCol">
+                            {Array.from({ length: 24 }, (_, h) => (
+                                <div key={h} className="hourLine"></div>
+                            ))}
+
                             {listTasks}
                         </div>
                     </div>

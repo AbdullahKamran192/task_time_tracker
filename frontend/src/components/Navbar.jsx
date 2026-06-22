@@ -24,17 +24,15 @@ const Navbar = () => {
         <div className="navbar">
             <img src={allData?.userProfilePicture} alt="logo"></img>
             <ul>
-                <li>Home</li>
-                <li>Tasks</li>
+                <li><p style={{color: "white"}}>Hello {allData?.username}</p></li>
+                <li><button onClick={() => navigate('/about')}>Get Started</button></li>
+                <li><button onClick={() => {
+                    navigate('/login')
+                }}> Login</button></li>
+                <li><button onClick={() => {
+                    window.location.href = "http://localhost:8080/logout"
+                }}> Logout </button></li>
             </ul>
-            <p>Hello {allData?.username}</p>
-            <button onClick={() => navigate('/about')}>Get Started</button>
-            <button onClick={() => {
-                navigate('/login')
-            }}> Login</button>
-            <button onClick={() => {
-                window.location.href = "http://localhost:8080/logout"
-            }}> Logout </button>
         </div>
     )
 }
