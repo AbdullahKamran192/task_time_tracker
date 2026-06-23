@@ -13,11 +13,17 @@ function formatDateTime(stringDateTime) {
     return dateTime.getFullYear() + "-" + month + "-" + date + "T" + hour + ":" + minute
 }
 
-const EditTaskForm = ({task, onClose}) => {
+const EditTaskForm = ({task, onClose, showTaskSaved}) => {
+
+    const navigate = useNavigate()
 
     
     async function updateTask(event) {
         event.preventDefault();
+
+        const color = document.querySelector(
+            'input[name="color"]:checked'
+        )?.value;
 
         const response = await fetch(
             "http://localhost:8080/updateTask",
@@ -34,7 +40,7 @@ const EditTaskForm = ({task, onClose}) => {
                     taskStartTime: document.getElementById("taskStartTimeInputModal").value,
                     taskStopTime: document.getElementById("taskStopTimeInputModal").value,
                     timeWasted: document.getElementById("timeWastedModal").value,
-                    color: document.getElementById("").value
+                    color: color
                 })
             }
         );
@@ -42,8 +48,34 @@ const EditTaskForm = ({task, onClose}) => {
         const data = await response.json();
         console.log(data);
 
-        if (data.success) {
-            console.log(data.message);
+        if(data) {
+            console.log("SUCESS!");
+            showTaskSaved();
+            onClose();
+        }
+    }
+
+    async function deleteTask() {
+
+        const response = await fetch(
+            "http://localhost:8080/deleteTask",
+            {
+                credentials: "include",
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    task_id: task.task.task_id
+                }) 
+            }
+        )
+
+        const data = await response.json();
+
+        if(data) {
+            console.log("Task deleted")
+            navigate('/tasks')
         }
     }
 
@@ -208,7 +240,7 @@ const EditTaskForm = ({task, onClose}) => {
                 </button>
             </form>
 
-            <button id="deleteTaskButton">
+            <button id="deleteTaskButton" onClick={deleteTask}>
                 Delete Task
             </button>
         </div>

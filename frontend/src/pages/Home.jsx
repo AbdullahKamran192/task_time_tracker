@@ -105,6 +105,39 @@ const Home = () => {
         }
     }
 
+    async function submitTask(event) {
+        event.preventDefault();
+
+        const response = await fetch(
+            "http://localhost:8080/saveTask",
+            {
+                credentials: "include",
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    taskName: document.getElementById("taskNameInput").value,
+                    taskDescription: document.getElementById("taskDescriptionInput").value,
+                    taskStartTime: document.getElementById("taskStartTimeInput").value,
+                    taskStopTime: document.getElementById("taskStopTimeInput").value,
+                    timeWasted: document.getElementById("timeWastedInput").value
+                })
+            }
+        );
+
+        const data = await response.json();
+
+        if (data) {
+            console.log("Task saved");
+
+            document.getElementById("saveTaskForm").reset();
+
+            document.getElementById("showTimeElapsed").innerHTML = "—";
+            document.getElementById("showTimeWasted").innerHTML = "—";
+        }
+    }
+
     return (
         <main className="page">
             <header className="pageHeader">
@@ -148,7 +181,7 @@ const Home = () => {
                 <p className="cardHint">Fill in the details and save it when you are done.</p>
             </div>
 
-            <form className="form" id="saveTaskForm" action="/saveTask" method="post">
+            <form className="form" id="saveTaskForm" onSubmit={submitTask}>
                 <div className="helperRow">
                 <p className="helperText" id="timeStartP"></p>
                 <p className="helperText" id="timeStopP"></p>
@@ -167,8 +200,8 @@ const Home = () => {
                 </div>
 
                 <div className="field">
-                <label htmlFor="taskDescriptionInput">Task Name</label>
-                <input id="taskDescriptionInput" placeholder="task name" type="text" name="taskName" />
+                <label htmlFor="taskNameInput">Task Name</label>
+                <input id="taskNameInput" placeholder="task name" type="text" name="taskName" />
                 </div>
 
                 <div className="field">

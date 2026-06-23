@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import "./Timetable.css"
 import { Outlet } from "react-router-dom";
 import EditTaskForm from "../components/EditTaskForm";
+import TaskSaved from "../components/TaskSaved";
 
     function formatTime(hour){
         const isPM = hour >= 12;
@@ -72,6 +73,7 @@ const Timetable = () => {
     const [tasks, setTasks] = useState([]);
     const location = useLocation();
     const [selectedTask, setSelectedTask] = useState(null);
+    const [taskSaved, setTaskSaved] = useState(false);
 
     const queryParams = new URLSearchParams(location.search);
     const urlDate = queryParams.get("date");
@@ -233,11 +235,17 @@ const Timetable = () => {
                                 <EditTaskForm
                                     task={selectedTask}
                                     onClose={() => setSelectedTask(null)}
+                                    showTaskSaved={() => setTaskSaved(true)}
                                 />
                             )}
 
                             {listTasks}
                         </div>
+
+                        {taskSaved && (
+                            <TaskSaved onClose={() => setTaskSaved(false)}/>
+                        )}
+
                     </div>
                 </div>
             </main>

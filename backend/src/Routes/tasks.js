@@ -89,11 +89,17 @@ tasksRouter.post("/saveTask", isLoggedIn, async (req, res) => {
         time_wasted
     );
 
-    res.render("tasks/taskStatus", {
+    // res.render("tasks/taskStatus", {
+    //     taskStatusMessage: "Task saved successfully",
+    //     username: req.user.username,
+    //     userProfilePicture: req.user.profile_picture
+    // });
+
+    res.json({
         taskStatusMessage: "Task saved successfully",
         username: req.user.username,
         userProfilePicture: req.user.profile_picture
-    });
+    })
 });
 
 tasksRouter.post("/updateTask", isLoggedIn, async (req, res) => {
