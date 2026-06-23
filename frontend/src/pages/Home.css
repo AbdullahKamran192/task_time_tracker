@@ -1,37 +1,11 @@
 /* home css */
 
-/* ----- Base ----- */
-:root {
-  --bg: #0b1220;
-  --card: #111a2e;
-  --text: #e7ecff;
-  --muted: #a9b4d0;
-  --border: rgba(255, 255, 255, 0.08);
-
-  --primary: #4f7cff;
-  --primaryHover: #3b68f0;
-
-  --danger: #ff5c6a;
-  --dangerHover: #e64a57;
-
-  --secondary: #2a3656;
-  --secondaryHover: #34446d;
-
-  --focus: rgba(79, 124, 255, 0.35);
-}
 
 * {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  background: radial-gradient(1200px 600px at 20% 0%, rgba(255, 255, 255, 0.18), transparent 55%),
-              radial-gradient(900px 500px at 90% 10%, rgba(255, 255, 255, 0.12), transparent 60%),
-              var(--bg);
-  color: var(--text);
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
-}
+
 
 /* ----- Page layout ----- */
 .page {
@@ -53,17 +27,19 @@ body {
 
 .subtitle {
   margin: 8px 0 0 0;
-  color: var(--muted);
+  color: var(--light-muted-text-color);
   line-height: 1.4;
 }
 
 /* ----- Card ----- */
+
+
 .card {
-  background: rgba(17, 26, 46, 0.78);
-  border: 1px solid var(--border);
-  border-radius: 14px;
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow-small);
   padding: 18px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.25);
   backdrop-filter: blur(8px);
 }
 
@@ -78,11 +54,12 @@ body {
 .cardTitle {
   margin: 0;
   font-size: 18px;
+  color: var(--dark-text-color);
 }
 
 .cardHint {
   margin: 0;
-  color: var(--muted);
+  color: #64748b;
   font-size: 14px;
 }
 
@@ -107,7 +84,7 @@ body {
 .btn {
   border: 1px solid var(--border);
   background: rgba(0, 0, 0, 0.15);
-  color: var(--text);
+  color: white;
   padding: 10px 14px;
   border-radius: 10px;
   cursor: pointer;
@@ -120,18 +97,17 @@ body {
 }
 
 .btnPrimary {
-  background: var(--primary);
+  background: var(--primary-color);
   border-color: rgba(79, 124, 255, 0.35);
 }
 
 .btnPrimary:hover {
-  background: var(--primaryHover);
+  background: var(--primary-hover-color);
 }
 
 .btnDanger {
-  background: rgba(255, 92, 106, 0.12);
-  border-color: rgba(255, 92, 106, 0.35);
-  color: #ffd6da;
+  background: #ef4444;
+  color: white;
 }
 
 .btnDanger:hover {
@@ -139,8 +115,8 @@ body {
 }
 
 .btnSecondary {
-  background: var(--secondary);
-  border-color: rgba(255, 255, 255, 0.12);
+  background: #475569;
+  color: white;
 }
 
 .btnSecondary:hover {
@@ -171,16 +147,16 @@ body {
 }
 
 .stat {
-  border: 1px solid var(--border);
-  border-radius: 12px;
-  padding: 12px;
-  background: rgba(0, 0, 0, 0.18);
+  background: #f1f5f9;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  padding: 16px;
 }
 
 .statLabel {
   margin: 0 0 6px 0;
-  color: var(--muted);
-  font-size: 13px;
+  color: var(--dark-text-color);
+  font-size: 18px;
 }
 
 .statValue {
@@ -223,18 +199,23 @@ body {
   display: block;
   margin-bottom: 6px;
   font-size: 14px;
-  color: var(--muted);
+  color: var(--dark-text-color);
+  font-weight: 600;
 }
+
 
 input[type="text"],
 input[type="datetime-local"] {
   width: 100%;
   padding: 12px;
-  border-radius: 10px;
-  border: 1px solid rgba(255, 255, 255, 0.14);
-  background: rgba(0, 0, 0, 0.18);
-  color: var(--text);
+
+  border-radius: var(--border-radius);
+  border: 1px solid var(--border-color);
+  background: white;
+  color: var(--dark-text-color);
+  font-size: 15px;
   outline: none;
+  transition: all 0.2s ease;
 }
 
 input[type="datetime-local"]::-webkit-calendar-picker-indicator {

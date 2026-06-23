@@ -188,15 +188,15 @@ const Home = () => {
                 </div>
 
                 <div className="grid">
-                <div className="field">
-                    <label htmlFor="taskStartTimeInput">Task Start Time</label>
-                    <input id="taskStartTimeInput" type="datetime-local" name="taskStartTime" />
-                </div>
+                    <div className="field">
+                        <label htmlFor="taskStartTimeInput">Task Start Time</label>
+                        <input id="taskStartTimeInput" type="datetime-local" name="taskStartTime" />
+                    </div> <br/>
 
-                <div className="field">
-                    <label htmlFor="taskStopTimeInput">Task Stop Time</label>
-                    <input id="taskStopTimeInput" type="datetime-local" name="taskStopTime" />
-                </div>
+                    <div className="field">
+                        <label htmlFor="taskStopTimeInput">Task Stop Time</label>
+                        <input id="taskStopTimeInput" type="datetime-local" name="taskStopTime" />
+                    </div>
                 </div>
 
                 <div className="field">

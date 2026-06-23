@@ -1,1 +1,45 @@
+/* index.css */
 
+:root {
+  /* Colors */
+  --background-color: #292929;
+  --surface-color: #f8fafc;
+  --light-text-color: #ffffff;
+  --light-muted-text-color: #ffffff;
+  --dark-text-color: #000000;
+  --dark-muted-text-color: #000000;
+
+  --primary-color: #2563eb;
+  --primary-hover-color: #1d4ed8;
+
+  --secondary-color: #475569;
+  --secondary-hover-color: #334155;
+
+
+  --danger-color: #ef4444;
+  --danger-hover-color: #dc2626;
+
+  /* Borders */
+  --border-color: #dbe2ea;
+  --border-radius: 10px;
+
+  /* Shadows */
+  --shadow-small: 0 2px 4px rgba(0,0,0,0.1);
+  --shadow-medium: 0 4px 12px rgba(0,0,0,0.15);
+
+  /* Fonts */
+  --font-family: Arial, sans-serif;
+
+  /* Spacing */
+  --space-xs: 4px;
+  --space-sm: 8px;
+  --space-md: 16px;
+  --space-lg: 24px;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font-family);
+  background-color: var(--background-color);
+  color: var(--light-text-color);
+}

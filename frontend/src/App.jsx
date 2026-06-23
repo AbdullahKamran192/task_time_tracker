@@ -30,7 +30,7 @@ function App() {
 
         <Route path="login" element={<Login/>}></Route>
 
-        <Route path="tasks" element={<Timetable/>}></Route>
+        <Route path="timetable" element={<Timetable/>}></Route>
       </Route>
     )
   )

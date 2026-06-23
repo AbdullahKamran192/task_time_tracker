@@ -25,8 +25,13 @@ const Navbar = () => {
         <div className="navbar">
             <img src={allData?.userProfilePicture} alt="logo"></img>
             <ul>
-                <li><p style={{color: "white"}}>Hello {allData?.username}</p></li>
-                <li><button onClick={() => navigate('/about')}>Get Started</button></li>
+                <li>
+                    <span className="welcomeText">
+                        Hello, {allData?.username}
+                    </span>
+                </li>
+                <li><button onClick={() => navigate('/')}>home</button></li>
+                <li><button onClick={() => navigate('/timetable')}>timetable</button></li>
                 <li><button onClick={() => {
                     navigate('/login')
                 }}> Login</button></li>

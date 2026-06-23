@@ -1,35 +1,93 @@
-/* navbar css */
-
 .navbar {
   width: 100%;
+  padding: 20px 0;
+
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  padding: 15px 8%;
-}
-.navbar ul {
-  padding: 10px 30px;
-  border-radius: 30px;
-  box-shadow: 0 0 30px 0 rgba(255, 0, 0, 0.1);
-  background-color: lightblue;
-}
-.navbar ul li {
-  display: inline-block;
-  padding: 5px 10px;
-  margin: 0 10px;
-  color: #000;
-}
-.navbar button {
-  background-color: #ffffff;
-  color: #000000;
-  padding: 12px 25px;
-  border: 0;
-  outline: 0;
-  border-radius: 30px;
-  font-size: 16px;
-  cursor: pointer;
+
+  position: relative;
 }
 
+/* profile image */
 .navbar img {
-    border-radius: 30px;
+  position: absolute;
+  left: 40px;
+
+  width: 70px;
+  height: 70px;
+
+  border-radius: 50%;
+  object-fit: cover;
+
+  box-shadow: var(--shadow-small);
+}
+
+/* floating island */
+.navbar ul {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+
+  margin: 0;
+  padding: 18px 28px;
+
+  list-style: none;
+
+  background: var(--primary-color);
+  border-radius: 999px;
+
+  box-shadow: 0 12px 30px rgba(37, 99, 235, 0.25);
+}
+
+/* greeting */
+.welcomeText {
+  color: white;
+  font-weight: 600;
+  white-space: nowrap;
+}
+
+/* buttons */
+.navbar button {
+  background: white;
+  color: var(--primary-color);
+
+  border: none;
+  border-radius: 999px;
+
+  padding: 10px 20px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: all 0.2s ease;
+}
+
+.navbar button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+}
+
+.navbar button:active {
+  transform: translateY(0);
+}
+
+/* mobile */
+@media (max-width: 768px) {
+  .navbar {
+    padding: 15px;
+  }
+
+  .navbar img {
+    display: none;
+  }
+
+  .navbar ul {
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap;
+    border-radius: 20px;
+  }
 }

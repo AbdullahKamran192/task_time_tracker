@@ -5,64 +5,64 @@ import { Outlet } from "react-router-dom";
 import EditTaskForm from "../components/EditTaskForm";
 import TaskSaved from "../components/TaskSaved";
 
-    function formatTime(hour){
-        const isPM = hour >= 12;
-        const h12 = ((hour + 11) % 12) + 1;
-        const suffix = isPM ? "PM" : "AM";
-        return `${h12}:00 ${suffix}`;
+function formatTime(hour) {
+    const isPM = hour >= 12;
+    const h12 = ((hour + 11) % 12) + 1;
+    const suffix = isPM ? "PM" : "AM";
+    return `${h12}:00 ${suffix}`;
+}
+
+// exmaple take time 1:13 and convert it to 01:13
+function formatTimeTo24Hours(time) {
+
+    const hours = time.substring(0, time.indexOf(":"))
+    const minutes = time.substring(time.indexOf(":") + 1, time.length)
+
+    // const hours = time.substring(0,1).padStart(2, "0")
+    // const minutes = time.substring(2,4).padStart(2, "")
+    return `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`
+}
+
+//             0123456789
+//from example 26/01/2026 to 26-01-2026
+function formatDate(date) {
+    const formatted_date = date.substring(0, 2)
+    const month = date.substring(3, 5)
+    const fullYear = date.substring(6, 10)
+
+    console.log("THE FORMATTED DATE")
+    console.log(`${formatted_date}-${month}-${fullYear}`)
+
+    return `${fullYear}-${month}-${formatted_date}`
+}
+
+const params = new URLSearchParams(window.location.search);
+let date = params.get("date") ? new Date(formatDate(params.get("date"))) : new Date();
+
+
+function handleToday() {
+    date = new Date()
+    console.log(date)
+    window.location.href = `/timetable?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
+}
+
+function handlePrev() {
+    console.log(date)
+    if (date) {
+        date.setDate(date.getDate() - 1)
+        window.location.href = `/timetable?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
     }
+    console.log("prevBtn button clicked")
+}
 
-    // exmaple take time 1:13 and convert it to 01:13
-    function formatTimeTo24Hours(time) {
-
-        const hours = time.substring(0, time.indexOf(":"))
-        const minutes = time.substring(time.indexOf(":") + 1, time.length)
-
-        // const hours = time.substring(0,1).padStart(2, "0")
-        // const minutes = time.substring(2,4).padStart(2, "")
-        return `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`
+function handleNext() {
+    console.log(date)
+    if (date) {
+        date.setDate(date.getDate() + 1)
+        window.location.href = `/timetable?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
     }
-
-    //             0123456789
-    //from example 26/01/2026 to 26-01-2026
-    function formatDate(date){
-        const formatted_date = date.substring(0,2)
-        const month = date.substring(3,5)
-        const fullYear = date.substring(6,10)
-
-        console.log("THE FORMATTED DATE")
-        console.log(`${formatted_date}-${month}-${fullYear}`)
-
-        return `${fullYear}-${month}-${formatted_date}`
-    }
-
-    const params = new URLSearchParams(window.location.search);
-    let date = params.get("date") ? new Date(formatDate(params.get("date"))) : new Date();
-
-    
-    function handleToday() {
-        date = new Date()
-        console.log(date)
-        window.location.href = `/tasks?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
-    }
-
-    function handlePrev() {
-        console.log(date)
-        if (date) {
-            date.setDate(date.getDate() - 1)
-            window.location.href = `/tasks?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
-        }
-        console.log("prevBtn button clicked")
-    }
-
-    function handleNext() {
-        console.log(date)
-        if (date) {
-            date.setDate(date.getDate() + 1)
-            window.location.href = `/tasks?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
-        }
-        console.log("nextBtn button clicked")
-    }
+    console.log("nextBtn button clicked")
+}
 
 
 
@@ -108,7 +108,7 @@ const Timetable = () => {
 
         const durationMinutes =
             (new Date(task.time_session.stop_time) -
-            new Date(task.time_session.start_time))
+                new Date(task.time_session.start_time))
             / (1000 * 60);
 
         const height = durationMinutes * PIXELS_PER_MINUTE;
@@ -123,7 +123,7 @@ const Timetable = () => {
                     height: `${height}px`
                 }}
                 onClick={() => {
-                    if(!selectedTask) {
+                    if (!selectedTask) {
                         setSelectedTask(task);
                     } else {
                         setSelectedTask(null)
@@ -209,43 +209,79 @@ const Timetable = () => {
                 </div>
             </header>
 
-            <main className="calendar">
+            <main className="pageLayout">
                 <div className="dayHeader" id="dayHeaderText">
                     {date.toLocaleDateString()}
                 </div>
+                <div className="miniCalendar">
 
-                <div className="gridWrap">
-                    <div className="grid">
-                        <div className="timeCol">
-                            {Array.from({ length: 24 }, (_, h) => (
-                                <div key={h} className="timeRow">
-                                    <div className="timeLabel">
-                                        {formatTime(h)}
+                    <h3>
+                        {currentDate.toLocaleString("default", {
+                            month: "long",
+                            year: "numeric"
+                        })}
+                    </h3>
+
+                    <div className="calendarGrid">
+
+                        {dates.map(day => {
+
+                            const selected =
+                                day === currentDate.getDate();
+
+                            return (
+                                <a
+                                    key={day}
+                                    href={`/timetable?date=${String(day).padStart(2, "0")}/${String(month + 1).padStart(2, "0")}/${year}#loadTimetablePageTo`}
+                                    className={
+                                        selected
+                                            ? "calendarDate activeDate"
+                                            : "calendarDate"
+                                    }
+                                >
+                                    {day}
+                                </a>
+                            );
+                        })}
+
+                    </div>
+
+                </div>
+
+                <div className="calendar">
+                    <div className="gridWrap">
+                        <div className="grid">
+                            <div className="timeCol">
+                                {Array.from({ length: 24 }, (_, h) => (
+                                    <div key={h} className="timeRow">
+                                        <div className="timeLabel">
+                                            {formatTime(h)}
+                                        </div>
                                     </div>
-                                </div>
-                            ))}
-                        </div>
+                                ))}
+                            </div>
 
-                        <div className="dayCol" id="dayCol">
-                            {Array.from({ length: 24 }, (_, h) => (
-                                <div key={h} className="hourLine"></div>
-                            ))}
+                            <div className="dayCol" id="dayCol">
+                                {Array.from({ length: 24 }, (_, h) => (
+                                    <div key={h} className="hourLine"></div>
+                                ))}
 
-                            {selectedTask && (
-                                <EditTaskForm
-                                    task={selectedTask}
-                                    onClose={() => setSelectedTask(null)}
-                                    showTaskSaved={() => setTaskSaved(true)}
-                                />
+                                {selectedTask && (
+                                    <EditTaskForm
+                                        task={selectedTask}
+                                        onClose={() => setSelectedTask(null)}
+                                        showTaskSaved={() => setTaskSaved(true)}
+                                    />
+                                )}
+
+                                {listTasks}
+                            </div>
+
+                            {taskSaved && (
+                                <TaskSaved onClose={() => setTaskSaved(false)} />
                             )}
 
-                            {listTasks}
                         </div>
-
-                        {taskSaved && (
-                            <TaskSaved onClose={() => setTaskSaved(false)}/>
-                        )}
-
                     </div>
                 </div>
             </main>

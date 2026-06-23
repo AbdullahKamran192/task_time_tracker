@@ -1,25 +1,13 @@
-:root {
-  --bg: #0b1220;
-  --text: #e7ecff;
-}
+/* Timetable css */
 
 * {
   box-sizing: border-box;
 }
 
-body {
-  margin: 0;
-  font-family: Arial, sans-serif;
-  background: radial-gradient(1200px 600px at 20% 0%, rgba(79, 124, 255, 0.18), transparent 55%),
-              radial-gradient(900px 500px at 90% 10%, rgba(255, 92, 106, 0.12), transparent 60%),
-              var(--bg);
-  color: var(--text);
-}
-
 /* Top bar */
 .toolbar {
   height: 56px;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid var(--border-color);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -63,7 +51,7 @@ button, select {
 
 /* Time column */
 .timeCol {
-  border-right: 1px solid #ccc;
+  border-right: 1px solid var(--border-color);
 }
 
 .timeRow {
@@ -93,6 +81,35 @@ button, select {
     display: contents;
 }
 
+.btn {
+  min-width: 90px;
+  height: 40px;
+
+  background-color: var(--primary-color);
+  color: white;
+
+  border: none;
+  border-radius: var(--border-radius);
+
+  font-size: 18px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  box-shadow: var(--shadow-small);
+
+  transition: all 0.2s ease;
+}
+
+.btn:hover {
+  background-color: var(--primary-hover-color);
+  transform: translateY(-1px);
+}
+
+.btn:active {
+  transform: translateY(0);
+}
+
 /* Event */
 .event {
   overflow: hidden;
@@ -106,9 +123,10 @@ button, select {
 }
 
 .taskBox{
-  background-color: lightblue;
+  background-color: var(--primary-color);
+  border-radius: var(--border-radius);
+  color: white;
   border: 10px;
-  border-radius: 10px;
   border-color: white;
   width: 100%;
   height: 100px;
@@ -118,4 +136,72 @@ button, select {
 
 .taskBox p {
   color: black;
+}
+
+
+.pageLayout {
+  position: relative;
+}
+
+.miniCalendar {
+  position: absolute;
+
+  top: 20px;
+  left: 20px;
+
+  width: 220px;
+
+  background: var(--surface-color);
+
+  border-radius: var(--border-radius);
+
+  box-shadow: var(--shadow-small);
+
+  padding: 15px;
+
+  z-index: 10;
+}
+
+.miniCalendar h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+
+  color: var(--dark-text-color);
+
+  text-align: center;
+}
+
+.calendarGrid {
+  display: grid;
+
+  grid-template-columns: repeat(7, 1fr);
+
+  gap: 5px;
+}
+
+.calendarDate {
+  display: flex;
+
+  align-items: center;
+  justify-content: center;
+
+  width: 28px;
+  height: 28px;
+
+  border-radius: 6px;
+
+  text-decoration: none;
+
+  color: var(--dark-text-color);
+
+  transition: 0.2s;
+}
+
+.calendarDate:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.calendar {
+  margin-left: 260px;
 }
