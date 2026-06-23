@@ -97,6 +97,8 @@ tasksRouter.post("/saveTask", isLoggedIn, async (req, res) => {
 });
 
 tasksRouter.post("/updateTask", isLoggedIn, async (req, res) => {
+    console.log(req.body)
+
     const task_id = req.body.task_id;
     const taskName = req.body.taskName;
     const taskDescription = req.body.taskDescription;
@@ -115,11 +117,17 @@ tasksRouter.post("/updateTask", isLoggedIn, async (req, res) => {
         time_wasted
     );
 
-    res.render("tasks/taskStatus", {
+    // res.render("tasks/taskStatus", {
+    //     taskStatusMessage: "Task updated successfully",
+    //     username: req.user.username,
+    //     userProfilePicture: req.user.profile_picture
+    // });
+
+    res.json({
         taskStatusMessage: "Task updated successfully",
         username: req.user.username,
-        userProfilePicture: req.user.profile_picture
-    });
+        userProfilePicture: req.user.profile_picture  
+    })
 });
 
 tasksRouter.post("/deleteTask", isLoggedIn, async (req, res) => {

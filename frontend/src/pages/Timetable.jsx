@@ -230,7 +230,10 @@ const Timetable = () => {
                             ))}
 
                             {selectedTask && (
-                                <EditTaskForm task={selectedTask} />
+                                <EditTaskForm
+                                    task={selectedTask}
+                                    onClose={() => setSelectedTask(null)}
+                                />
                             )}
 
                             {listTasks}
