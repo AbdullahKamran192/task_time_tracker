@@ -4,6 +4,7 @@ import "./Timetable.css"
 import { Outlet } from "react-router-dom";
 import EditTaskForm from "../components/EditTaskForm";
 import TaskSaved from "../components/TaskSaved";
+import MiniCalendar from "../components/MiniCalendar";
 
 function formatTime(hour) {
     const isPM = hour >= 12;
@@ -130,8 +131,25 @@ const Timetable = () => {
                     }
                 }}
             >
-                <p>{task.task.task_name}</p>
-                <p>{task.task.task_description}</p>
+                <div className="taskTitle">
+                    {task.task.task_name}
+                </div>
+
+                <div className="taskTime">
+                    {startTime.toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    })}
+                    {" - "}
+                    {new Date(task.time_session.stop_time).toLocaleTimeString([], {
+                        hour: "2-digit",
+                        minute: "2-digit"
+                    })}
+                </div>
+
+                <div className="taskDescription">
+                    {task.task.task_description}
+                </div>
             </div>
         );
     });
@@ -191,6 +209,8 @@ const Timetable = () => {
         }
     }
 
+    console.log("TASKS:", tasks);
+
     return (
         <>
             <header className="toolbar">
@@ -209,46 +229,18 @@ const Timetable = () => {
                 </div>
             </header>
 
-            <main className="pageLayout">
-                <div className="dayHeader" id="dayHeaderText">
-                    {date.toLocaleDateString()}
-                </div>
-                <div className="miniCalendar">
 
-                    <h3>
-                        {currentDate.toLocaleString("default", {
-                            month: "long",
-                            year: "numeric"
-                        })}
-                    </h3>
+            <div className="pageLayout">
 
-                    <div className="calendarGrid">
+                <MiniCalendar date={date} />
 
-                        {dates.map(day => {
+                <main className="calendar">
 
-                            const selected =
-                                day === currentDate.getDate();
 
-                            return (
-                                <a
-                                    key={day}
-                                    href={`/timetable?date=${String(day).padStart(2, "0")}/${String(month + 1).padStart(2, "0")}/${year}#loadTimetablePageTo`}
-                                    className={
-                                        selected
-                                            ? "calendarDate activeDate"
-                                            : "calendarDate"
-                                    }
-                                >
-                                    {day}
-                                </a>
-                            );
-                        })}
-
+                    <div className="dayHeader" id="dayHeaderText">
+                        {date.toLocaleDateString()}
                     </div>
 
-                </div>
-
-                <div className="calendar">
                     <div className="gridWrap">
                         <div className="grid">
                             <div className="timeCol">
@@ -283,8 +275,9 @@ const Timetable = () => {
 
                         </div>
                     </div>
-                </div>
-            </main>
+                </main>
+            </div>
+
         </>
     );
 };

@@ -147,10 +147,17 @@
 }
 
 .stat {
-  background: #f1f5f9;
+  background: #f8fafc;
   border: 1px solid var(--border-color);
   border-radius: var(--border-radius);
-  padding: 16px;
+  padding: 18px;
+}
+
+.statValue {
+  margin-top: 10px;
+  font-size: 32px;
+  font-weight: 700;
+  color: var(--dark-text-color);
 }
 
 .statLabel {
@@ -159,11 +166,6 @@
   font-size: 18px;
 }
 
-.statValue {
-  margin: 0;
-  font-size: 18px;
-  font-weight: 700;
-}
 
 /* ----- Form ----- */
 #saveTaskForm {
@@ -189,10 +191,15 @@
   font-size: 13px;
 }
 
-.grid {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 12px;
+
+
+.field {
+  width: 100%;
+  min-width: 0;
+}
+
+.field input {
+  width: 100%;
 }
 
 .field label {
@@ -201,6 +208,7 @@
   font-size: 14px;
   color: var(--dark-text-color);
   font-weight: 600;
+  white-space: nowrap;
 }
 
 
@@ -216,6 +224,11 @@ input[type="datetime-local"] {
   font-size: 15px;
   outline: none;
   transition: all 0.2s ease;
+}
+
+input[type="datetime-local"] {
+  min-height: 48px;
+  font-size: 16px;
 }
 
 input[type="datetime-local"]::-webkit-calendar-picker-indicator {

@@ -40,3 +40,4 @@ monthProgressRouter.get("/monthProgress", isLoggedIn, async (req, res) => {
         userProfilePicture: req.user.profile_picture
     });
 });
+

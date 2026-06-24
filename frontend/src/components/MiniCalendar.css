@@ -1,0 +1,60 @@
+.miniCalendar {
+  width: 300px;
+  min-width: 300px;
+
+  align-self: flex-start;
+
+  background: var(--surface-color);
+  border: 1px solid var(--border-color);
+  border-radius: 16px;
+  padding: 16px;
+  box-shadow: var(--shadow-medium);
+}
+
+.miniCalendar h3 {
+  margin-top: 0;
+  margin-bottom: 15px;
+  color: var(--dark-text-color);
+  text-align: center;
+}
+
+.calendarWeekdays {
+  display: grid;
+  color: var(--dark-text-color);
+  grid-template-columns: repeat(7, 1fr);
+  margin-bottom: 8px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.calendarGrid {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 6px;
+}
+
+.calendarDate {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  width: 28px;
+  height: 28px;
+
+  border-radius: 6px;
+
+  text-decoration: none;
+  color: var(--dark-text-color);
+
+  transition: 0.2s;
+}
+
+.calendarDate:hover {
+  background: var(--primary-color);
+  color: white;
+}
+
+.activeDate {
+  background: var(--primary-color);
+  color: white;
+}

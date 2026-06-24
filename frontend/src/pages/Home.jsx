@@ -28,7 +28,6 @@ const Home = () => {
             document.getElementById("saveTaskForm").style.visibility = "hidden";
             startTime.current = new Date()
             document.getElementById("wasteTimerOnButton").innerHTML = "turn waste timer on"
-            document.getElementById("startTimerButton").style.color = "red";
             document.getElementById("wasteTimeIncrementButton").style.visibility = "visible";
             timeWastedSeconds.current = 0
             document.getElementById("showTimeWasted").innerHTML = `time wasted: 00:00:00`
@@ -39,7 +38,7 @@ const Home = () => {
                 const hours = Math.floor(elapsed / (3600000))
                 const minutes = Math.floor((elapsed % (3600000)) / (60000))
                 const seconds = Math.floor(((elapsed % (3600000)) % (60000)) / 1000)
-                document.getElementById("showTimeElapsed").innerHTML = `stopwatch: ${String(hours).padStart(2,"0")}:${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`; 
+                document.getElementById("showTimeElapsed").innerHTML = `${String(hours).padStart(2,"0")}:${String(minutes).padStart(2,"0")}:${String(seconds).padStart(2,"0")}`; 
             }, 1000)
         }
     }
@@ -69,7 +68,6 @@ const Home = () => {
 
         document.getElementById("wasteTimeIncrementButton").style.visibility = "hidden";
         //document.getElementById("showTimeElapsed").innerHTML = timeSpent;
-        document.getElementById("stopTimerButton").style.color = "green";
         document.getElementById("saveTaskForm").style.visibility = "visible";
         document.getElementById("timeWastedInput").value = Math.floor(timeWastedSeconds.current / 60);
         timeWastedSeconds.current = 0
@@ -90,7 +88,7 @@ const Home = () => {
                 const wasteTimeminutes = Math.floor((wasteTimeElapsed % (3600000)) / (60000))
                 const wasteTimeseconds = Math.floor(((wasteTimeElapsed % (3600000)) % (60000)) / 1000)
 
-                document.getElementById("showTimeWasted").innerHTML = `time wasted: ${String(wasteTimehours).padStart(2, "0")}:${String(wasteTimeminutes).padStart(2, "0")}:${String(wasteTimeseconds).padStart(2, "0")}`
+                document.getElementById("showTimeWasted").innerHTML = `${String(wasteTimehours).padStart(2, "0")}:${String(wasteTimeminutes).padStart(2, "0")}:${String(wasteTimeseconds).padStart(2, "0")}`
 
                 // timeWastedSeconds = timeWastedSeconds + Math.round(wasteTimeElapsed / 60)   
             }, 1000)
@@ -187,16 +185,14 @@ const Home = () => {
                 <p className="helperText" id="timeStopP"></p>
                 </div>
 
-                <div className="grid">
-                    <div className="field">
-                        <label htmlFor="taskStartTimeInput">Task Start Time</label>
-                        <input id="taskStartTimeInput" type="datetime-local" name="taskStartTime" />
-                    </div> <br/>
+                <div className="field">
+                    <label htmlFor="taskStartTimeInput">Task Start Time</label>
+                    <input id="taskStartTimeInput" type="datetime-local" name="taskStartTime" />
+                </div>
 
-                    <div className="field">
-                        <label htmlFor="taskStopTimeInput">Task Stop Time</label>
-                        <input id="taskStopTimeInput" type="datetime-local" name="taskStopTime" />
-                    </div>
+                <div className="field">
+                    <label htmlFor="taskStopTimeInput">Task Stop Time</label>
+                    <input id="taskStopTimeInput" type="datetime-local" name="taskStopTime" />
                 </div>
 
                 <div className="field">
