@@ -89,16 +89,13 @@ export const getTasksWithSessions = async (user_id) => {
     return rows;
 };
 
-export async function getUserTimeStats(user_id) {
+export async function getUserTimeStats(user_id, days = 30) {
     const [rows] = await pool.query(`
         SELECT
             COALESCE(
                 SUM(
-                    TIMESTAMPDIFF(
-                        MINUTE,
-                        ts.start_time,
-                        ts.stop_time
-                    ) - ts.time_wasted
+                    TIMESTAMPDIFF(MINUTE, ts.start_time, ts.stop_time)
+                    - ts.time_wasted
                 ),
                 0
             ) AS productive_minutes,
@@ -113,7 +110,8 @@ export async function getUserTimeStats(user_id) {
             ON t.task_id = ts.task_id
 
         WHERE t.user_id = ?
-    `, [user_id]);
+        AND ts.start_time >= DATE_SUB(NOW(), INTERVAL ? DAY)
+    `, [user_id, days]);
 
     return rows[0];
 }

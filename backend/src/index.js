@@ -7,7 +7,9 @@ import "./Helpers/auth.js"
 import passport from "passport"
 import session, { MemoryStore } from "express-session"
 import { isLoggedIn } from "./Middlewares/user.js"
+import { statsRouter } from "./Routes/userProgress.js";
 import cors from "cors" 
+
 
 
 const app = express()
@@ -40,6 +42,7 @@ app.set('views', path.resolve("./src/Views"))
 app.use(express.static('./src/Public'))
 
 app.use(tasksRouter)
+app.use(statsRouter);
 app.use(monthProgressRouter)
 
 app.get("/testroute", (req, res) => {
