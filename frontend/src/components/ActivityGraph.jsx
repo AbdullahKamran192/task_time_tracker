@@ -18,9 +18,9 @@ const AcitvityGraph = () => {
     const [productiveTime, setProductiveTime] = useState(0);
     const [wasteTime, setWasteTime] = useState(0);
     const [totalTime, setTotalTime] = useState(0);
-    const graphOffSet = totalTime == 0 ? 1165 : Math.round(1165 - (productiveTime / totalTime) * 1165)
 
-    const radius = 185;
+
+    const radius = 155;
     const circumference = 2 * Math.PI * radius;
 
     const percentage =
@@ -73,14 +73,14 @@ const AcitvityGraph = () => {
                     </div>
                 </div>
 
-                <svg width="400px" height="400px">
+                <svg width="340" height="340">
                     <defs>
                         <linearGradient id="linearGradient">
                             <stop offset="10%" stopColor="blue" />
                             <stop offset="100%" stopColor="lightblue" />
                         </linearGradient>
                     </defs>
-                    <circle cx={200} cy={200} r="185" style={{strokeDashoffset: graphOffSet, strokeDasharray: circumference}}/>
+                    <circle cx={170} cy={170} r="155" style={{strokeDashoffset: graphOffset, strokeDasharray: circumference}}/>
                 </svg>
             </div>
 

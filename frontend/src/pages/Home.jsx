@@ -147,84 +147,84 @@ const Home = () => {
             <div className="homeContent">
                 <AcitvityGraph />
 
-                
+                <div className="rightColumn">
+                    <section className="card">
+                        <div className="cardHeader">
+                            <h2 className="cardTitle">Timer</h2>
+                            <span className="badge" id="timerStatusBadge">Ready</span>
+                        </div>
+
+                        <div className="actions">
+                            <button className="btn btnPrimary" id="startTimerButton" onClick={startTimer}>Start timer</button>
+                            <button className="btn btnDanger" id="stopTimerButton" onClick={stopTimer}>Stop timer</button>
+                            <button className="btn btnGhost" id="wasteTimerOnButton" onClick={togglePauseWasteTime}></button>
+
+                            <button className="btn btnSecondary" id="wasteTimeIncrementButton" onClick={incrementTimeWasted}
+                                style={{ visibility: showWasteButton ? "visible" : "hidden" }}>
+                                Wasted time +1 min
+                            </button>
+                        </div>
+
+                        <div className="stats">
+                            <div className="stat">
+                                <p className="statLabel">Time elapsed</p>
+                                <p className="statValue" id="showTimeElapsed">—</p>
+                            </div>
+
+                            <div className="stat">
+                                <p className="statLabel">Time wasted</p>
+                                <p className="statValue" id="showTimeWasted">—</p>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section className="card">
+                        <div className="cardHeader">
+                            <h2 className="cardTitle">Save Task</h2>
+                            <p className="cardHint">Fill in the details and save it when you are done.</p>
+                        </div>
+
+                        <form className="form" id="saveTaskForm" onSubmit={submitTask}>
+                            <div className="helperRow">
+                                <p className="helperText" id="timeStartP"></p>
+                                <p className="helperText" id="timeStopP"></p>
+                            </div>
+
+                            <div className="field">
+                                <label htmlFor="taskStartTimeInput">Task Start Time</label>
+                                <input id="taskStartTimeInput" type="datetime-local" name="taskStartTime" />
+                            </div>
+
+                            <div className="field">
+                                <label htmlFor="taskStopTimeInput">Task Stop Time</label>
+                                <input id="taskStopTimeInput" type="datetime-local" name="taskStopTime" />
+                            </div>
+
+                            <div className="field">
+                                <label htmlFor="taskNameInput">Task Name</label>
+                                <input id="taskNameInput" placeholder="task name" type="text" name="taskName" />
+                            </div>
+
+                            <div className="field">
+                                <label htmlFor="taskDescriptionInput">Task Description</label>
+                                <input id="taskDescriptionInput" placeholder="task description" type="text" name="taskDescription" />
+                            </div>
+
+                            <div className="field">
+                                <label htmlFor="timeWastedInput">Time Wasted (minutes)</label>
+                                <input id="timeWastedInput" placeholder="time wasted" type="text" name="timeWasted" />
+                            </div>
+
+                            <div className="formFooter">
+                                <button className="btn btnPrimary submitButton" type="submit">Save</button>
+                            </div>
+                        </form>
+                    </section>
+                </div>
 
 
             </div>
 
-
-            <section className="card">
-                <div className="cardHeader">
-                    <h2 className="cardTitle">Timer</h2>
-                    <span className="badge" id="timerStatusBadge">Ready</span>
-                </div>
-
-                <div className="actions">
-                    <button className="btn btnPrimary" id="startTimerButton" onClick={startTimer}>Start timer</button>
-                    <button className="btn btnDanger" id="stopTimerButton" onClick={stopTimer}>Stop timer</button>
-                    <button className="btn btnGhost" id="wasteTimerOnButton" onClick={togglePauseWasteTime}></button>
-
-                    <button className="btn btnSecondary" id="wasteTimeIncrementButton" onClick={incrementTimeWasted}
-                        style={{ visibility: showWasteButton ? "visible" : "hidden" }}>
-                        Wasted time +1 min
-                    </button>
-                </div>
-
-                <div className="stats">
-                    <div className="stat">
-                        <p className="statLabel">Time elapsed</p>
-                        <p className="statValue" id="showTimeElapsed">—</p>
-                    </div>
-
-                    <div className="stat">
-                        <p className="statLabel">Time wasted</p>
-                        <p className="statValue" id="showTimeWasted">—</p>
-                    </div>
-                </div>
-            </section>
-
-            <section className="card">
-                <div className="cardHeader">
-                    <h2 className="cardTitle">Save Task</h2>
-                    <p className="cardHint">Fill in the details and save it when you are done.</p>
-                </div>
-
-                <form className="form" id="saveTaskForm" onSubmit={submitTask}>
-                    <div className="helperRow">
-                        <p className="helperText" id="timeStartP"></p>
-                        <p className="helperText" id="timeStopP"></p>
-                    </div>
-
-                    <div className="field">
-                        <label htmlFor="taskStartTimeInput">Task Start Time</label>
-                        <input id="taskStartTimeInput" type="datetime-local" name="taskStartTime" />
-                    </div>
-
-                    <div className="field">
-                        <label htmlFor="taskStopTimeInput">Task Stop Time</label>
-                        <input id="taskStopTimeInput" type="datetime-local" name="taskStopTime" />
-                    </div>
-
-                    <div className="field">
-                        <label htmlFor="taskNameInput">Task Name</label>
-                        <input id="taskNameInput" placeholder="task name" type="text" name="taskName" />
-                    </div>
-
-                    <div className="field">
-                        <label htmlFor="taskDescriptionInput">Task Description</label>
-                        <input id="taskDescriptionInput" placeholder="task description" type="text" name="taskDescription" />
-                    </div>
-
-                    <div className="field">
-                        <label htmlFor="timeWastedInput">Time Wasted (minutes)</label>
-                        <input id="timeWastedInput" placeholder="time wasted" type="text" name="timeWasted" />
-                    </div>
-
-                    <div className="formFooter">
-                        <button className="btn btnPrimary submitButton" type="submit">Save</button>
-                    </div>
-                </form>
-            </section>
         </main>
     )
 }

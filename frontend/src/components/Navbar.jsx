@@ -32,6 +32,7 @@ const Navbar = () => {
                 </li>
                 <li><button onClick={() => navigate('/')}>home</button></li>
                 <li><button onClick={() => navigate('/timetable')}>timetable</button></li>
+                <li><button onClick={() => navigate('/calendar')}>calendar</button></li>
                 <li><button onClick={() => {
                     navigate('/login')
                 }}> Login</button></li>
