@@ -24,16 +24,12 @@ function dayBoxTotalTimeColor(dailyTotal) {
     switch(true) {
         case dailyTotal >= 480:
             return "darkgreen";
-            break;
         case dailyTotal >= 390:
             return "green";
-            break;
         case dailyTotal >= 300:
             return "#faf47d";
-            break;
         case dailyTotal >= 180:
             return "#faaa5a";
-            break;
         default:
             return "#fc5f53";
     }

@@ -18,6 +18,16 @@ const MiniCalendar = ({ date }) => {
         (_, i) => i + 1
     );
 
+    const firstDay = new Date(year, month, 1);
+
+    const offset = () => {
+        if (firstDay.getDay() > 0) {
+            return firstDay.getDay() - 1;
+        } else {
+            return 6; // Sunday at the end
+        }
+    };
+
     return (
         <div className="miniCalendar">
 
@@ -39,6 +49,10 @@ const MiniCalendar = ({ date }) => {
             </div>
 
             <div className="calendarGrid">
+
+                {Array.from({ length: offset() }).map((_, index) => (
+                    <div key={index}></div>
+                ))}
 
                 {dates.map(day => {
 
