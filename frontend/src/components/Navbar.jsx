@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import "./Navbar.css"
 
@@ -21,9 +21,15 @@ const Navbar = () => {
         fetchData();
     }, [])
 
+
     return (
         <div className="navbar">
-            <img src={allData?.userProfilePicture} alt="logo"></img>
+            {allData.userProfilePicture && (
+                <img
+                    src={allData.userProfilePicture}
+                    alt="Profile"
+                />
+            )}
             <ul>
                 <li>
                     <span className="welcomeText">
@@ -33,12 +39,18 @@ const Navbar = () => {
                 <li><button onClick={() => navigate('/')}>home</button></li>
                 <li><button onClick={() => navigate('/timetable')}>timetable</button></li>
                 <li><button onClick={() => navigate('/calendar')}>calendar</button></li>
-                <li><button onClick={() => {
-                    navigate('/login')
-                }}> Login</button></li>
-                <li><button onClick={() => {
-                    window.location.href = "http://localhost:8080/logout"
-                }}> Logout </button></li>
+
+                {!allData.username && (
+                    <li><button onClick={() => {
+                        navigate('/login')
+                    }}> Login</button></li>
+                )}
+
+                {allData.username && (
+                    <li><button onClick={() => {
+                        window.location.href = "http://localhost:8080/logout"
+                    }}> Logout </button></li>
+                )}
             </ul>
         </div>
     )
