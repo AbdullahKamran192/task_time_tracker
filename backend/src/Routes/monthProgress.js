@@ -33,11 +33,11 @@ monthProgressRouter.get("/monthProgress", isLoggedIn, async (req, res) => {
         dailyTotals[key] += (minutes - wasted);
     }
 
-    res.render("tasks/monthProgress", {
+    res.json({
         dailyTotals,
         dailyFirstTask,
         username: req.user.username,
         userProfilePicture: req.user.profile_picture
-    });
+    })
 });
 

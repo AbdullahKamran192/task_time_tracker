@@ -10,6 +10,7 @@ import ContactForm from "./components/ContactForm";
 import Login from "./components/Login";
 import Timetable from "./pages/Timetable";
 import EditTaskForm from "./components/EditTaskForm";
+import Calendar from "./pages/Calendar";
 
 function App() {
 
@@ -28,7 +29,11 @@ function App() {
           <Route path="form" element={<ContactForm />} />
         </Route>
 
+        <Route path="calendar" element={<Calendar/>}></Route>
+
+
         <Route path="login" element={<Login/>}></Route>
+        
 
         <Route path="timetable" element={<Timetable/>}></Route>
       </Route>

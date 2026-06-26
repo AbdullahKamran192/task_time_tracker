@@ -37,10 +37,6 @@ function formatDate(date) {
     return `${fullYear}-${month}-${formatted_date}`
 }
 
-const params = new URLSearchParams(window.location.search);
-let date = params.get("date") ? new Date(formatDate(params.get("date"))) : new Date();
-
-
 function handleToday() {
     date = new Date()
     console.log(date)
@@ -71,6 +67,10 @@ function handleNext() {
 
 const Timetable = () => {
 
+    const params = new URLSearchParams(window.location.search);
+    let date = params.get("date") ? new Date(formatDate(params.get("date"))) : new Date();
+
+
     const [tasks, setTasks] = useState([]);
     const location = useLocation();
     const [selectedTask, setSelectedTask] = useState(null);
@@ -92,7 +92,7 @@ const Timetable = () => {
 
     useEffect(() => {
         fetchData();
-    }, [])
+    })
 
     // map all the tasks received (for this date) onto the timetable, correctly with the timestamp.
     const listTasks = tasks.map((task, index) => {
