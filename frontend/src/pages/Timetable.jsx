@@ -5,6 +5,7 @@ import { Outlet } from "react-router-dom";
 import EditTaskForm from "../components/EditTaskForm";
 import TaskSaved from "../components/TaskSaved";
 import MiniCalendar from "../components/MiniCalendar";
+import { useNavigate } from "react-router-dom";
 
 function formatTime(hour) {
     const isPM = hour >= 12;
@@ -31,44 +32,52 @@ function formatDate(date) {
     const month = date.substring(3, 5)
     const fullYear = date.substring(6, 10)
 
-    console.log("THE FORMATTED DATE")
-    console.log(`${formatted_date}-${month}-${fullYear}`)
+    //console.log("THE FORMATTED DATE")
+    //console.log(`${formatted_date}-${month}-${fullYear}`)
 
     return `${fullYear}-${month}-${formatted_date}`
 }
 
-function handleToday() {
-    date = new Date()
-    console.log(date)
-    window.location.href = `/timetable?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
-}
-
-function handlePrev() {
-    console.log(date)
-    if (date) {
-        date.setDate(date.getDate() - 1)
-        window.location.href = `/timetable?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
-    }
-    console.log("prevBtn button clicked")
-}
-
-function handleNext() {
-    console.log(date)
-    if (date) {
-        date.setDate(date.getDate() + 1)
-        window.location.href = `/timetable?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
-    }
-    console.log("nextBtn button clicked")
-}
-
-
-
 
 
 const Timetable = () => {
+    const navigate = useNavigate();
+
+    function formatURLDate(date) {
+        return `${String(date.getDate()).padStart(2,"0")}/${String(date.getMonth()+1).padStart(2,"0")}/${date.getFullYear()}`;
+    }
+
+    function handleToday() {
+        const newDate = new Date();
+
+        setDate(newDate);
+
+        navigate(`/timetable?date=${formatURLDate(newDate)}#loadTimetablePageTo`);
+    }
+
+    function handlePrev() {
+        const newDate = new Date(date);
+
+        newDate.setDate(newDate.getDate() - 1);
+
+        setDate(newDate);
+
+        navigate(`/timetable?date=${formatURLDate(newDate)}#loadTimetablePageTo`);
+    }
+
+    function handleNext() {
+        const newDate = new Date(date);
+
+        newDate.setDate(newDate.getDate() + 1);
+
+        setDate(newDate);
+
+        navigate(`/timetable?date=${formatURLDate(newDate)}#loadTimetablePageTo`);
+    }
 
     const params = new URLSearchParams(window.location.search);
-    let date = params.get("date") ? new Date(formatDate(params.get("date"))) : new Date();
+    //let date = params.get("date") ? new Date(formatDate(params.get("date"))) : new Date();
+    const [date, setDate] = useState(params.get("date") ? new Date(formatDate(params.get("date"))) : new Date())
 
 
     const [tasks, setTasks] = useState([]);
@@ -85,14 +94,22 @@ const Timetable = () => {
                 credentials: 'include'
             });
             const data = await response.json();
-            console.log(data)
+            //console.log(data)
             setTasks(data.tasks)
         }
     }
 
     useEffect(() => {
         fetchData();
-    })
+    }, [urlDate])
+
+    useEffect(() => {
+        if (urlDate) {
+            setDate(new Date(formatDate(urlDate)));
+        } else {
+            setDate(new Date());
+        }
+    }, [urlDate]);
 
     // map all the tasks received (for this date) onto the timetable, correctly with the timestamp.
     const listTasks = tasks.map((task, index) => {
@@ -156,7 +173,7 @@ const Timetable = () => {
 
 
     function divById(task_id) {
-        console.log(`You clicked on ${task_id}`)
+        //console.log(`You clicked on ${task_id}`)
         const divItem = document.getElementById(task_id);
 
         const openButton = document.querySelector("[data-open-modal]")
@@ -167,8 +184,8 @@ const Timetable = () => {
 
         closeButton.onclick = () => modal.close();
 
-        console.log("THE START HOUR MINUTE IS ")
-        console.log(divItem.querySelector(".start_hour_minute").textContent)
+        //console.log("THE START HOUR MINUTE IS ")
+        //console.log(divItem.querySelector(".start_hour_minute").textContent)
 
         document.getElementById("taskIdModel").value = task_id
         document.getElementById("taskStartTimeInputModal").value = `${formatDate(params.get("date"))}T${formatTimeTo24Hours(divItem.querySelector(".start_hour_minute").textContent)}`;
@@ -182,7 +199,7 @@ const Timetable = () => {
     }
 
     async function deleteTaskButtonClick(task_id) {
-        console.log(`PERFORM THE DELETE FOR ${task_id}`)
+        //console.log(`PERFORM THE DELETE FOR ${task_id}`)
 
         if (confirm("Are you sure you want to delete the task!") == true) {
             try {
@@ -204,12 +221,12 @@ const Timetable = () => {
                     window.location.href = delete_response.url
                 }
             } catch (error) {
-                console.error(error.message);
+                //console.error(error.message);
             }
         }
     }
 
-    console.log("TASKS:", tasks);
+    //console.log("TASKS:", tasks);
 
     return (
         <>
