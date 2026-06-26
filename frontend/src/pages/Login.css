@@ -1,0 +1,28 @@
+.loginPage {
+    display: flex;
+}
+
+.loginForm {
+    background-color: aliceblue;
+    border: 1px soid green;
+    border-radius: 25px;
+    height: 400px;
+    width: 400px;
+    display: flex;
+    align-items: end;
+    padding: 30px;
+}
+
+.loginForm button {
+    border-radius: 25px;
+    position: relative;
+    background-color: blue;
+    color: white;
+    width: 100%;
+}
+
+.informationBox {
+    display: flex;
+    flex-direction: column;
+    padding-left: 50px;
+}

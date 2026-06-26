@@ -17,10 +17,11 @@ function formatMinutes(minutes) {
 
 function dayBoxTotalTimeColor(dailyTotal) {
 
+    if(dailyTotal == null) {
+        return "lightgray"
+    }
+
     switch(true) {
-        case dailyTotal == 0:
-            return "gray";
-            break;
         case dailyTotal >= 480:
             return "darkgreen";
             break;
@@ -107,7 +108,7 @@ const CalendarMonth = ({
                     length: offSet()
                 }).map((_, index) => {
                     return (
-                        <div key={index}><h1 style={{backgroundColor: "black"}}>Hello</h1></div>
+                        <div key={index}></div>
                     )
                 })}
 
@@ -134,7 +135,8 @@ const CalendarMonth = ({
                             </div>
 
                             <div className="taskName">
-                                <b>{dailyFirstTask[key]}</b>
+                                <b>●{dailyFirstTask[key]}</b><br/>
+                                <b>●.....</b>
                             </div>
 
                             <div className="timeSpent">

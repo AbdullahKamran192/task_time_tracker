@@ -7,7 +7,7 @@ import Home from "./pages/Home";
 import ContactLayout from "./layout/ContactLayout";
 import ContactInfo from "./components/Contactinfo";
 import ContactForm from "./components/ContactForm";
-import Login from "./components/Login";
+import Login from "./pages/Login";
 import Timetable from "./pages/Timetable";
 import EditTaskForm from "./components/EditTaskForm";
 import Calendar from "./pages/Calendar";
