@@ -21,25 +21,30 @@ const Calendar = () => {
         const data = await response.json();
 
         setReceivedData(data);
-
     }
 
     useEffect(() => {
-
         getMonthProgress();
-
     }, []);
+
+    const currentYear = new Date().getFullYear();
 
     return (
 
         <div className="calendarPage">
 
-            <CalendarMonth
-                month={5}
-                year={2026}
-                dailyTotals={receivedData.dailyTotals}
-                dailyFirstTask={receivedData.dailyFirstTask}
-            />
+            {Array.from({ length: 12 }).map((_, month) => (
+
+                <CalendarMonth
+                    key={month}
+                    month={month}
+                    year={currentYear}
+                    dailyTotals={receivedData.dailyTotals}
+                    dailyFirstTask={receivedData.dailyFirstTask}
+                />
+
+            ))}
+
         </div>
 
     );

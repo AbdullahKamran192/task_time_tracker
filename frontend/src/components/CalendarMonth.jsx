@@ -18,7 +18,7 @@ function formatMinutes(minutes) {
 function dayBoxTotalTimeColor(dailyTotal) {
 
     switch(true) {
-        case dailyTotal === 0:
+        case dailyTotal == 0:
             return "gray";
             break;
         case dailyTotal >= 480:
@@ -61,6 +61,23 @@ const CalendarMonth = ({
             0
         ).getDate();
 
+    const firstDay = new Date(year, month, 1);
+    console.log(`year ${year} and month ${month} and first day ${firstDay.getDay()}`)
+
+
+    const offSet = () => {
+        if (firstDay.getDay() > 0) {
+            return firstDay.getDay() - 1;
+        } else {
+            return 6; // sunday at the end
+        }
+    }
+
+    // console.log("+++++++++++++++++++++++++++")
+    // console.log(firstDay.getDay())
+    // console.log("=========================")
+    // console.log(`${firstDay.getDate()}-${firstDay.getMonth()}-${firstDay.getFullYear()}`)
+
 
     return (
 
@@ -85,6 +102,14 @@ const CalendarMonth = ({
             </div>
 
             <div className="daysContainer">
+
+                {Array.from({
+                    length: offSet()
+                }).map((_, index) => {
+                    return (
+                        <div key={index}><h1 style={{backgroundColor: "black"}}>Hello</h1></div>
+                    )
+                })}
 
                 {Array.from({
                     length: daysInMonth

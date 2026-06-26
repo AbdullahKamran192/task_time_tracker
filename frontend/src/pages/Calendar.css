@@ -1,9 +1,8 @@
 .calendarPage{
+    width: min(1400px,95%);
+    margin: 40px auto;
 
-    max-width:1300px;
-
-    margin:30px auto;
-
-    padding:20px;
-
+    display:flex;
+    flex-direction:column;
+    gap:60px;
 }
