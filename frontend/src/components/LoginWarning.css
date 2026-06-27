@@ -1,0 +1,7 @@
+.loginWarning {
+    background-color: yellow;
+    color: black;
+    border: 1px solid black;
+    padding-left: 10px;
+    border-radius: var(--border-radius);
+}

@@ -17,17 +17,17 @@ function formatMinutes(minutes) {
 
 function dayBoxTotalTimeColor(dailyTotal) {
 
-    if(dailyTotal == null) {
+    if (dailyTotal == null) {
         return "lightgray"
     }
 
-    switch(true) {
+    switch (true) {
         case dailyTotal >= 480:
             return "darkgreen";
         case dailyTotal >= 390:
-            return "green";
+            return "limegreen";
         case dailyTotal >= 300:
-            return "#faf47d";
+            return "yellow";
         case dailyTotal >= 180:
             return "#faaa5a";
         default:
@@ -122,8 +122,8 @@ const CalendarMonth = ({
                         <div
                             key={day}
                             className="dayBox"
-                            style={{backgroundColor: dayBoxTotalTimeColor(dailyTotals[key])}}
-                            onClick={() => {navigate(`/timetable?date=${String(day).padStart(2, "0")}/${String(month + 1).padStart(2, "0")}/${year}#loadTimetablePageTo`)}}
+                            style={{ backgroundColor: dayBoxTotalTimeColor(dailyTotals[key]) }}
+                            onClick={() => { navigate(`/timetable?date=${String(day).padStart(2, "0")}/${String(month + 1).padStart(2, "0")}/${year}#loadTimetablePageTo`) }}
                         >
 
                             <div className="dayNumber">
@@ -131,11 +131,16 @@ const CalendarMonth = ({
                             </div>
 
                             <div className="taskName">
-                                <b>●{dailyFirstTask[key]}</b><br/>
-                                <b>●.....</b>
+                                {dailyFirstTask[key] && (
+                                    <div style={{color: dayBoxTotalTimeColor(dailyTotals[key]) == "darkgreen" ? "white" : "black"}}>
+                                        <b>●{dailyFirstTask[key]}</b><br />
+                                        <b>●.....</b>
+                                    </div>
+
+                                )}
                             </div>
 
-                            <div className="timeSpent">
+                            <div className="timeSpent" style={{ color: dayBoxTotalTimeColor(dailyTotals[key]) == "yellow" ? "black" : "white" }}>
 
                                 {formatMinutes(
                                     dailyTotals[key]

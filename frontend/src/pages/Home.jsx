@@ -3,6 +3,7 @@ import "./Home.css";
 import { useRef } from "react";
 import { useEffect } from "react";
 import AcitvityGraph from "../components/ActivityGraph";
+import LoginWarning from "../components/LoginWarning";
 
 const Home = () => {
 
@@ -31,6 +32,9 @@ const Home = () => {
         setBackendData(data);
     }
 
+    useEffect(() => {
+        fetchData();
+    }, [])
 
     async function startTimer() {
 
@@ -224,10 +228,7 @@ const Home = () => {
                                     <button className="btn btnPrimary submitButton" type="submit">Save</button>
                                 </div>
                             ) : (
-                                <div class="loginWarning">
-                                    <h3>Log in to submit the form</h3>
-                                    <p>Yellow often indicates a warning that might need attention.</p>
-                                </div> 
+                                <LoginWarning warningTitle="Log in to submit the form" warningMessage="You can view the form but must be logged in to save the task"/>
                             )}
 
                         </form>
