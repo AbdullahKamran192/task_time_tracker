@@ -25,6 +25,19 @@ function formatTimeTo24Hours(time) {
     return `${hours.padStart(2, "0")}:${minutes.padStart(2, "0")}`
 }
 
+function formatMinutes(minutes) {
+    if (!minutes)
+        return "";
+
+    const hrs = Math.floor(minutes / 60);
+    const mins = minutes % 60;
+
+    if (hrs === 0)
+        return `${mins} min`;
+
+    return `${hrs}h ${mins}m`;
+}
+
 //             0123456789
 //from example 26/01/2026 to 26-01-2026
 function formatDate(date) {
@@ -75,6 +88,29 @@ const Timetable = () => {
         navigate(`/timetable?date=${formatURLDate(newDate)}#loadTimetablePageTo`);
     }
 
+    function getTotalProductiveMinutes(tasks) {
+        let total = 0;
+
+        tasks.forEach(task => {
+            const start = new Date(task.time_session.start_time);
+            const stop = new Date(task.time_session.stop_time);    
+
+            total +=
+                (stop - start) / (1000 * 60) - task.time_wasted;
+        })
+        return total;
+    }
+
+    function getTotalWastedMinutes(tasks) {
+        let total = 0;
+
+        tasks.forEach(task => {
+            total += task.time_wasted;
+        });
+
+        return total;
+    }
+
     const params = new URLSearchParams(window.location.search);
     //let date = params.get("date") ? new Date(formatDate(params.get("date"))) : new Date();
     const [date, setDate] = useState(params.get("date") ? new Date(formatDate(params.get("date"))) : new Date())
@@ -94,10 +130,13 @@ const Timetable = () => {
                 credentials: 'include'
             });
             const data = await response.json();
-            //console.log(data)
+            console.log(data)
             setTasks(data.tasks)
         }
     }
+
+    const totalMinutes = getTotalProductiveMinutes(tasks);
+    const totalWastedMinutes = getTotalWastedMinutes(tasks);
 
     useEffect(() => {
         fetchData();
@@ -253,9 +292,9 @@ const Timetable = () => {
 
                 <main className="calendar">
 
-
-                    <div className="dayHeader" id="dayHeaderText">
-                        {date.toLocaleDateString()}
+                    <div className="statHeader" id="dayHeaderText">
+                        <p><b>Total productive time:</b> {formatMinutes(totalMinutes)}</p>
+                        <p><b>Total wasted time:</b> {formatMinutes(totalWastedMinutes)}</p>
                     </div>
 
                     <div className="gridWrap">

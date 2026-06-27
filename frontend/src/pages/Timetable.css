@@ -38,12 +38,13 @@ button, select {
   flex-direction: column;
 }
 
-.dayHeader {
+.statHeader {
   height: 40px;
   border-bottom: 1px solid #ccc;
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 100px;
 }
 
 /* Grid */
