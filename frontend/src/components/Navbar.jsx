@@ -31,11 +31,13 @@ const Navbar = () => {
                 />
             )}
             <ul>
-                <li>
-                    <span className="welcomeText">
-                        Hello, {allData?.username}
-                    </span>
-                </li>
+                {allData.username && (
+                    <li>
+                        <span className="welcomeText">
+                            Hello, {allData?.username}
+                        </span>
+                    </li>
+                )}
                 <li><button onClick={() => navigate('/')}>home</button></li>
                 <li><button onClick={() => navigate('/timetable')}>timetable</button></li>
                 <li><button onClick={() => navigate('/calendar')}>calendar</button></li>
@@ -47,7 +49,7 @@ const Navbar = () => {
                 )}
 
                 {allData.username && (
-                    <li><button onClick={() => {
+                    <li><button id="loginButton" onClick={() => {
                         window.location.href = "http://localhost:8080/logout"
                     }}> Logout </button></li>
                 )}

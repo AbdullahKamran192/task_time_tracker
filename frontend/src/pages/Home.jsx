@@ -21,8 +21,18 @@ const Home = () => {
         return `${date.getFullYear()}-${pad(date.getMonth() + 1)}-${pad(date.getDate())}T${pad(date.getHours())}:${pad(date.getMinutes())}`;
     }
 
+    const [backendData, setBackendData] = useState({});
+
+    const fetchData = async () => {
+        const response = await fetch("http://localhost:8080/", {
+            credentials: 'include'
+        });
+        const data = await response.json();
+        setBackendData(data);
+    }
+
+
     async function startTimer() {
-        console.log("Execute start.")
 
         if (timerStarted.current == false) {
             timerStarted.current = true
@@ -31,7 +41,7 @@ const Home = () => {
             document.getElementById("wasteTimerOnButton").innerHTML = "turn waste timer on"
             document.getElementById("wasteTimeIncrementButton").style.visibility = "visible";
             timeWastedSeconds.current = 0
-            document.getElementById("showTimeWasted").innerHTML = `time wasted: 00:00:00`
+            document.getElementById("showTimeWasted").innerHTML = `00:00:00`
             timerInterval.current = setInterval(() => {
                 const now = new Date();
                 const elapsed = now - startTime.current; // in milliseconds
@@ -45,13 +55,10 @@ const Home = () => {
     }
 
     function incrementTimeWasted() {
-        console.log("Execute increment.")
         timeWastedSeconds.current += 60
-        console.log(`the new timeWasted ${timeWastedSeconds.current}`)
     }
 
     function stopTimer() {
-        console.log("Execute stop.")
         timerStarted.current = false;
         clearInterval(wasteTimerInterval.current)
         clearInterval(timerInterval.current)
@@ -62,7 +69,6 @@ const Home = () => {
         if (wasteTimerOn.current == true) {
             clearInterval(wasteTimerInterval.current)
             const wasteTimeElapsed = (new Date()) - wasteTimerStart.current; // in milliseconds
-            console.log(`WASTE TIME ${wasteTimeElapsed}`)
             timeWastedSeconds.current += 60
             wasteTimerOn.current = false
         }
@@ -77,7 +83,6 @@ const Home = () => {
     }
 
     function togglePauseWasteTime() {
-        console.log("Execute toggle.")
         document.getElementById("wasteTimerOnButton").innerHTML = "turn waste timer off"
         if (wasteTimerOn.current == false) {
             wasteTimerStart.current = new Date()
@@ -98,7 +103,6 @@ const Home = () => {
             document.getElementById("wasteTimerOnButton").innerHTML = "turn waste timer on"
             clearInterval(wasteTimerInterval.current)
             const wasteTimeElapsed = (new Date()) - wasteTimerStart.current; // in milliseconds
-            console.log(`WASTE TIME ${wasteTimeElapsed}`)
             timeWastedSeconds.current += Math.floor(wasteTimeElapsed / 1000)//setTimeWastedSeconds(timeWastedSeconds.current + Math.floor(wasteTimeElapsed / 1000))
             wasteTimerOn.current = false//setWasteTimerOn(false)
         }
@@ -128,7 +132,6 @@ const Home = () => {
         const data = await response.json();
 
         if (data) {
-            console.log("Task saved");
 
             document.getElementById("saveTaskForm").reset();
 
@@ -215,9 +218,18 @@ const Home = () => {
                                 <input id="timeWastedInput" placeholder="time wasted" type="text" name="timeWasted" />
                             </div>
 
-                            <div className="formFooter">
-                                <button className="btn btnPrimary submitButton" type="submit">Save</button>
-                            </div>
+                            {backendData.username? (
+
+                                <div className="formFooter">
+                                    <button className="btn btnPrimary submitButton" type="submit">Save</button>
+                                </div>
+                            ) : (
+                                <div class="loginWarning">
+                                    <h3>Log in to submit the form</h3>
+                                    <p>Yellow often indicates a warning that might need attention.</p>
+                                </div> 
+                            )}
+
                         </form>
                     </section>
                 </div>

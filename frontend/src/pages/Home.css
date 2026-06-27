@@ -173,6 +173,10 @@
   visibility: hidden;
 }
 
+.SaveUnavailable {
+  color: black;
+}
+
 .form {
   display: grid;
   gap: 12px;
