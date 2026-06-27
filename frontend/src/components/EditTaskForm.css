@@ -1,12 +1,46 @@
 /*EditTaskForm.css */
 
-/* Dialog box */
+.modalOverlay {
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.45);
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    z-index: 9999;
+}
+
+.formHeader {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 10px 0;
+    position: relative;
+}
+
+#EditTaskTitle {
+    margin: 0;
+    color: black;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+label {
+  color: black;
+}
 
 .box {
-  border-radius: 5px;
+  position: relative;
+  border-radius: 16px;
   background-color: #f2f2f2;
-  width: 400px;
-  padding: 20px;
+  width: 600px;
+  max-width: 90vw;
+  max-height: 90vh;
+  overflow-y: auto;
+  background: white;
+  padding: 24px;
   border: 1px solid black;
 }
 
@@ -49,22 +83,43 @@ label {
     font-size: large;
 }
 
+.buttonContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.submitButton,
+#deleteTaskButton {
+    width: 220px;
+    height: 40px;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+}
+
 .submitButton {
-    background-color: green;
+    background: green;
     color: white;
-    font-size: large;
-    width: 100px;
 }
 
 .closeButton {
-    position: relative;
-    right: 10px;
+    position: absolute;
+    top: 50%;
+    left: 15px;
     cursor: pointer;
     width: 40px;
     background-color: rgb(255, 0, 0);
     color: rgb(255, 255, 255);
     font-size: large;
     font-weight: bold;
+    transform: translateY(-50%);
+    border-radius: var(--border-radius);
 }
 
 /* Task colour selector */
@@ -104,7 +159,6 @@ input:checked + .color {
 .red    { background: #ef4444; }
 
 #deleteTaskButton {
-  background-color: red;
+  background: red;
   color: white;
-  font-size: large;
 }

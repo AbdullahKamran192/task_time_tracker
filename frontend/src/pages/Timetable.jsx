@@ -177,7 +177,8 @@ const Timetable = () => {
                 key={index}
                 style={{
                     top: `${top}px`,
-                    height: `${height}px`
+                    height: `${height}px`,
+                    backgroundColor: task.task.task_colour ? task.task.task_colour : "blue"
                 }}
                 onClick={() => {
                     if (!selectedTask) {
@@ -319,6 +320,7 @@ const Timetable = () => {
                                         task={selectedTask}
                                         onClose={() => setSelectedTask(null)}
                                         showTaskSaved={() => setTaskSaved(true)}
+                                        reloadTasks={fetchData}
                                     />
                                 )}
 
