@@ -1,5 +1,5 @@
 import React from "react";
-import './LoginWarning.css'
+import './WarningBox.css'
 
 
 const LoginWarning = ({warningTitle, warningMessage}) => {

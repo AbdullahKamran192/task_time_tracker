@@ -63,6 +63,9 @@ const AcitvityGraph = () => {
 
     return (
         <div className="activityGraphBox">
+            <div className="activityHeading">
+                <h1>Past 30 days progress</h1>
+            </div>
             <div className="wrapper">
                 <div className="outer">
                     <div className="inner">

@@ -54,6 +54,11 @@
     letter-spacing:1px;
 }
 
+.activityHeading {
+    background-color: transparent;
+    text-align: center;
+}
+
 .infoBox h1{
     margin-top:10px;
     font-size:34px;

@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
+import settingIcon from "../assets/setting_icon.png";
 import "./Navbar.css"
 
 const Navbar = () => {
@@ -26,6 +27,7 @@ const Navbar = () => {
         <div className="navbar">
             {allData.userProfilePicture && (
                 <img
+                    className="profileImage"
                     src={allData.userProfilePicture}
                     alt="Profile"
                 />
@@ -52,6 +54,12 @@ const Navbar = () => {
                     <li><button id="loginButton" onClick={() => {
                         window.location.href = "http://localhost:8080/logout"
                     }}> Logout </button></li>
+                )}
+
+                {allData.username && (
+                    <li><button id="settingIcon" onClick={() => {
+                        navigate('/settings')
+                    }}><img className="settingsImage" src={settingIcon} alt="settings"/></button></li>
                 )}
             </ul>
         </div>

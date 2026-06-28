@@ -3,7 +3,7 @@ import "./Home.css";
 import { useRef } from "react";
 import { useEffect } from "react";
 import AcitvityGraph from "../components/ActivityGraph";
-import LoginWarning from "../components/LoginWarning";
+import WarningBox from "../components/WarningBox";
 
 const Home = () => {
 
@@ -191,6 +191,10 @@ const Home = () => {
                             <p className="cardHint">Fill in the details and save it when you are done.</p>
                         </div>
 
+                        {!backendData.username && (
+                            <WarningBox warningTitle="Your progress will not be saved" warningMessage="Log in to save progress"/>
+                        )}
+
                         <form className="form" id="saveTaskForm" onSubmit={submitTask}>
                             <div className="helperRow">
                                 <p className="helperText" id="timeStartP"></p>
@@ -228,7 +232,7 @@ const Home = () => {
                                     <button className="btn btnPrimary submitButton" type="submit">Save</button>
                                 </div>
                             ) : (
-                                <LoginWarning warningTitle="Log in to submit the form" warningMessage="You can view the form but must be logged in to save the task"/>
+                                <WarningBox warningTitle="Log in to submit the form" warningMessage="You can view the form but must be logged in to save the task"/>
                             )}
 
                         </form>
