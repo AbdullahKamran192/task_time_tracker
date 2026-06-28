@@ -42,12 +42,15 @@ const Home = () => {
         const timer = setTimeout(() => {
             setShowMessageBox(false)
         }, 6000);
+
+        return () => clearTimeout(timer);
     }, [showMessageBox])
 
     async function startTimer() {
 
         if (timerStarted.current == false) {
             timerStarted.current = true
+            setShowWasteButton(true)
             document.getElementById("saveTaskForm").style.visibility = "hidden";
             startTime.current = new Date()
             document.getElementById("wasteTimerOnButton").innerHTML = "turn waste timer on"
@@ -150,7 +153,7 @@ const Home = () => {
             document.getElementById("showTimeElapsed").innerHTML = "—";
             document.getElementById("showTimeWasted").innerHTML = "—";
 
-            <MessageBox messageTitle="Task saved successfully"/>
+            setShowMessageBox(true)
         }
     }
 
@@ -174,7 +177,8 @@ const Home = () => {
                         <div className="actions">
                             <button className="btn btnPrimary" id="startTimerButton" onClick={startTimer}>Start timer</button>
                             <button className="btn btnDanger" id="stopTimerButton" onClick={stopTimer}>Stop timer</button>
-                            <button className="btn btnGhost" id="wasteTimerOnButton" onClick={togglePauseWasteTime}></button>
+                            <button className="btn btnGhost" id="wasteTimerOnButton" onClick={togglePauseWasteTime}
+                                style={{visibility: showWasteButton ? "visible" : "hidden"}}>Turn waste timer on</button>
 
                             <button className="btn btnSecondary" id="wasteTimeIncrementButton" onClick={incrementTimeWasted}
                                 style={{ visibility: showWasteButton ? "visible" : "hidden" }}>
@@ -236,6 +240,10 @@ const Home = () => {
                                 <input id="timeWastedInput" placeholder="time wasted" type="text" name="timeWasted" />
                             </div>
 
+                            {showMessageBox && (
+                                <MessageBox messageTitle="Task saved successfully"/>
+                            )}
+
                             {backendData.username? (
 
                                 <div className="formFooter">
@@ -246,6 +254,7 @@ const Home = () => {
                             )}
 
                         </form>
+
                     </section>
                 </div>
 
