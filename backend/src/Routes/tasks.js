@@ -123,12 +123,6 @@ tasksRouter.post("/updateTask", isLoggedIn, async (req, res) => {
         time_wasted
     );
 
-    // res.render("tasks/taskStatus", {
-    //     taskStatusMessage: "Task updated successfully",
-    //     username: req.user.username,
-    //     userProfilePicture: req.user.profile_picture
-    // });
-
     res.json({
         taskStatusMessage: "Task updated successfully",
         username: req.user.username,

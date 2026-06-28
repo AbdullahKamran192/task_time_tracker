@@ -3,6 +3,7 @@ import "dotenv/config"
 import path from "path"
 import { tasksRouter } from "./Routes/tasks.js"
 import { monthProgressRouter } from "./Routes/monthProgress.js"
+import { settingsRouter } from "./Routes/settings.js"
 import "./Helpers/auth.js"
 import passport from "passport"
 import session, { MemoryStore } from "express-session"
@@ -44,6 +45,7 @@ app.use(express.static('./src/Public'))
 app.use(tasksRouter)
 app.use(statsRouter);
 app.use(monthProgressRouter)
+app.use(settingsRouter)
 
 app.get("/testroute", (req, res) => {
     res.json({

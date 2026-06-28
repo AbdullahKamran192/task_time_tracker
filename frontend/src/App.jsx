@@ -11,6 +11,7 @@ import Login from "./pages/Login";
 import Timetable from "./pages/Timetable";
 import EditTaskForm from "./components/EditTaskForm";
 import Calendar from "./pages/Calendar";
+import Settings from "./pages/Settings";
 
 function App() {
 
@@ -36,6 +37,8 @@ function App() {
         
 
         <Route path="timetable" element={<Timetable/>}></Route>
+
+        <Route path="settings" element={<Settings />}></Route>
       </Route>
     )
   )

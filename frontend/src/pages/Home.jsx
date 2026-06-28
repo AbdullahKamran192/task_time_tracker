@@ -4,6 +4,7 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import AcitvityGraph from "../components/ActivityGraph";
 import WarningBox from "../components/WarningBox";
+import MessageBox from "../components/MessageBox";
 
 const Home = () => {
 
@@ -15,6 +16,7 @@ const Home = () => {
     const wasteTimerInterval = useRef(null)
     const wasteTimerStart = useRef(null)
     const [showWasteButton, setShowWasteButton] = useState(false);
+    const [showMessageBox, setShowMessageBox] = useState(false);
 
     function toDateTimeLocal(date) {
         const pad = n => String(n).padStart(2, "0");
@@ -35,6 +37,12 @@ const Home = () => {
     useEffect(() => {
         fetchData();
     }, [])
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setShowMessageBox(false)
+        }, 6000);
+    }, [showMessageBox])
 
     async function startTimer() {
 
@@ -141,6 +149,8 @@ const Home = () => {
 
             document.getElementById("showTimeElapsed").innerHTML = "—";
             document.getElementById("showTimeWasted").innerHTML = "—";
+
+            <MessageBox messageTitle="Task saved successfully"/>
         }
     }
 

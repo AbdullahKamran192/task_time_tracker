@@ -115,3 +115,45 @@ export async function getUserTimeStats(user_id, days = 30) {
 
     return rows[0];
 }
+
+export async function getUserTaskLimits(user_id) {
+    const [rows] = await pool.query(
+        "SELECT * FROM user_task_limits WHERE user_id = ?",
+        [user_id]
+    );
+
+    const numOfTaskColours = 5;
+
+    if (rows.length != numOfTaskColours) {
+
+        // Delete all current colours (and limits) and replace with default ones.
+        await pool.query(
+            "DELETE FROM user_task_limits WHERE user_id = ?",
+            [user_id]
+        );
+
+        // Insert defaults values if user is new.
+        await pool.query(
+            `INSERT INTO user_task_limits (user_id, colour, minutes)
+             VALUES (?, 'red', 120), (?, 'orange', 240), (?, 'yellow', 360),
+             (?, 'green', 480), (?, 'darkgreen', 600)`,
+            [user_id, user_id, user_id, user_id, user_id]
+        );
+
+        const [newRows] = await pool.query(
+            "SELECT * FROM user_task_limits WHERE user_id = ?",
+            [user_id]
+        );
+
+        return newRows;
+    }
+
+    return rows;
+}
+
+export async function updateUserTaskLimits(user_id, colour, minutes) {
+    await pool.query(
+        "UPDATE user_task_limits SET minutes = ? WHERE user_id = ? AND colour = ?",
+        [minutes, user_id, colour]
+    );
+}

@@ -1,0 +1,46 @@
+.settingPage {
+    display: flex;
+    justify-content: center;
+}
+
+
+.taskTimeLimitBox {
+    border: 1px solid black;
+    border-radius: 25px;
+    background-color: var(--surface-color);
+    width: 40%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.taskTimeLimitBox label {
+    color: var(--dark-text-color);
+}
+
+
+.inputBox input[type="number"] {
+    width: 200px;
+    height: 30px;
+    font-size: large;
+}
+
+#updateTaskButton {
+    background: green;
+    color: white;
+    width: 220px;
+    height: 40px;
+    padding: 12px;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    cursor: pointer;
+    border-radius: var(--border-radius);
+}
+
+.inputBox span {
+    width: 70px;
+    color: var(--dark-text-color);
+    margin-left: 10px;
+}
