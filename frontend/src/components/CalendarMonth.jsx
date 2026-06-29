@@ -38,7 +38,7 @@ const CalendarMonth = ({
     useEffect(() => {
         getTaskTimeLimits();
     }, [])
-    
+
     function dayBoxTotalTimeColor(dailyTotal) {
 
         if (dailyTotal == null || dailyTotal == 0) {
@@ -95,11 +95,15 @@ const CalendarMonth = ({
 
         <div className="monthBox">
 
+            <p className="monthSubtitle">
+                Daily productive time (total task time − distraction time)
+            </p>
             <div className="monthHeader">
 
                 <h1>
                     {monthName} {year}
                 </h1>
+
 
             </div>
 
@@ -147,7 +151,7 @@ const CalendarMonth = ({
 
                             <div className="taskName">
                                 {dailyFirstTask[key] && (
-                                    <div style={{color: dayBoxTotalTimeColor(dailyTotals[key]) == "darkgreen" ? "white" : "black"}}>
+                                    <div style={{ color: dayBoxTotalTimeColor(dailyTotals[key]) == "darkgreen" ? "white" : "black" }}>
                                         <b>●{dailyFirstTask[key]}</b><br />
                                         <b>●.....</b>
                                     </div>

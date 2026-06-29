@@ -197,6 +197,8 @@ const Timetable = () => {
                         hour: "2-digit",
                         minute: "2-digit"
                     })}
+                    {" "}
+                    ({formatMinutes(task.time_wasted)} wasted)
                 </div>
 
                 <div className="taskDescription">

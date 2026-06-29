@@ -71,3 +71,10 @@
     font-weight:900;
     justify-content: center;
 }
+
+.monthSubtitle {
+    margin: 0 0 20px 0;
+    font-size: 18px;
+    color: var(--dark-text-color);
+    text-align: left;
+}
