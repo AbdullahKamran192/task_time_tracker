@@ -17,7 +17,7 @@ const app = express()
 const PORT = 8080
 
 const corsOptions = {
-    origin: ["http://localhost:5173"],
+    origin: [process.env.FRONTEND_URL],
     credentials: true
 }
 app.use(cors(corsOptions))
@@ -66,7 +66,7 @@ app.get("/auth/google",
 
 app.get('/google/callback',
     passport.authenticate('google', {
-        successRedirect: 'http://localhost:5173',
+        successRedirect: process.env.FRONTEND_URL,
         failureRedirect: '/auth/failure',
     })
 )
@@ -83,7 +83,7 @@ app.get('/logout', (req, res, next) => {
     req.logout(function(err) {
         if (err) { return next(err);}
         req.session.destroy();
-        res.redirect('http://localhost:5173');
+        res.redirect(process.env.FRONTEND_URL);
     });
 });
 

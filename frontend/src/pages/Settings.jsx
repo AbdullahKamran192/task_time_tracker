@@ -8,7 +8,7 @@ const Settings = () => {
     const [showMessageBox, setShowMessageBox] = useState(false);
 
     async function getSettingsData() {
-        const data = await fetch("http://localhost:8080/tasksLimit", { credentials: 'include' })
+        const data = await fetch(`${import.meta.env.VITE_BACKEND_URL}/tasksLimit`, { credentials: 'include' })
 
         const receivedTasksLimits = await data.json();
         console.log(receivedTasksLimits)
@@ -29,7 +29,7 @@ const Settings = () => {
         }));
 
         const response = await fetch(
-            "http://localhost:8080/tasksLimit",
+            `${import.meta.env.VITE_BACKEND_URL}/tasksLimit`,
             {
                 credentials: "include",
                 method: "POST",
@@ -45,9 +45,6 @@ const Settings = () => {
         if (response.ok) {
             setShowMessageBox(true)
         }
-
-        console.log("99999999999999999999999999999999999")
-        console.log(response)
     }
 
     useEffect(() => {

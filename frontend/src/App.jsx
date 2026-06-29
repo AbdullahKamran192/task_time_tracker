@@ -15,10 +15,6 @@ import Settings from "./pages/Settings";
 
 function App() {
 
-  // useEffect(() => {
-  //     window.location.href = "http://localhost:8080/auth/google";
-  // }, []);
-
 
   const router = createBrowserRouter(
     createRoutesFromElements(

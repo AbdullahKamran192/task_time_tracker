@@ -12,7 +12,7 @@ const Calendar = () => {
     async function getMonthProgress() {
 
         const response = await fetch(
-            "http://localhost:8080/monthProgress",
+            `${import.meta.env.VITE_BACKEND_URL}/monthProgress`,
             {
                 credentials: "include"
             }

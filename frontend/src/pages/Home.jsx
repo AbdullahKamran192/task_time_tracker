@@ -27,7 +27,7 @@ const Home = () => {
     const [backendData, setBackendData] = useState({});
 
     const fetchData = async () => {
-        const response = await fetch("http://localhost:8080/", {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/`, {
             credentials: 'include'
         });
         const data = await response.json();
@@ -133,7 +133,7 @@ const Home = () => {
         event.preventDefault();
 
         const response = await fetch(
-            "http://localhost:8080/saveTask",
+            `${import.meta.env.VITE_BACKEND_URL}/saveTask`,
             {
                 credentials: "include",
                 method: "POST",

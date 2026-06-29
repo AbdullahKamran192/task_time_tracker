@@ -26,7 +26,7 @@ const EditTaskForm = ({ task, onClose, showTaskSaved, reloadTasks }) => {
         )?.value;
 
         const response = await fetch(
-            "http://localhost:8080/updateTask",
+            `${import.meta.env.VITE_BACKEND_URL}/updateTask`,
             {
                 credentials: "include",
                 method: "POST",
@@ -59,7 +59,7 @@ const EditTaskForm = ({ task, onClose, showTaskSaved, reloadTasks }) => {
     async function deleteTask() {
 
         const response = await fetch(
-            "http://localhost:8080/deleteTask",
+            `${import.meta.env.VITE_BACKEND_URL}/deleteTask`,
             {
                 credentials: "include",
                 method: "POST",

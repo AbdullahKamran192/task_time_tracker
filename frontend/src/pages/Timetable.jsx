@@ -126,7 +126,7 @@ const Timetable = () => {
 
     const fetchData = async () => {
         if (urlDate) {
-            const response = await fetch(`http://localhost:8080/tasks?date=${urlDate}#loadTimetablePageTo`, {
+            const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/tasks?date=${urlDate}#loadTimetablePageTo`, {
                 credentials: 'include'
             });
             const data = await response.json();

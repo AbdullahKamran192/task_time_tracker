@@ -27,7 +27,7 @@ const CalendarMonth = ({
 
     async function getTaskTimeLimits() {
         const response = await fetch(
-            "http://localhost:8080/tasksLimit", { credentials: "include" }
+            `${import.meta.env.VITE_BACKEND_URL}/tasksLimit`, { credentials: "include" }
         );
 
         const data = await response.json();

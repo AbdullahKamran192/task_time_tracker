@@ -11,7 +11,7 @@ const Login = () => {
                     <h1>Use your Google account</h1>
                     <button
                         onClick={() => {
-                            window.location.href = "http://localhost:8080/auth/google";
+                            window.location.href = `${import.meta.env.VITE_BACKEND_URL}/auth/google`;
                         }}
                     >
                         <img

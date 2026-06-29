@@ -6,13 +6,10 @@ import { getUser, getUserByGoogleId, postUser } from '../Config/database.js';
 passport.use(new GoogleStrategy({
     clientID: process.env.CLIENT_ID,
     clientSecret: process.env.CLIENT_SECRET,
-    callbackURL: "http://localhost:8080/google/callback",
+    callbackURL: `${process.env.BACKEND_URL}/google/callback`,
     passReqToCallback: true
   },
   async function(request, accessToken, refreshToken, profile, done) {
-    // User.findOrCreate({ googleId: profile.id }, function (err, user) {
-    //   return cb(err, user);
-    // });
 
     var user = await getUserByGoogleId(profile["id"]);
 

@@ -10,7 +10,7 @@ const Navbar = () => {
     const [allData, setAllData] = useState({});
 
     const fetchData = async () => {
-        const response = await fetch("http://localhost:8080/", {
+        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/`, {
             credentials: 'include'
         });
         const data = await response.json();
@@ -52,7 +52,7 @@ const Navbar = () => {
 
                 {allData.username && (
                     <li><button id="loginButton" onClick={() => {
-                        window.location.href = "http://localhost:8080/logout"
+                        window.location.href = `${import.meta.env.VITE_BACKEND_URL}/logout`
                     }}> Logout </button></li>
                 )}
 

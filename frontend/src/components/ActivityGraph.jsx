@@ -33,7 +33,7 @@ const AcitvityGraph = () => {
     const fetchUserProgress = async () => {
 
         const response = await fetch(
-            "http://localhost:8080/userprogress",
+            `${import.meta.env.VITE_BACKEND_URL}/userprogress`,
             {
                 credentials: "include",
             }
