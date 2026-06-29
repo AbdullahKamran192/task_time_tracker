@@ -49,8 +49,6 @@ const EditTaskForm = ({ task, onClose, showTaskSaved, reloadTasks }) => {
         console.log(data);
 
         if (data) {
-            console.log("SUCESS!");
-            showTaskSaved();
             onClose();
             reloadTasks();
         }

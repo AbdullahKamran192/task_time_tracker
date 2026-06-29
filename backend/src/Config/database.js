@@ -143,8 +143,8 @@ export async function getUserTaskLimits(user_id) {
         // Insert defaults values if user is new.
         await pool.query(
             `INSERT INTO user_task_limits (user_id, colour, minutes)
-             VALUES (?, 'red', 120), (?, 'orange', 240), (?, 'yellow', 360),
-             (?, 'limegreen', 480), (?, 'darkgreen', 600)`,
+             VALUES (?, 'red', 0), (?, 'orange', 180), (?, 'yellow', 300),
+             (?, 'limegreen', 390), (?, 'darkgreen', 480)`,
             [user_id, user_id, user_id, user_id, user_id]
         );
 
