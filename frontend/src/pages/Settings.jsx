@@ -11,6 +11,7 @@ const Settings = () => {
         const data = await fetch("http://localhost:8080/tasksLimit", { credentials: 'include' })
 
         const receivedTasksLimits = await data.json();
+        console.log(receivedTasksLimits)
         setTaskLimits(receivedTasksLimits)
     }
 

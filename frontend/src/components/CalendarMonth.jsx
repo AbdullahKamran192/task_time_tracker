@@ -1,5 +1,5 @@
 import "./CalendarMonth.css";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 function formatMinutes(minutes) {
@@ -15,25 +15,6 @@ function formatMinutes(minutes) {
     return `${hrs}h ${mins}m`;
 }
 
-function dayBoxTotalTimeColor(dailyTotal) {
-
-    if (dailyTotal == null) {
-        return "lightgray"
-    }
-
-    switch (true) {
-        case dailyTotal >= 480:
-            return "darkgreen";
-        case dailyTotal >= 390:
-            return "limegreen";
-        case dailyTotal >= 300:
-            return "yellow";
-        case dailyTotal >= 180:
-            return "#faaa5a";
-        default:
-            return "#fc5f53";
-    }
-}
 
 const CalendarMonth = ({
     month,
@@ -41,6 +22,51 @@ const CalendarMonth = ({
     dailyTotals,
     dailyFirstTask
 }) => {
+
+    const [taskLimits, setTaskLimits] = useState([])
+
+    async function getTaskTimeLimits() {
+        const response = await fetch(
+            "http://localhost:8080/tasksLimit", { credentials: "include" }
+        );
+
+        const data = await response.json();
+
+        console.log("===================================")
+        console.log(data)
+        console.log("=================================")
+
+        setTaskLimits(data);
+    }
+
+    useEffect(() => {
+        getTaskTimeLimits();
+    }, [])
+    
+    function dayBoxTotalTimeColor(dailyTotal) {
+
+        if (dailyTotal == null || dailyTotal == 0) {
+            return "lightgray";
+        }
+
+        if (dailyTotal >= taskLimits[0].minutes) {
+            return taskLimits[0].colour; // dark green
+        }
+
+        if (dailyTotal >= taskLimits[1].minutes) {
+            return taskLimits[1].colour // limegreen
+        }
+
+        if (dailyTotal >= taskLimits[2].minutes) {
+            return taskLimits[2].colour // yellow
+        }
+
+        if (dailyTotal >= taskLimits[3].minutes) {
+            return taskLimits[3].colour; //orange
+        }
+
+        return taskLimits[4].colour;          // red
+    }
 
     const navigate = useNavigate()
 
@@ -59,7 +85,7 @@ const CalendarMonth = ({
         ).getDate();
 
     const firstDay = new Date(year, month, 1);
-    console.log(`year ${year} and month ${month} and first day ${firstDay.getDay()}`)
+    //console.log(`year ${year} and month ${month} and first day ${firstDay.getDay()}`)
 
 
     const offSet = () => {

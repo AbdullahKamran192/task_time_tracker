@@ -12,10 +12,6 @@ settingsRouter.get("/tasksLimit", isLoggedIn, async (req, res) => {
 
 settingsRouter.post("/tasksLimit", isLoggedIn, async (req, res) => {
 
-    console.log("==================================================")
-    console.log(req.body)
-    console.log("==================================================")
-
     const tasksLimits = req.body.tasksLimits;
 
     for (const taskLimit of tasksLimits) {
@@ -25,8 +21,6 @@ settingsRouter.post("/tasksLimit", isLoggedIn, async (req, res) => {
 
         await updateUserTaskLimits(req.user.user_id, colour, minutes);
     }
-
-    console.log("-----------------")
 
     res.json({
         settingsStatusMessage: "Minutes updated successfully",

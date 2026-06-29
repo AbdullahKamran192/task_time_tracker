@@ -36,7 +36,13 @@ const Home = () => {
 
     useEffect(() => {
         fetchData();
+
+        return () => {
+        clearInterval(timerInterval.current);
+        clearInterval(wasteTimerInterval.current);
+    };
     }, [])
+
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -206,7 +212,7 @@ const Home = () => {
                         </div>
 
                         {!backendData.username && (
-                            <WarningBox warningTitle="Your progress will not be saved" warningMessage="Log in to save progress"/>
+                            <WarningBox warningTitle="Your progress will not be saved" warningMessage="Login to save progress"/>
                         )}
 
                         <form className="form" id="saveTaskForm" onSubmit={submitTask}>

@@ -93,7 +93,7 @@ const AcitvityGraph = () => {
                     <h1>{formatMinutes(productiveTime)}</h1>
                 </div>
                 <div className="infoBox">
-                    <h3>Waste</h3>
+                    <h3>Distraction</h3>
                     <h1>{formatMinutes(wasteTime)}</h1>
                 </div>
             </div>

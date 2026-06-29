@@ -118,9 +118,17 @@ export async function getUserTimeStats(user_id, days = 30) {
 
 export async function getUserTaskLimits(user_id) {
     const [rows] = await pool.query(
-        "SELECT * FROM user_task_limits WHERE user_id = ?",
-        [user_id]
-    );
+        `SELECT *
+        FROM user_task_limits
+        WHERE user_id = ?
+        ORDER BY FIELD(colour,
+            'darkgreen',
+            'limegreen',
+            'yellow',
+            'orange',
+            'red'
+        );`, [user_id]
+    )
 
     const numOfTaskColours = 5;
 
@@ -136,12 +144,22 @@ export async function getUserTaskLimits(user_id) {
         await pool.query(
             `INSERT INTO user_task_limits (user_id, colour, minutes)
              VALUES (?, 'red', 120), (?, 'orange', 240), (?, 'yellow', 360),
-             (?, 'green', 480), (?, 'darkgreen', 600)`,
+             (?, 'limegreen', 480), (?, 'darkgreen', 600)`,
             [user_id, user_id, user_id, user_id, user_id]
         );
 
         const [newRows] = await pool.query(
-            "SELECT * FROM user_task_limits WHERE user_id = ?",
+            `SELECT *
+            FROM user_task_limits
+            WHERE user_id = ?
+            ORDER BY FIELD(
+                colour,
+                'darkgreen',
+                'limegreen',
+                'yellow',
+                'orange',
+                'red'
+            )`,
             [user_id]
         );
 
