@@ -32,10 +32,6 @@ const CalendarMonth = ({
 
         const data = await response.json();
 
-        console.log("===================================")
-        console.log(data)
-        console.log("=================================")
-
         setTaskLimits(data);
     }
 
@@ -85,8 +81,6 @@ const CalendarMonth = ({
         ).getDate();
 
     const firstDay = new Date(year, month, 1);
-    //console.log(`year ${year} and month ${month} and first day ${firstDay.getDay()}`)
-
 
     const offSet = () => {
         if (firstDay.getDay() > 0) {
@@ -95,11 +89,6 @@ const CalendarMonth = ({
             return 6; // sunday at the end
         }
     }
-
-    // console.log("+++++++++++++++++++++++++++")
-    // console.log(firstDay.getDay())
-    // console.log("=========================")
-    // console.log(`${firstDay.getDate()}-${firstDay.getMonth()}-${firstDay.getFullYear()}`)
 
 
     return (

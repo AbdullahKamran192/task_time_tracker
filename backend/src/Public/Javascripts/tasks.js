@@ -40,7 +40,6 @@ async function startTimer() {
 
 function incrementTimeWasted() {
     timeWastedSeconds = timeWastedSeconds + 60;
-    console.log(`the new timeWasted ${timeWastedSeconds}`)
 }
 
 function stopTimer(){
@@ -57,7 +56,6 @@ function stopTimer(){
     if (wasteTimerOn == true) {
         clearInterval(wasteTimerInterval)
         const wasteTimeElapsed = (new Date()) - wasteTimerStart; // in milliseconds
-        console.log(`WASTE TIME ${wasteTimeElapsed}`)
         timeWastedSeconds = timeWastedSeconds + Math.floor(wasteTimeElapsed / 1000)
         wasteTimerOn = false
     }
@@ -83,14 +81,12 @@ function pauseTimer() {
 
 function handleKeyDownStart(event) {
     if (event.ctrlKey && event.altKey && event.key === '/') {
-        console.log("Ctrl + Alt + / pressed. Timer STARTED")
         startTimer()
     }  
 }
 
 function handleKeyDownStop(event) {
     if (event.ctrlKey && event.altKey && event.key === 'm') {
-        console.log("Ctrl + Alt + m pressed. Timer STOPPED")
         stopTimer()
     }
 }
@@ -116,7 +112,6 @@ function togglePauseWasteTime() {
         document.getElementById("wasteTimerOnButton").innerHTML = "turn waste timer on"
         clearInterval(wasteTimerInterval)
         const wasteTimeElapsed = (new Date()) - wasteTimerStart; // in milliseconds
-        console.log(`WASTE TIME ${wasteTimeElapsed}`)
         timeWastedSeconds = timeWastedSeconds + Math.floor(wasteTimeElapsed / 1000)
         wasteTimerOn = false
     }

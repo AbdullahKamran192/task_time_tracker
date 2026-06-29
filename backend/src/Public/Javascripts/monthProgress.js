@@ -9,7 +9,6 @@ const data = JSON.parse(dataElement.textContent || "{}");
 const dailyTotals = data.dailyTotals || {};
 const dailyFirstTask = data.dailyFirstTask || {}; 
 
-console.log("dailyTotals:", dailyTotals); 
 
 const container = document.getElementById("monthsContainer");
 const yearDisplay = document.getElementById("yearDisplay");

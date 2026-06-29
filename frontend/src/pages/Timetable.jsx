@@ -44,9 +44,6 @@ function formatDate(date) {
     const month = date.substring(3, 5)
     const fullYear = date.substring(6, 10)
 
-    //console.log("THE FORMATTED DATE")
-    //console.log(`${formatted_date}-${month}-${fullYear}`)
-
     return `${fullYear}-${month}-${formatted_date}`
 }
 
@@ -211,7 +208,6 @@ const Timetable = () => {
 
 
     function divById(task_id) {
-        //console.log(`You clicked on ${task_id}`)
         const divItem = document.getElementById(task_id);
 
         const openButton = document.querySelector("[data-open-modal]")
@@ -221,9 +217,6 @@ const Timetable = () => {
         modal.showModal()
 
         closeButton.onclick = () => modal.close();
-
-        //console.log("THE START HOUR MINUTE IS ")
-        //console.log(divItem.querySelector(".start_hour_minute").textContent)
 
         document.getElementById("taskIdModel").value = task_id
         document.getElementById("taskStartTimeInputModal").value = `${formatDate(params.get("date"))}T${formatTimeTo24Hours(divItem.querySelector(".start_hour_minute").textContent)}`;
@@ -237,7 +230,6 @@ const Timetable = () => {
     }
 
     async function deleteTaskButtonClick(task_id) {
-        //console.log(`PERFORM THE DELETE FOR ${task_id}`)
 
         if (confirm("Are you sure you want to delete the task!") == true) {
             try {
@@ -263,8 +255,6 @@ const Timetable = () => {
             }
         }
     }
-
-    //console.log("TASKS:", tasks);
 
     return (
         <>

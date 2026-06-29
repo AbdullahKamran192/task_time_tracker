@@ -14,7 +14,6 @@ const Navbar = () => {
             credentials: 'include'
         });
         const data = await response.json();
-        console.log(data)
         setAllData(data);
     }
 

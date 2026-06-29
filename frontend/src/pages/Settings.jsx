@@ -11,7 +11,6 @@ const Settings = () => {
         const data = await fetch(`${import.meta.env.VITE_BACKEND_URL}/tasksLimit`, { credentials: 'include' })
 
         const receivedTasksLimits = await data.json();
-        console.log(receivedTasksLimits)
         setTaskLimits(receivedTasksLimits)
     }
 

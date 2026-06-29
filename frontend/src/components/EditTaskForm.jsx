@@ -46,7 +46,6 @@ const EditTaskForm = ({ task, onClose, showTaskSaved, reloadTasks }) => {
         );
 
         const data = await response.json();
-        console.log(data);
 
         if (data) {
             onClose();

@@ -27,7 +27,6 @@ export async function getTasksByUserIdAndDate(date) {
 
 export async function postTask(task_name, task_description, user_id) {
     const [query_response] = await pool.query("INSERT INTO tasks (task_name, task_description, user_id) VALUES (?,?,?)", [task_name, task_description, user_id])
-    console.log(query_response.insertId)
     return query_response
 }
 

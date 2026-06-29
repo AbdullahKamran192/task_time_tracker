@@ -43,8 +43,6 @@ const AcitvityGraph = () => {
 
         if (data) {
 
-            console.log(data);
-
             // Convert the strings from the backend into numbers
             const productive = Number(data.productiveMinutes);
             const wasted = Number(data.wastedMinutes);

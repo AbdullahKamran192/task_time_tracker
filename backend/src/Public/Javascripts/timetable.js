@@ -47,9 +47,6 @@ function formatDate(date){
     const month = date.substring(3,5)
     const fullYear = date.substring(6,10)
 
-    console.log("THE FORMATTED DATE")
-    console.log(`${formatted_date}-${month}-${fullYear}`)
-
     return `${fullYear}-${month}-${formatted_date}`
 }
 
@@ -58,29 +55,23 @@ let date = params.get("date") ? new Date(formatDate(params.get("date"))) : new D
 
 document.getElementById("todayBtn").addEventListener("click", () => {
     date = new Date()
-    console.log(date)
     window.location.href = `/tasks?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
 });
 document.getElementById("prevBtn").addEventListener("click", () => {
-    console.log(date)
     if (date) {
         date.setDate(date.getDate() - 1)
         window.location.href = `/tasks?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
     }
-    console.log("prevBtn button clicked")
 });
 document.getElementById("nextBtn").addEventListener("click", () => {
-    console.log(date)
     if (date) {
         date.setDate(date.getDate() + 1)
         window.location.href = `/tasks?date=${date.toLocaleDateString()}#loadTimetablePageTo`;
     }
-    console.log("nextBtn button clicked")
 });
 
 
 function divById(task_id) {
-    console.log(`You clicked on ${task_id}`)
     const divItem = document.getElementById(task_id);
 
     const openButton = document.querySelector("[data-open-modal]")
@@ -90,9 +81,6 @@ function divById(task_id) {
     modal.showModal()
 
     closeButton.onclick = () => modal.close();
-
-    console.log("THE START HOUR MINUTE IS ")
-    console.log(divItem.querySelector(".start_hour_minute").textContent)
 
     document.getElementById("taskIdModel").value = task_id
     document.getElementById("taskStartTimeInputModal").value = `${formatDate(params.get("date"))}T${formatTimeTo24Hours(divItem.querySelector(".start_hour_minute").textContent)}`;
@@ -106,7 +94,6 @@ function divById(task_id) {
 }
 
 async function deleteTaskButtonClick(task_id) {
-    console.log(`PERFORM THE DELETE FOR ${task_id}`)
 
     if (confirm("Are you sure you want to delete the task!") == true) {
         try {
