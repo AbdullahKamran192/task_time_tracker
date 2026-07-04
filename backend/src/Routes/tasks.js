@@ -74,12 +74,12 @@ tasksRouter.post("/saveTask", isLoggedIn, async (req, res) => {
     const taskStopTime = req.body.taskStopTime;
     const time_wasted = req.body.timeWasted;
 
-    const query_response = await postTask(taskName, taskDescription, user_id);
+    const task = await postTask(taskName, taskDescription, user_id);
 
     await postTimeSession(
         taskStartTime,
         taskStopTime,
-        query_response.insertId,
+        task.task_id,
         time_wasted
     );
 

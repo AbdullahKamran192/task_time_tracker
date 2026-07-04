@@ -2,12 +2,12 @@ import "./CalendarMonth.css";
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function formatMinutes(minutes) {
-    if (!minutes)
+function formatMinutes(minutesToFormat) {
+    if (!minutesToFormat)
         return "";
 
-    const hrs = Math.floor(minutes / 60);
-    const mins = minutes % 60;
+    const hrs = Math.floor(minutesToFormat / 60);
+    const mins = minutesToFormat % 60;
 
     if (hrs === 0)
         return `${mins} min`;
@@ -32,6 +32,9 @@ const CalendarMonth = ({
 
         const data = await response.json();
 
+        console.log("===================================================")
+        console.log(data)
+
         setTaskLimits(data);
     }
 
@@ -41,23 +44,27 @@ const CalendarMonth = ({
 
     function dayBoxTotalTimeColor(dailyTotal) {
 
+        if (taskLimits.length < 5) {
+            return "lightgray"
+        }
+
         if (dailyTotal == null || dailyTotal == 0) {
             return "lightgray";
         }
 
-        if (dailyTotal >= taskLimits[0].minutes) {
+        if (dailyTotal >= Number(taskLimits[0].minutes)) {
             return taskLimits[0].colour; // dark green
         }
 
-        if (dailyTotal >= taskLimits[1].minutes) {
+        if (dailyTotal >= Number(taskLimits[1].minutes)) {
             return taskLimits[1].colour // limegreen
         }
 
-        if (dailyTotal >= taskLimits[2].minutes) {
+        if (dailyTotal >= Number(taskLimits[2].minutes)) {
             return taskLimits[2].colour // yellow
         }
 
-        if (dailyTotal >= taskLimits[3].minutes) {
+        if (dailyTotal >= Number(taskLimits[3].minutes)) {
             return taskLimits[3].colour; //orange
         }
 
