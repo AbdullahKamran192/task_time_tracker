@@ -20,27 +20,9 @@ const CalendarMonth = ({
     month,
     year,
     dailyTotals,
-    dailyFirstTask
+    dailyFirstTask,
+    taskLimits
 }) => {
-
-    const [taskLimits, setTaskLimits] = useState([])
-
-    async function getTaskTimeLimits() {
-        const response = await fetch(
-            `${import.meta.env.VITE_BACKEND_URL}/tasksLimit`, { credentials: "include" }
-        );
-
-        const data = await response.json();
-
-        console.log("===================================================")
-        console.log(data)
-
-        setTaskLimits(data);
-    }
-
-    useEffect(() => {
-        getTaskTimeLimits();
-    }, [])
 
     function dayBoxTotalTimeColor(dailyTotal) {
 

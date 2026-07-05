@@ -4,9 +4,6 @@ import {Routes, Route, createBrowserRouter, createRoutesFromElements, RouterProv
 import RouteLayout from "./layout/RouteLayout";
 import Navbar from "./components/Navbar"
 import Home from "./pages/Home";
-import ContactLayout from "./layout/ContactLayout";
-import ContactInfo from "./components/Contactinfo";
-import ContactForm from "./components/ContactForm";
 import Login from "./pages/Login";
 import Timetable from "./pages/Timetable";
 import EditTaskForm from "./components/EditTaskForm";
@@ -16,18 +13,35 @@ import CreateTask from "./pages/CreateTask";
 
 function App() {
 
+  const [userData, setUserData] = useState()
+
+  async function checkLoggedIn() {
+      const response = await fetch(
+          `${import.meta.env.VITE_BACKEND_URL}/`,
+          { credentials: "include" }
+      );
+
+
+      if (!response.ok) {
+        setUserData(null)
+        return;
+      }
+      
+      const data = await response.json();
+      setUserData(data)
+  }
+
+    useEffect(() => {
+      checkLoggedIn();
+    }, [])
+
 
   const router = createBrowserRouter(
     createRoutesFromElements(
       <Route path='/' element={<RouteLayout />}>
         <Route index element={<Home />}></Route>
 
-        <Route path="contact" element={<ContactLayout />}>
-          <Route path="info" element={<ContactInfo />} />
-          <Route path="form" element={<ContactForm />} />
-        </Route>
-
-        <Route path="calendar" element={<Calendar/>}></Route>
+        <Route path="calendar" element={<Calendar userData={userData}/>}></Route>
 
 
         <Route path="login" element={<Login/>}></Route>

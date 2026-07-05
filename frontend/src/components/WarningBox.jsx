@@ -6,7 +6,7 @@ const LoginWarning = ({warningTitle, warningMessage}) => {
 
 
     return (
-        <div class="loginWarning">
+        <div className="loginWarning">
             <h3>Warning: {warningTitle}</h3>
             <p>{warningMessage}</p>
         </div>

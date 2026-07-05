@@ -9,17 +9,24 @@ statsRouter.get(
     isLoggedIn,
     async (req, res) => {
 
-        const stats =
-            await getUserTimeStats(
-                req.user.user_id
-            );
+        try {
+            const stats =
+                await getUserTimeStats(
+                    req.user.user_id
+                );
+    
+            res.json({
+                productiveMinutes:
+                    stats.productive_minutes,
+    
+                wastedMinutes:
+                    stats.wasted_minutes
+            });
+        } catch (err) {
+            res.status(400).json({
+                message: err.message
+            })
+        }
 
-        res.json({
-            productiveMinutes:
-                stats.productive_minutes,
-
-            wastedMinutes:
-                stats.wasted_minutes
-        });
     }
 );

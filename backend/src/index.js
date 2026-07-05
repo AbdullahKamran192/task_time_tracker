@@ -47,12 +47,6 @@ app.use(statsRouter);
 app.use(monthProgressRouter)
 app.use(settingsRouter)
 
-app.get("/testroute", (req, res) => {
-    res.json({
-        myData: "Hello there, this is from the backend.",
-    })
-})
-
 app.get("/", isLoggedIn, (req, res) => {
     res.json({
         "username": req.user.username,
@@ -86,6 +80,11 @@ app.get('/logout', (req, res, next) => {
         res.redirect(process.env.FRONTEND_URL);
     });
 });
+
+
+app.use((req, res, next) => {
+    res.status(404).send("Page not Found.")
+})
 
 
 app.listen(PORT, () => console.log(`Server listening on port ${PORT}`))

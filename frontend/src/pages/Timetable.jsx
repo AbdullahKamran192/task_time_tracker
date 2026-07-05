@@ -125,7 +125,6 @@ const Timetable = () => {
                 credentials: 'include'
             });
             const data = await response.json();
-            console.log(data)
             setTasks(data.tasks)
         }
     }
@@ -198,7 +197,7 @@ const Timetable = () => {
                         minute: "2-digit"
                     })}
                     {" "}
-                    ({formatMinutes(task.time_wasted)} wasted)
+                    {task.time_wasted > 0 && (<span>({formatMinutes(task.time_wasted)} wasted)</span>)}
                 </div>
 
                 <div className="taskDescription">

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import './EditTaskForm.css'
+import WarningBox from "./WarningBox";
 
 function formatDateTime(stringDateTime) {
     const dateTime = new Date(stringDateTime)
@@ -17,6 +18,8 @@ const EditTaskForm = ({ task, onClose, showTaskSaved, reloadTasks }) => {
 
     const navigate = useNavigate()
 
+    const [error, setError] = useState(null)
+
 
     async function updateTask(event) {
         event.preventDefault();
@@ -25,56 +28,73 @@ const EditTaskForm = ({ task, onClose, showTaskSaved, reloadTasks }) => {
             'input[name="color"]:checked'
         )?.value;
 
-        const response = await fetch(
-            `${import.meta.env.VITE_BACKEND_URL}/updateTask`,
-            {
-                credentials: "include",
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    task_id: task.task.task_id,
-                    taskName: document.getElementById("taskNameInputModal").value,
-                    taskDescription: document.getElementById("taskDescriptionInputModal").value,
-                    taskStartTime: document.getElementById("taskStartTimeInputModal").value,
-                    taskStopTime: document.getElementById("taskStopTimeInputModal").value,
-                    timeWasted: document.getElementById("timeWastedModal").value,
-                    color: color
-                })
+        try {
+            const response = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/updateTask`,
+                {
+                    credentials: "include",
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        task_id: task.task.task_id,
+                        taskName: document.getElementById("taskNameInputModal").value,
+                        taskDescription: document.getElementById("taskDescriptionInputModal").value,
+                        taskStartTime: document.getElementById("taskStartTimeInputModal").value,
+                        taskStopTime: document.getElementById("taskStopTimeInputModal").value,
+                        timeWasted: document.getElementById("timeWastedModal").value,
+                        color: color
+                    })
+                }
+            );
+    
+            if(!response.ok) {
+                const error = await response.json();
+                throw new Error(error.message)
             }
-        );
 
-        const data = await response.json();
-
-        if (data) {
-            onClose();
-            reloadTasks();
+            const data = await response.json();
+    
+            if (data) {
+                onClose();
+                reloadTasks();
+            }
+        } catch (err) {
+            setError(err.message)
         }
+
     }
 
     async function deleteTask() {
 
-        const response = await fetch(
-            `${import.meta.env.VITE_BACKEND_URL}/deleteTask`,
-            {
-                credentials: "include",
-                method: "POST",
-                headers: {
-                    "Content-Type": "application/json"
-                },
-                body: JSON.stringify({
-                    task_id: task.task.task_id
-                })
+        try {
+            const response = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/deleteTask`,
+                {
+                    credentials: "include",
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json"
+                    },
+                    body: JSON.stringify({
+                        task_id: task.task.task_id
+                    })
+                }
+            )
+    
+            const data = await response.json();
+    
+            if (data) {
+                onClose();
+                reloadTasks();
             }
-        )
 
-        const data = await response.json();
-
-        if (data) {
-            onClose();
-            reloadTasks();
+        } catch (err) {
+            setError(err.message)
         }
+
+
     }
 
     return (
@@ -87,6 +107,8 @@ const EditTaskForm = ({ task, onClose, showTaskSaved, reloadTasks }) => {
                         X
                     </button>
                 </div>
+
+                { error && <WarningBox warningTitle={error}/>}
 
 
 
