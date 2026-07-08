@@ -9,7 +9,6 @@ import Timetable from "./pages/Timetable";
 import EditTaskForm from "./components/EditTaskForm";
 import Calendar from "./pages/Calendar";
 import Settings from "./pages/Settings";
-import CreateTask from "./pages/CreateTask";
 
 function App() {
 
@@ -51,7 +50,6 @@ function App() {
 
         <Route path="settings" element={<Settings />}></Route>
 
-        <Route path="createtask" element={<CreateTask />}/>
       </Route>
     )
   )

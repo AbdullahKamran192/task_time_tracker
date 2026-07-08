@@ -1,10 +1,12 @@
 import { useState, useEffect } from "react";
 import CalendarMonth from "../components/CalendarMonth";
 import "./Calendar.css";
+import WarningBox from "../components/WarningBox";
 
-const Calendar = () => {
+const Calendar = ({userData}) => {
 
     const [calendarDataLoaded, setCalendarDataLoaded] = useState(false);
+    const [error, setError] = useState(null)
 
 
     // Task Time Limit
@@ -12,18 +14,31 @@ const Calendar = () => {
     const [taskLimits, setTaskLimits] = useState([]);
 
     async function getTaskLimits() {
-        const response = await fetch(
-            `${import.meta.env.VITE_BACKEND_URL}/tasksLimit`,
-            { credentials: "include" }
-        );
 
-        const data = await response.json();
-        setTaskLimits(data);
+        try {
+            const response = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/tasksLimit`,
+                { credentials: "include" }
+            );
+    
+            const data = await response.json();
+            setTaskLimits(data);
+
+        } catch (err) {
+            setError(err.message)
+        }
     }
 
     useEffect(() => {
-        getMonthProgress();
-        getTaskLimits();
+
+        if (userData) {
+            getMonthProgress();
+            getTaskLimits();
+        } else {
+            setCalendarDataLoaded(true)
+        }
+
+
     }, []);
 
     // Backend Tasks Data Received.
@@ -36,17 +51,23 @@ const Calendar = () => {
 
     async function getMonthProgress() {
 
-        const response = await fetch(
-            `${import.meta.env.VITE_BACKEND_URL}/monthProgress`,
-            {
-                credentials: "include"
-            }
-        );
+        try {
+            const response = await fetch(
+                `${import.meta.env.VITE_BACKEND_URL}/monthProgress`,
+                {
+                    credentials: "include"
+                }
+            );
+    
+            const data = await response.json();
+    
+            setReceivedData(data);
+            setCalendarDataLoaded(true)
 
-        const data = await response.json();
+        } catch (err) {
+            setError(err.message)
+        }
 
-        setReceivedData(data);
-        setCalendarDataLoaded(true)
     }
 
     const currentYear = new Date().getFullYear();
@@ -54,6 +75,8 @@ const Calendar = () => {
     return (
 
         <div className="calendarPage">
+
+            { error && <WarningBox warningTitle={error}/>}
 
             {!calendarDataLoaded && (
                 <div className="loader"></div>
@@ -78,9 +101,6 @@ const Calendar = () => {
                 </div>
             )}
         </div>
-
-
-
     );
 
 };
