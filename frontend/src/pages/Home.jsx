@@ -5,8 +5,11 @@ import { useEffect } from "react";
 import AcitvityGraph from "../components/ActivityGraph";
 import WarningBox from "../components/WarningBox";
 import MessageBox from "../components/MessageBox";
+import { useOutletContext } from "react-router-dom";
 
 const Home = () => {
+
+    const {userData, loadingUser} = useOutletContext();
 
     const startTime = useRef();
     const timerStarted = useRef(false);

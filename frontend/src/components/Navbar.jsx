@@ -3,39 +3,27 @@ import { useNavigate } from "react-router-dom";
 import settingIcon from "../assets/setting_icon.png";
 import "./Navbar.css"
 
-const Navbar = () => {
+const Navbar = ({ userData, loadingUser}) => {
 
     const navigate = useNavigate();
 
-    const [allData, setAllData] = useState({});
-
-    const fetchData = async () => {
-        const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/`, {
-            credentials: 'include'
-        });
-        const data = await response.json();
-        setAllData(data);
-    }
-
-    useEffect(() => {
-        fetchData();
-    }, [])
+    console.log(userData)
 
 
     return (
         <div className="navbar">
-            {allData.userProfilePicture && (
+            {userData?.userProfilePicture && (
                 <img
                     className="profileImage"
-                    src={allData.userProfilePicture}
+                    src={userData?.userProfilePicture}
                     alt="Profile"
                 />
             )}
             <ul>
-                {allData.username && (
+                {userData?.username && (
                     <li>
                         <span className="welcomeText">
-                            Hello, {allData?.username}
+                            Hello, {userData?.username}
                         </span>
                     </li>
                 )}
@@ -43,19 +31,19 @@ const Navbar = () => {
                 <li><button onClick={() => navigate('/timetable')}>timetable</button></li>
                 <li><button onClick={() => navigate('/calendar')}>calendar</button></li>
 
-                {!allData.username && (
+                {!loadingUser && !userData && (
                     <li><button onClick={() => {
                         navigate('/login')
                     }}> Login</button></li>
                 )}
 
-                {allData.username && (
+                {userData?.username && (
                     <li><button id="loginButton" onClick={() => {
                         window.location.href = `${import.meta.env.VITE_BACKEND_URL}/logout`
                     }}> Logout </button></li>
                 )}
 
-                {allData.username && (
+                {userData?.username && (
                     <li><button id="settingIcon" onClick={() => {
                         navigate('/settings')
                     }}><img className="settingsImage" src={settingIcon} alt="settings"/></button></li>

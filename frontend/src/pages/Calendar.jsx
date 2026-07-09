@@ -2,8 +2,11 @@ import { useState, useEffect } from "react";
 import CalendarMonth from "../components/CalendarMonth";
 import "./Calendar.css";
 import WarningBox from "../components/WarningBox";
+import { useOutletContext } from "react-router-dom";
 
-const Calendar = ({userData}) => {
+const Calendar = () => {
+
+    const { userData, loadingUser} = useOutletContext();
 
     const [calendarDataLoaded, setCalendarDataLoaded] = useState(false);
     const [error, setError] = useState(null)
@@ -31,6 +34,10 @@ const Calendar = ({userData}) => {
 
     useEffect(() => {
 
+        if (loadingUser) {
+            return;
+        }
+
         if (userData) {
             getMonthProgress();
             getTaskLimits();
@@ -39,7 +46,7 @@ const Calendar = ({userData}) => {
         }
 
 
-    }, []);
+    }, [userData, loadingUser]);
 
     // Backend Tasks Data Received.
 
@@ -58,14 +65,19 @@ const Calendar = ({userData}) => {
                     credentials: "include"
                 }
             );
+
+            if (!response.ok) {
+                throw new Error("Failed to load data calendar.")
+            }
     
             const data = await response.json();
     
             setReceivedData(data);
-            setCalendarDataLoaded(true)
 
         } catch (err) {
             setError(err.message)
+        } finally {
+            setCalendarDataLoaded(true)
         }
 
     }

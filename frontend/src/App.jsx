@@ -12,14 +12,16 @@ import Settings from "./pages/Settings";
 
 function App() {
 
-  const [userData, setUserData] = useState()
+  const [userData, setUserData] = useState();
+  const [loadingUser, setLoadingUser] = useState(true);
 
   async function checkLoggedIn() {
+
+    try{
       const response = await fetch(
           `${import.meta.env.VITE_BACKEND_URL}/`,
           { credentials: "include" }
       );
-
 
       if (!response.ok) {
         setUserData(null)
@@ -28,6 +30,12 @@ function App() {
       
       const data = await response.json();
       setUserData(data)
+    } finally {
+      setLoadingUser(false);
+    }
+
+
+
   }
 
     useEffect(() => {
@@ -37,10 +45,10 @@ function App() {
 
   const router = createBrowserRouter(
     createRoutesFromElements(
-      <Route path='/' element={<RouteLayout />}>
+      <Route path='/' element={<RouteLayout userData={userData} loadingUser={loadingUser}/>}>
         <Route index element={<Home />}></Route>
 
-        <Route path="calendar" element={<Calendar userData={userData}/>}></Route>
+        <Route path="calendar" element={<Calendar/>}></Route>
 
 
         <Route path="login" element={<Login/>}></Route>
@@ -48,7 +56,7 @@ function App() {
 
         <Route path="timetable" element={<Timetable/>}></Route>
 
-        <Route path="settings" element={<Settings />}></Route>
+        <Route path="settings" element={<Settings/>}></Route>
 
       </Route>
     )

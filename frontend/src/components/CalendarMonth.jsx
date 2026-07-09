@@ -130,7 +130,7 @@ const CalendarMonth = ({
                         <div
                             key={day}
                             className="dayBox"
-                            style={{ backgroundColor: dayBoxTotalTimeColor(dailyTotals[key]) }}
+                            style={{ backgroundColor: dayBoxTotalTimeColor(dailyTotals?.[key]) }}
                             onClick={() => { navigate(`/timetable?date=${String(day).padStart(2, "0")}/${String(month + 1).padStart(2, "0")}/${year}#loadTimetablePageTo`) }}
                         >
 
@@ -139,19 +139,19 @@ const CalendarMonth = ({
                             </div>
 
                             <div className="taskName">
-                                {dailyFirstTask[key] && (
-                                    <div style={{ color: dayBoxTotalTimeColor(dailyTotals[key]) == "darkgreen" ? "white" : "black" }}>
-                                        <b>●{dailyFirstTask[key]}</b><br />
+                                {dailyFirstTask?.[key] && (
+                                    <div style={{ color: dayBoxTotalTimeColor(dailyTotals?.[key]) == "darkgreen" ? "white" : "black" }}>
+                                        <b>●{dailyFirstTask?.[key]}</b><br />
                                         <b>●.....</b>
                                     </div>
 
                                 )}
                             </div>
 
-                            <div className="timeSpent" style={{ color: dayBoxTotalTimeColor(dailyTotals[key]) == "yellow" ? "black" : "white" }}>
+                            <div className="timeSpent" style={{ color: dayBoxTotalTimeColor(dailyTotals?.[key]) == "yellow" ? "black" : "white" }}>
 
                                 {formatMinutes(
-                                    dailyTotals[key]
+                                    dailyTotals?.[key]
                                 )}
 
                             </div>

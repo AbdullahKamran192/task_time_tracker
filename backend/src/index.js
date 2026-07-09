@@ -30,8 +30,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        secure: true,
-        sameSite: "none"
+        secure: false
     }
 }));
 app.use(passport.initialize());

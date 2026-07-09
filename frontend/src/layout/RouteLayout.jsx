@@ -2,12 +2,12 @@ import React from "react";
 import Navbar from "../components/Navbar";
 import { Outlet } from "react-router-dom";
 
-const RouteLayout = () => {
+const RouteLayout = ({ userData, loadingUser }) => {
     return (
         <div>
-            <Navbar />
+            <Navbar userData={userData} loadingUser={loadingUser}/>
             <div className="container">
-                <Outlet />
+                <Outlet context={{userData, loadingUser}}/>
             </div>
         </div>
     )
