@@ -11,6 +11,9 @@ passport.use(new GoogleStrategy({
   },
   async function(request, accessToken, refreshToken, profile, done) {
 
+    console.log("Google login successful");
+    console.log("Session ID:", request.sessionID);
+
     var user = await getUserByGoogleId(profile["id"]);
 
     if (user.length === 0) {

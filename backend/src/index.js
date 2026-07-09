@@ -28,7 +28,7 @@ app.use(session({
     saveUninitialized: false,
     cookie: {
         httpOnly: true,
-        secure: false,
+        secure: true,
         sameSite: "none"
     }
 }));
@@ -61,9 +61,15 @@ app.get("/auth/google",
 
 app.get('/google/callback',
     passport.authenticate('google', {
-        successRedirect: process.env.FRONTEND_URL,
         failureRedirect: '/auth/failure',
-    })
+    }),
+    (req, res) => {
+        console.log("Authenticated?", req.isAuthenticated());
+        console.log("User:", req.user);
+        console.log("Session:", req.session);
+
+        res.redirect(process.env.FRONTEND_URL);
+    }
 )
 
 app.get('/auth/failure', (req, res) => {
