@@ -13,6 +13,7 @@
   "dependencies": {
     "aws-sdk": "^2.1693.0",
     "bootstrap": "^5.3.8",
+    "connect-pg-simple": "^10.0.0",
     "cors": "^2.8.6",
     "dotenv": "^17.2.3",
     "ejs": "^4.0.1",

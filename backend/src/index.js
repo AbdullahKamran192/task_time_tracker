@@ -6,10 +6,12 @@ import { monthProgressRouter } from "./Routes/monthProgress.js"
 import { settingsRouter } from "./Routes/settings.js"
 import "./Helpers/auth.js"
 import passport from "passport"
-import session, { MemoryStore } from "express-session"
+import session from "express-session";
 import { isLoggedIn } from "./Middlewares/user.js"
 import { statsRouter } from "./Routes/userProgress.js";
-import cors from "cors" 
+import cors from "cors"
+import connectPgSimple from "connect-pg-simple";
+import { pool } from "./Config/database.js";
 
 
 
@@ -24,7 +26,15 @@ app.use(cors(corsOptions))
 
 app.set("trust proxy", 1)
 
+const PgStore = connectPgSimple(session);
+
+const sessionStorage = new PgStore({
+    pool,
+    tableName: "user_sessions"
+});
+
 app.use(session({
+    store: sessionStorage,
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
