@@ -85,6 +85,11 @@ const Timetable = () => {
     }
 
     function getTotalProductiveMinutes(tasks) {
+
+        if (!tasks) {
+            return 0;
+        }
+
         let total = 0;
 
         tasks.forEach(task => {
@@ -98,6 +103,11 @@ const Timetable = () => {
     }
 
     function getTotalWastedMinutes(tasks) {
+
+        if (!tasks) {
+            return 0;
+        }
+
         let total = 0;
 
         tasks.forEach(task => {
@@ -124,8 +134,19 @@ const Timetable = () => {
             const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/tasks?date=${urlDate}#loadTimetablePageTo`, {
                 credentials: 'include'
             });
+
+            if (!response.ok) {
+                setTasks([]);
+                return;
+            }
+
             const data = await response.json();
-            setTasks(data.tasks)
+
+            if (data.tasks) {
+                setTasks(data.tasks)
+            } else {
+                setTasks([])
+            }
         }
     }
 

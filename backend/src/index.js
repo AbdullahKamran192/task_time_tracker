@@ -77,9 +77,6 @@ app.get('/google/callback',
         failureRedirect: '/auth/failure',
     }),
     (req, res) => {
-        console.log("Authenticated?", req.isAuthenticated());
-        console.log("User:", req.user);
-        console.log("Session:", req.session);
 
         res.redirect(process.env.FRONTEND_URL);
     }

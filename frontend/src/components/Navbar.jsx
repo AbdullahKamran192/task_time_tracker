@@ -6,10 +6,7 @@ import "./Navbar.css"
 const Navbar = ({ userData, loadingUser}) => {
 
     const navigate = useNavigate();
-
-    console.log(userData)
-
-
+    
     return (
         <div className="navbar">
             {userData?.userProfilePicture && (

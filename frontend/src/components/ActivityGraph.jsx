@@ -67,7 +67,7 @@ const AcitvityGraph = () => {
             <div className="wrapper">
                 <div className="outer">
                     <div className="inner">
-                        <div id="number">{totalTime == 0 ? "0%" : `${Math.round(((productiveTime / totalTime) * 100))}%`}</div>
+                        <div id="number">{totalTime == 0 || !totalTime ? "0%" : `${Math.round(((productiveTime / totalTime) * 100))}%`}</div>
                         <p className="graphSubtitle">
                             Time spent well
                         </p>
@@ -88,17 +88,17 @@ const AcitvityGraph = () => {
             <div className="statsRow">
                 <div className="infoBox">
                     <h3>Productive</h3>
-                    <h1>{formatMinutes(productiveTime)}</h1>
+                    <h1>{productiveTime ? formatMinutes(productiveTime) : "00:00"}</h1>
                 </div>
                 <div className="infoBox">
                     <h3>Distraction</h3>
-                    <h1>{formatMinutes(wasteTime)}</h1>
+                    <h1>{wasteTime ? formatMinutes(wasteTime): "00:00"}</h1>
                 </div>
             </div>
 
             <div className="infoBox totalBox">
                 <h3>Total time</h3>
-                <h1>{formatMinutes(Number(wasteTime) + Number(productiveTime))}</h1>
+                <h1>{productiveTime && wasteTime ? formatMinutes(Number(wasteTime) + Number(productiveTime)) : "00:00"}</h1>
             </div>
         </div>
     )
