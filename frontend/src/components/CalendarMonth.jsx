@@ -131,7 +131,7 @@ const CalendarMonth = ({
                             key={day}
                             className="dayBox"
                             style={{ backgroundColor: dayBoxTotalTimeColor(dailyTotals?.[key]) }}
-                            onClick={() => { navigate(`/timetable?date=${String(day).padStart(2, "0")}/${String(month + 1).padStart(2, "0")}/${year}#loadTimetablePageTo`) }}
+                            onClick={() => { navigate(`/tasks?date=${String(day).padStart(2, "0")}/${String(month + 1).padStart(2, "0")}/${year}#loadTimetablePageTo`) }}
                         >
 
                             <div className="dayNumber">
