@@ -170,6 +170,44 @@ export const getTasksWithSessions = async (user_id) => {
     return rows;
 };
 
+// Get the daily total time spent on tasks.
+export const getDailyTotalTime = async (user_id) => {
+    const { rows } = await pool.query(`
+        SELECT
+            TO_CHAR(DATE(ts.start_time), 'YYYY-MM-DD') AS day,
+            SUM(EXTRACT(EPOCH FROM (ts.stop_time - ts.start_time)) / 60) AS total_minutes
+        FROM tasks t
+        JOIN time_session ts
+            ON t.task_id = ts.task_id
+        WHERE t.user_id = $1
+        GROUP BY DATE(ts.start_time)
+        ORDER BY DATE(ts.start_time); 
+        `,
+        [user_id]
+    );
+    return rows;
+};
+
+
+// Get the first task for each day.
+export const getDailyFirstTask = async (user_id) => {
+    const { rows } = await pool.query(
+        `
+        SELECT DISTINCT ON (DATE(ts.start_time))
+            TO_CHAR(DATE(ts.start_time), 'YYYY-MM-DD') AS day,
+            t.task_name
+        FROM tasks t
+        JOIN time_session ts
+            ON t.task_id = ts.task_id
+        WHERE t.user_id = $1
+        ORDER BY DATE(ts.start_time), ts.start_time;
+        `,
+        [user_id]
+    );
+
+    return rows;
+};
+
 export async function getUserTimeStats(user_id, days = 30) {
     const { rows } = await pool.query(
         `
