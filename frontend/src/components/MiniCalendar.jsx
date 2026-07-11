@@ -4,6 +4,8 @@ import "./MiniCalendar.css"
 
 const MiniCalendar = ({ date }) => {
 
+    const navigate = useNavigate();
+
     if (!date) {
         return null
     }
@@ -60,17 +62,17 @@ const MiniCalendar = ({ date }) => {
                         day === date.getDate();
 
                     return (
-                        <a
+                        <div
                             key={day}
-                            href={`/timetable?date=${String(day).padStart(2, "0")}/${String(month + 1).padStart(2, "0")}/${year}#loadTimetablePageTo`}
                             className={
                                 selected
                                     ? "calendarDate activeDate"
                                     : "calendarDate"
                             }
+                            onClick={() => navigate(`/timetable?date=${String(day).padStart(2, "0")}/${String(month + 1).padStart(2, "0")}/${year}#loadTimetablePageTo`)}
                         >
                             {day}
-                        </a>
+                        </div>
                     );
                 })}
 
