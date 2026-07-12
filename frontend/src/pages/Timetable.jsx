@@ -170,18 +170,24 @@ const Timetable = () => {
 
         const PIXELS_PER_MINUTE = 72 / 60;
 
-        const startTime = new Date(task.time_session.start_time);
+        // const startTime = new Date(task.time_session.start_time);
 
-        const startMinutes =
-            startTime.getHours() * 60 +
-            startTime.getMinutes();
+        // const startMinutes =
+        //     startTime.getHours() * 60 +
+        //     startTime.getMinutes();
+
+        const startMinutes = task.start_hour * 60 + Number(task.start_minute)
 
         const top = startMinutes * PIXELS_PER_MINUTE;
 
+        // const durationMinutes =
+        //     (new Date(task.time_session.stop_time) -
+        //         new Date(task.time_session.start_time))
+        //     / (1000 * 60);
+
         const durationMinutes =
-            (new Date(task.time_session.stop_time) -
-                new Date(task.time_session.start_time))
-            / (1000 * 60);
+            (task.stop_hour * 60 + Number(task.stop_minute))
+            - (task.start_hour * 60 + Number(task.start_minute));
 
         const height = durationMinutes * PIXELS_PER_MINUTE;
 
@@ -208,15 +214,9 @@ const Timetable = () => {
                 </div>
 
                 <div className="taskTime">
-                    {startTime.toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit"
-                    })}
+                    {`${String(task.start_hour).padStart(2, "0")}:${task.start_minute}`}
                     {" - "}
-                    {new Date(task.time_session.stop_time).toLocaleTimeString([], {
-                        hour: "2-digit",
-                        minute: "2-digit"
-                    })}
+                    {`${String(task.stop_hour).padStart(2, "0")}:${task.stop_minute}`}
                     {" "}
                     {task.time_wasted > 0 && (<span>({formatMinutes(task.time_wasted)} wasted)</span>)}
                 </div>
