@@ -24,11 +24,29 @@ tasksRouter.get("/tasks", isLoggedIn, async (req, res) => {
         const date = req.query.date;
     
         const rows = await getTasksWithSessions(req.user.user_id);
+
+        console.log(rows[0].start_time);
+        console.log(typeof rows[0].start_time);
+        console.log(rows[0].start_time instanceof Date);
+
+        console.log("--------------------------------------------------")
+
+        console.log(process.env.TZ);
+        console.log(Intl.DateTimeFormat().resolvedOptions().timeZone);
+        console.log(new Date().toString());
     
         const tasks = [];
     
         for (const row of rows) {
             const start_time = new Date(row.start_time);
+
+            console.log({
+                original: row.start_time,
+                parsed: start_time,
+                hour: start_time.getHours(),
+                iso: start_time.toISOString()
+            }); 
+
             const stop_time = new Date(row.stop_time);
     
             if (dateKey(start_time) === date) {
