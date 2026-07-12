@@ -3,17 +3,6 @@ import { useNavigate } from "react-router-dom";
 import './EditTaskForm.css'
 import WarningBox from "./WarningBox";
 
-function formatDateTime(stringDateTime) {
-    const dateTime = new Date(stringDateTime)
-
-    const month = (dateTime.getMonth() + 1).toString().padStart(2, "0")
-    const date = (dateTime.getDate()).toString().padStart(2, "0")
-    const hour = dateTime.getHours().toString().padStart(2, "0")
-    const minute = dateTime.getMinutes().toString().padStart(2, "0")
-
-    return dateTime.getFullYear() + "-" + month + "-" + date + "T" + hour + ":" + minute
-}
-
 const EditTaskForm = ({ task, onClose, showTaskSaved, reloadTasks }) => {
 
     const navigate = useNavigate()
@@ -129,7 +118,7 @@ const EditTaskForm = ({ task, onClose, showTaskSaved, reloadTasks }) => {
                         id="taskStartTimeInputModal"
                         type="datetime-local"
                         name="taskStartTime"
-                        defaultValue={formatDateTime(task.time_session.start_time)}
+                        defaultValue={`${task.time_session.start_time.substring(0,10)}T${String(task.start_hour).padStart(2,"0")}:${task.start_minute}`}
                     />
 
                     <br />
@@ -145,7 +134,7 @@ const EditTaskForm = ({ task, onClose, showTaskSaved, reloadTasks }) => {
                         id="taskStopTimeInputModal"
                         type="datetime-local"
                         name="taskStopTime"
-                        defaultValue={formatDateTime(task.time_session.stop_time)}
+                        defaultValue={`${task.time_session.stop_time.substring(0,10)}T${String(task.stop_hour).padStart(2,"0")}:${task.stop_minute}`}
                     />
 
                     <br />
